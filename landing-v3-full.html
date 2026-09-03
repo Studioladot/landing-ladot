@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lado T</title>
+<meta name="description" content="Consultoría y Agencia de e-commerce. Hacemos crecer tu marca con estrategia, comunicación y ventas online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+
+<!--
+  ===================================================================
+  LADO T · notas para editar antes de publicar
+  ===================================================================
+  1) AGENDA — todos los botones "Agendar reunión" toman la constante
+     BOOKING_URL del <script> final. Recomendado: Cal.com o Calendly,
+     con Google Calendar conectado y "agregar Google Meet" activado.
+     Pegá ahí tu link público (ej. https://cal.com/lado-t/reunion).
+
+  2) VIDEO "QUIÉNES SOMOS" — el bloque .video es un placeholder.
+     Para el video real, reemplazá TODO el contenido de <div class="video">
+     por un embed, por ejemplo:
+       <iframe src="https://www.youtube.com/embed/TU_ID"
+               title="Quiénes somos" allowfullscreen
+               style="width:100%;aspect-ratio:16/9;border:0;border-radius:28px"></iframe>
+
+  3) YOUTUBE — las 3 tarjetas .yt apuntan a YT_URL (constante del script).
+     Cambiá los títulos por los de tus videos reales y, si querés que cada
+     tarjeta lleve a un video distinto, poné el href directo en cada <a class="yt">.
+
+  4) LOGO — "LADO T" es un placeholder tipográfico (class="brand" y class="wordmark").
+
+  5) WhatsApp / mail del footer — reemplazá los href placeholder.
+  ===================================================================
+-->
+
+<style>
+/* ===================== TOKENS ===================== */
+:root{
+  color-scheme: light;
+  --paper:#F4F0E8;
+  --paper-2:#ECE5D8;
+  --card:#FBF9F3;
+  --ink:#181410;
+  --ink-2:#4B433A;
+  --muted:#8A8072;
+  --accent:#C1543F;
+  --accent-2:#A5432F;
+  --mint:#A6C5BB;
+  --mint-soft:#D9E6E1;
+  --line:#DBD3C4;
+  --line-strong:#C4BAA8;
+
+  --r:28px;
+  --r-sm:16px;
+  --r-pill:999px;
+
+  --pad:22px;
+  --sec:66px;
+  --maxw:1180px;
+}
+@media (min-width:680px){ :root{ --pad:40px; --sec:96px; } }
+@media (min-width:1080px){ :root{ --pad:56px; --sec:132px; } }
+
+/* ===================== RESET ===================== */
+*{box-sizing:border-box; min-width:0}
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:84px; overflow-x:clip; }
+body{
+  margin:0; background:var(--paper); color:var(--ink-2);
+  font-family:"Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:1.02rem; line-height:1.62; font-weight:400;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:clip;
+}
+h1,h2,h3,h4{ margin:0; color:var(--ink); font-weight:800; line-height:1; letter-spacing:-0.025em; }
+p{margin:0}
+a{color:inherit; text-decoration:none}
+img,svg{display:block; max-width:100%}
+ul{margin:0; padding:0; list-style:none}
+button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
+::selection{ background:var(--accent); color:#fff }
+::-moz-selection{ background:var(--accent); color:#fff }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px }
+
+/* ===================== LAYOUT ===================== */
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad); }
+.section{ padding-block:var(--sec); }
+.band-mint{ background:var(--mint); }
+.band-alt{ background:var(--paper-2); }
+
+/* ===================== TYPE UTILITIES ===================== */
+.tag{
+  display:inline-block;
+  font-family:"Space Mono", ui-monospace, Menlo, monospace;
+  font-size:.76rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--accent); font-weight:700;
+}
+.tag::after{ content:" \2192"; }
+
+.display{
+  color:var(--ink); text-transform:uppercase; font-weight:800;
+  letter-spacing:-0.03em; line-height:.94;
+  font-size:clamp(2.55rem, 10.5vw, 6.6rem);
+}
+.display .em{ color:var(--accent); }
+
+.h-lg{ font-size:clamp(1.95rem, 5.6vw, 3.7rem); line-height:1.02; letter-spacing:-0.028em; }
+.h-md{ font-size:clamp(1.4rem, 3.4vw, 2.15rem); line-height:1.06; text-transform:uppercase; letter-spacing:-0.02em; font-weight:700; }
+
+.lead{ color:var(--ink-2); font-size:clamp(1.06rem, 1.4vw, 1.28rem); max-width:52ch; }
+.muted{ color:var(--muted); }
+
+/* ===================== BUTTONS ===================== */
+.btn{
+  display:inline-flex; align-items:center; gap:.6em;
+  font-weight:700; font-size:.98rem; letter-spacing:.005em;
+  padding:1rem 1.7rem; border-radius:var(--r-pill);
+  border:2px solid var(--ink); color:var(--ink);
+  transition:transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+}
+.btn .a{ transition:transform .16s ease; }
+.btn:hover .a{ transform:translateX(4px); }
+.btn--fill{ background:var(--accent); border-color:var(--accent); color:#fff; }
+.btn--fill:hover{ background:var(--accent-2); border-color:var(--accent-2); transform:translateY(-2px); }
+.btn--line:hover{ background:var(--ink); color:var(--paper); transform:translateY(-2px); }
+.btn--lg{ padding:1.15rem 2rem; font-size:1.05rem; }
+.link-arrow{
+  display:inline-flex; align-items:center; gap:.5em; font-weight:700; color:var(--ink);
+  border-bottom:2px solid var(--accent); padding-bottom:2px;
+}
+.link-arrow:hover{ color:var(--accent); }
+
+/* ===================== NAV ===================== */
+.nav{
+  position:sticky; top:0; z-index:60;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.nav__in{ display:flex; align-items:center; justify-content:space-between; gap:18px; height:66px; }
+.brand{
+  font-weight:800; font-size:1.15rem; letter-spacing:.02em; color:var(--ink);
+  display:inline-flex; align-items:center; gap:.06em;
+}
+.brand .t{ color:var(--accent); }
+.nav__links{ display:none; gap:34px; }
+.nav__links a{ font-family:"Space Mono", monospace; font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); }
+.nav__links a:hover{ color:var(--accent); }
+@media (min-width:900px){ .nav__links{ display:flex; } }
+.nav .btn{ padding:.6rem 1.1rem; font-size:.8rem; border-width:2px; }
+
+/* ===================== HERO ===================== */
+.hero{ border-bottom:1px solid var(--line); overflow:hidden; }
+.hero__in{ padding-top:46px; padding-bottom:0; }
+@media (min-width:1080px){ .hero__in{ padding-top:74px; } }
+.hero__grid{ display:grid; grid-template-columns:1fr; gap:30px; align-items:center; }
+@media (min-width:1000px){ .hero__grid{ grid-template-columns:1.15fr .85fr; gap:40px; } }
+
+.hero__eyebrow{ margin-bottom:22px; }
+.hero h1{ margin:0; }
+.hero__cont{
+  margin-top:22px; font-weight:500;
+  font-size:clamp(1.12rem, 2vw, 1.6rem); line-height:1.3; color:var(--ink);
+  max-width:24ch; text-wrap:balance;
+}
+.hero__sub{ margin-top:20px; color:var(--ink-2); max-width:46ch; }
+.hero__cta{ margin-top:34px; display:flex; flex-wrap:wrap; align-items:center; gap:16px 22px; padding-bottom:46px; }
+
+/* T monograma */
+.mono{ display:none; }
+@media (min-width:1000px){
+  .mono{ display:block; position:relative; width:100%; max-width:440px; aspect-ratio:1/1.02; justify-self:end; }
+}
+.mono i{ position:absolute; background:var(--accent); border-radius:28px; display:block; }
+.mono .bar{ top:0; left:0; right:0; height:24%; }
+.mono .stem{ top:16%; left:50%; transform:translateX(-50%); width:24%; bottom:0; }
+
+/* marquee cinético */
+.ticker{ border-top:1px solid var(--line); overflow:hidden; background:var(--paper); }
+.ticker__row{
+  display:flex; gap:0; width:max-content; padding-block:18px;
+  animation:tick 32s linear infinite;
+}
+.ticker:hover .ticker__row{ animation-play-state:paused; }
+.ticker__row span{
+  font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+  font-size:clamp(1rem, 2.4vw, 1.5rem); color:var(--ink); padding-inline:.7em;
+  white-space:nowrap;
+}
+.ticker__row span.dot{ color:var(--accent); }
+@keyframes tick{ to{ transform:translateX(-50%); } }
+
+/* ===================== QUIÉNES SOMOS + VIDEO ===================== */
+.about__head{ display:grid; gap:22px; margin-bottom:40px; }
+@media (min-width:900px){ .about__head{ grid-template-columns:auto 1fr; align-items:end; column-gap:56px; } }
+.about__statement{ font-weight:800; letter-spacing:-.025em; line-height:1.08;
+  font-size:clamp(1.5rem, 3.2vw, 2.35rem); color:var(--ink); max-width:24ch; }
+
+.video{
+  position:relative; display:flex; align-items:flex-end;
+  aspect-ratio:16/9; border-radius:var(--r); overflow:hidden;
+  background:var(--ink); color:var(--paper);
+  border:1px solid var(--line);
+}
+.video__play{
+  position:absolute; inset:0; margin:auto;
+  width:74px; height:74px; border-radius:var(--r-pill);
+  background:var(--accent); display:grid; place-items:center;
+  transition:transform .18s ease, background .18s ease;
+}
+.video:hover .video__play{ transform:scale(1.06); background:var(--accent-2); }
+.video__play svg{ width:26px; height:26px; fill:#fff; margin-left:4px; }
+.video__label{
+  position:relative; z-index:1; margin:20px; font-family:"Space Mono", monospace;
+  font-size:.76rem; letter-spacing:.12em; text-transform:uppercase;
+}
+
+/* ===================== POR QUÉ LADO T ===================== */
+.reasons{ margin-top:16px; border-top:2px solid var(--ink); }
+.reason{
+  display:grid; grid-template-columns:1fr; gap:8px;
+  padding-block:26px; border-bottom:1px solid var(--line);
+}
+@media (min-width:820px){
+  .reason{ grid-template-columns:96px minmax(0,20ch) 1fr; column-gap:40px; align-items:baseline; padding-block:34px; }
+}
+.reason__n{ font-family:"Space Mono", monospace; font-weight:700; color:var(--accent); font-size:1rem; }
+.reason h3{ font-size:clamp(1.25rem, 2.6vw, 1.7rem); text-transform:uppercase; letter-spacing:-.02em; }
+.reason p{ color:var(--ink-2); }
+
+/* ===================== SERVICIOS ===================== */
+.svc-head{ margin-bottom:44px; }
+.svc-head .h-lg{ margin-top:18px; max-width:16ch; }
+
+.feature{
+  border-radius:var(--r); padding:30px 24px; margin-bottom:18px;
+}
+@media (min-width:680px){ .feature{ padding:48px; } }
+.feature--consultoria{ background:var(--mint); }
+.feature--agencia{ background:var(--card); border:1px solid var(--line); box-shadow:inset 0 6px 0 var(--accent); }
+
+.feature__n{ font-family:"Space Mono", monospace; font-weight:700; font-size:1.9rem; color:var(--accent); line-height:1; }
+.feature__kicker{ display:block; margin-top:14px; font-family:"Space Mono", monospace; font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2); }
+.feature h3{ margin-top:12px; font-size:clamp(1.6rem, 4.2vw, 2.6rem); text-transform:uppercase; letter-spacing:-.028em; }
+.feature h3 .sub{ display:block; font-size:.44em; letter-spacing:.02em; color:var(--accent); margin-top:8px; font-weight:700; }
+.feature__text{ margin-top:16px; color:var(--ink-2); max-width:62ch; }
+.feature--consultoria .feature__text{ color:#26312d; }
+
+.flag{
+  display:inline-block; margin-top:16px;
+  font-family:"Space Mono", monospace; font-size:.72rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+  border:2px solid var(--accent); border-radius:var(--r-pill); padding:.5em 1.05em;
+}
+
+.incl{ margin-top:22px; display:grid; gap:10px; }
+@media (min-width:640px){ .incl{ grid-template-columns:1fr 1fr; gap:10px 30px; } }
+.incl li{ position:relative; padding-left:22px; color:var(--ink-2); font-size:.97rem; }
+.incl li::before{ content:""; position:absolute; left:2px; top:.62em; width:8px; height:8px; border-radius:3px; background:var(--accent); }
+.feature__cta{ margin-top:28px; }
+.feature__cta .btn{ width:100%; justify-content:center; }
+@media (min-width:520px){ .feature__cta .btn{ width:auto; justify-content:flex-start; } }
+
+/* filas 03-05 */
+.rows{ margin-top:34px; border-top:2px solid var(--ink); }
+.row{
+  display:grid; grid-template-columns:1fr; gap:14px;
+  padding-block:30px; border-bottom:1px solid var(--line);
+}
+@media (min-width:900px){
+  .row{ grid-template-columns:88px minmax(0,1fr) 220px; column-gap:44px; align-items:start; padding-block:40px; }
+}
+.row__n{ font-family:"Space Mono", monospace; font-weight:700; color:var(--accent); font-size:1.05rem; }
+.row h3{ font-size:clamp(1.35rem, 3vw, 1.9rem); text-transform:uppercase; letter-spacing:-.02em; }
+.row__text{ margin-top:12px; color:var(--ink-2); max-width:58ch; }
+.row__incl{ margin-top:16px; display:flex; flex-wrap:wrap; gap:8px 20px; }
+.row__incl li{ position:relative; padding-left:18px; font-size:.9rem; color:var(--ink-2); }
+.row__incl li::before{ content:""; position:absolute; left:0; top:.55em; width:6px; height:6px; border-radius:2px; background:var(--accent); }
+.row__cta{ margin-top:4px; }
+.row__cta .btn{ width:100%; justify-content:center; }
+@media (min-width:520px){ .row__cta .btn{ width:auto; } }
+@media (min-width:900px){ .row__cta{ margin-top:0; } .row__cta .btn{ width:100%; } }
+
+/* ===================== CONTENIDO / YOUTUBE ===================== */
+.yt-head{ margin-bottom:38px; }
+.yt-head .h-lg{ margin-top:16px; max-width:20ch; }
+.yt-head p{ margin-top:16px; }
+.yt-grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+@media (min-width:820px){ .yt-grid{ grid-template-columns:repeat(3,1fr); gap:22px; } }
+.yt{
+  display:flex; flex-direction:column; gap:14px;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px; transition:transform .16s ease, border-color .16s ease;
+}
+.yt:hover{ transform:translateY(-3px); border-color:var(--accent); }
+.yt__thumb{
+  aspect-ratio:16/10; border-radius:var(--r-sm); background:var(--ink);
+  display:grid; place-items:center;
+}
+.yt__thumb svg{ width:44px; height:44px; fill:var(--paper); }
+.yt:nth-child(2) .yt__thumb{ background:var(--mint); }
+.yt:nth-child(2) .yt__thumb svg{ fill:var(--ink); }
+.yt__title{ font-weight:700; color:var(--ink); line-height:1.28; }
+.yt__meta{ font-family:"Space Mono", monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:auto; }
+.yt-cta{ margin-top:32px; }
+
+/* ===================== CIERRE ===================== */
+.close{ text-align:center; }
+.close .display{ color:var(--ink); }
+.close p{ margin:22px auto 0; max-width:40ch; color:#25302c; }
+.close .btn{ margin-top:34px; }
+.close__fine{ margin-top:20px; font-family:"Space Mono", monospace; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#33423d; }
+
+/* ===================== FOOTER ===================== */
+.foot{ background:var(--ink); color:#CFC7BB; }
+.foot__in{ padding-block:54px; display:grid; gap:34px; }
+@media (min-width:820px){ .foot__in{ grid-template-columns:1.4fr 1fr 1fr; gap:40px; } }
+.wordmark{ font-weight:800; font-size:clamp(3rem,14vw,6rem); letter-spacing:-.03em; color:var(--paper); line-height:.9; }
+.wordmark .t{ color:var(--accent); }
+.foot__tag{ margin-top:16px; max-width:32ch; color:#9A9284; }
+.foot__col h4{ color:var(--paper); font-size:.78rem; font-family:"Space Mono",monospace; letter-spacing:.16em; text-transform:uppercase; font-weight:700; }
+.foot__col a{ display:block; margin-top:12px; color:#CFC7BB; }
+.foot__col a:hover{ color:var(--accent); }
+.foot__legal{ margin-top:26px; font-family:"Space Mono",monospace; font-size:.72rem; letter-spacing:.08em; color:#7C7466; }
+
+/* ===================== APARICIÓN PROGRESIVA ===================== */
+.js .rise{ opacity:0; transform:translateY(16px) scale(.93); transition:opacity .55s ease, transform .6s cubic-bezier(.2,.75,.25,1); will-change:opacity, transform; }
+.js .rise.in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation:none !important; transition:none !important; }
+  .js .rise{ opacity:1 !important; transform:none !important; }
+  .ticker{ overflow-x:auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a href="#top" class="brand">LADO&nbsp;<span class="t">T</span></a>
+    <nav class="nav__links">
+      <a href="#servicios">Servicios</a>
+      <a href="#quienes">Quiénes somos</a>
+      <a href="#contenido">Contenido</a>
+    </nav>
+    <a class="btn btn--fill" data-book href="#cierre">Agendar reunión</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap hero__in">
+      <div class="hero__grid">
+        <div>
+          <p class="tag hero__eyebrow">Consultoría &amp; Agencia — E-commerce</p>
+          <h1 class="display">Hacemos crecer <span class="em">tu marca</span></h1>
+          <p class="hero__cont">de e-commerce, con estrategia, comunicación y ventas online.</p>
+          <p class="hero__sub">Lado T combina formación, acompañamiento 1 a 1 y tecnología para que construyas un sistema de crecimiento sostenible.</p>
+          <div class="hero__cta">
+            <a class="btn btn--fill btn--lg" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a>
+            <a class="link-arrow" href="#servicios">Ver servicios</a>
+          </div>
+        </div>
+        <div class="mono" aria-hidden="true">
+          <i class="bar"></i>
+          <i class="stem"></i>
+        </div>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__row">
+        <span>Consultoría 360°</span><span class="dot">/</span>
+        <span>Agencia Lado T</span><span class="dot">/</span>
+        <span>Desarrollo Web</span><span class="dot">/</span>
+        <span>Auditorías 1:1</span><span class="dot">/</span>
+        <span>Content Management</span><span class="dot">/</span>
+        <span>Meta Ads</span><span class="dot">/</span>
+        <span>Consultoría 360°</span><span class="dot">/</span>
+        <span>Agencia Lado T</span><span class="dot">/</span>
+        <span>Desarrollo Web</span><span class="dot">/</span>
+        <span>Auditorías 1:1</span><span class="dot">/</span>
+        <span>Content Management</span><span class="dot">/</span>
+        <span>Meta Ads</span><span class="dot">/</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUIÉNES SOMOS + VIDEO ===================== -->
+  <section class="section band-alt" id="quienes">
+    <div class="wrap">
+      <div class="about__head">
+        <p class="tag">Quiénes somos</p>
+        <p class="about__statement">Un equipo que combina estrategia, comunicación y pauta para que tu marca deje de depender de la suerte.</p>
+      </div>
+      <a class="video" href="https://www.youtube.com/@ladot" target="_blank" rel="noopener" aria-label="Ver video: quiénes somos y por qué elegirnos">
+        <span class="video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="video__label">Quiénes somos y por qué elegirnos · 2 min</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== POR QUÉ LADO T ===================== -->
+  <section class="section" id="porque">
+    <div class="wrap">
+      <p class="tag">Por qué Lado T</p>
+      <div class="reasons rise-group">
+        <article class="reason rise">
+          <span class="reason__n">01</span>
+          <h3>Criterio, no dependencia</h3>
+          <p>Te damos el criterio para decidir sobre tu negocio, no una receta que caduca en tres meses.</p>
+        </article>
+        <article class="reason rise">
+          <span class="reason__n">02</span>
+          <h3>Creatividad con método</h3>
+          <p>Ideas que venden, ordenadas dentro de un sistema que podés repetir y escalar.</p>
+        </article>
+        <article class="reason rise">
+          <span class="reason__n">03</span>
+          <h3>Foco en el retorno</h3>
+          <p>Cada peso de pauta se mide contra resultados. Nada de métricas de vanidad.</p>
+        </article>
+        <article class="reason rise">
+          <span class="reason__n">04</span>
+          <h3>1 a 1, de verdad</h3>
+          <p>Trabajás con nuestro equipo de forma directa. Sin plantillas, sin intermediarios.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICIOS ===================== -->
+  <section class="section band-alt" id="servicios">
+    <div class="wrap">
+      <div class="svc-head">
+        <p class="tag">Qué hacemos</p>
+        <h2 class="h-lg">Dos formas de trabajar con nosotros. Tres servicios que se suman.</h2>
+      </div>
+
+      <!-- 01 CONSULTORÍA -->
+      <article class="feature feature--consultoria" id="consultoria">
+        <span class="feature__n">01</span>
+        <span class="feature__kicker">Servicio central · Consultoría Lado T</span>
+        <h3>Dominá el crecimiento de tu marca.</h3>
+        <p class="feature__text">Un programa intensivo de 4 meses, 100% personalizado y 1 a 1. No te damos la teoría vacía; te damos el criterio. Aprendé a tomar el control total de tu negocio mediante reuniones semanales, módulos estratégicos y nuestra comunidad, sin depender de terceros.</p>
+        <ul class="incl rise-group">
+          <li class="rise">Programa intensivo de 4 meses</li>
+          <li class="rise">100% personalizado y 1 a 1</li>
+          <li class="rise">Reuniones semanales + módulos estratégicos</li>
+          <li class="rise">Comunidad Lado T</li>
+        </ul>
+        <div class="feature__cta"><a class="btn btn--fill" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a></div>
+      </article>
+
+      <!-- 02 AGENCIA -->
+      <article class="feature feature--agencia" id="agencia">
+        <span class="feature__n">02</span>
+        <span class="flag">Cupos limitados — últimos 4</span>
+        <span class="feature__kicker">Servicio exclusivo · Lo hacemos por vos</span>
+        <h3>Escalamos tus ventas por vos.<span class="sub">Agencia Lado T</span></h3>
+        <p class="feature__text">Para dueños de marcas que prefieren delegar. Tomamos el control de tus Meta Ads y gestionamos tu inversión para maximizar el retorno, mientras vos te enfocás en el producto. Trabajamos con cupos limitados por el nivel de dedicación que exige cada marca.</p>
+        <ul class="incl rise-group">
+          <li class="rise">Gestión completa de tus Meta Ads</li>
+          <li class="rise">Manejo estratégico de tu inversión</li>
+          <li class="rise">Foco total en tu retorno</li>
+          <li class="rise">Reporte y ajustes constantes</li>
+        </ul>
+        <div class="feature__cta"><a class="btn btn--fill" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a></div>
+      </article>
+
+      <!-- 03 · 04 · 05 -->
+      <div class="rows">
+        <article class="row">
+          <span class="row__n">03</span>
+          <div>
+            <h3>Plataformas diseñadas para convertir.</h3>
+            <p class="row__text">Creamos sitios web, landing pages y optimizamos tiendas online. Sumamos automatizaciones y una experiencia de usuario fluida, con procesos claros para que tu negocio digital escale sin fricción.</p>
+            <ul class="row__incl rise-group">
+              <li class="rise">Sitios web y landing pages</li>
+              <li class="rise">Optimización de tiendas online</li>
+              <li class="rise">Automatización + UX</li>
+            </ul>
+          </div>
+          <div class="row__cta"><a class="btn btn--line" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a></div>
+        </article>
+
+        <article class="row">
+          <span class="row__n">04</span>
+          <div>
+            <h3>Claridad total en 90 minutos.</h3>
+            <p class="row__text">Una sesión intensiva donde radiografiamos tu negocio: oferta, comunicación, anuncios y diferenciación. Te llevás un diagnóstico preciso y un plan de acción con soluciones inmediatas y aplicables.</p>
+            <ul class="row__incl rise-group">
+              <li class="rise">Sesión intensiva 1 a 1</li>
+              <li class="rise">Diagnóstico preciso</li>
+              <li class="rise">Plan de acción aplicable</li>
+            </ul>
+          </div>
+          <div class="row__cta"><a class="btn btn--line" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a></div>
+        </article>
+
+        <article class="row">
+          <span class="row__n">05</span>
+          <div>
+            <h3>Tu contenido orgánico, en piloto automático.</h3>
+            <p class="row__text">Nos encargamos de la estrategia, guiones, edición y calendarización de tus redes sociales. Construí una audiencia fiel y atractiva, con un plan constante y sin el estrés del día a día.</p>
+            <ul class="row__incl rise-group">
+              <li class="rise">Estrategia, guiones y edición</li>
+              <li class="rise">Calendarización constante</li>
+              <li class="rise">Audiencia fiel y atractiva</li>
+            </ul>
+          </div>
+          <div class="row__cta"><a class="btn btn--line" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTENIDO / YOUTUBE ===================== -->
+  <section class="section" id="contenido">
+    <div class="wrap">
+      <div class="yt-head">
+        <p class="tag">Mirá cómo pensamos</p>
+        <h2 class="h-lg">Análisis de marcas reales y fragmentos de auditorías.</h2>
+        <p class="lead">No contamos lo que hacemos: lo mostramos. Subimos a YouTube el mismo criterio que aplicamos con cada cliente.</p>
+      </div>
+      <div class="yt-grid rise-group">
+        <a class="yt rise" href="https://www.youtube.com/@ladot" target="_blank" rel="noopener">
+          <span class="yt__thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="yt__title">Análisis de marca: qué cambiaría en su comunicación</span>
+          <span class="yt__meta">Análisis · 12 min</span>
+        </a>
+        <a class="yt rise" href="https://www.youtube.com/@ladot" target="_blank" rel="noopener">
+          <span class="yt__thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="yt__title">Auditoría 1:1: reordenando la oferta de un e-commerce</span>
+          <span class="yt__meta">Auditoría · 18 min</span>
+        </a>
+        <a class="yt rise" href="https://www.youtube.com/@ladot" target="_blank" rel="noopener">
+          <span class="yt__thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="yt__title">Cómo estructurar tus creativos de Meta Ads</span>
+          <span class="yt__meta">Estrategia · 9 min</span>
+        </a>
+      </div>
+      <div class="yt-cta"><a class="link-arrow" href="https://www.youtube.com/@ladot" target="_blank" rel="noopener">Ver el canal</a></div>
+    </div>
+  </section>
+
+  <!-- ===================== CIERRE ===================== -->
+  <section class="section band-mint" id="cierre">
+    <div class="wrap close">
+      <p class="tag" style="color:var(--ink)">Empecemos</p>
+      <h2 class="display" style="margin-top:14px">Reservá tu reunión</h2>
+      <p>15 minutos para entender tu marca y decirte por dónde arrancar. Sin vueltas.</p>
+      <a class="btn btn--fill btn--lg" data-book href="#cierre">Agendar reunión <span class="a">&rarr;</span></a>
+      <p class="close__fine">Coordinamos por videollamada · te llega la confirmación y el enlace a tu mail</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div>
+      <div class="wordmark">LADO&nbsp;<span class="t">T</span></div>
+      <p class="foot__tag">Estrategia, comunicación y ventas online para marcas de e-commerce.</p>
+    </div>
+    <div class="foot__col">
+      <h4>Navegar</h4>
+      <a href="#servicios">Servicios</a>
+      <a href="#quienes">Quiénes somos</a>
+      <a href="#contenido">Contenido</a>
+      <a data-book href="#cierre">Agendar reunión</a>
+    </div>
+    <div class="foot__col">
+      <h4>Contacto</h4>
+      <a href="https://wa.me/000000000000" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:hola@tudominio.com">hola@tudominio.com</a>
+      <a href="https://www.youtube.com/@ladot" target="_blank" rel="noopener">YouTube</a>
+      <span class="foot__legal">© <span id="y">2026</span> Lado T</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ▸ Reemplazar por el link real de Cal.com / Calendly conectado a Google Calendar */
+  var BOOKING_URL = "https://cal.com/lado-t";
+  /* ▸ Canal / videos de YouTube */
+  var YT_URL = "https://www.youtube.com/@ladot";
+
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  document.querySelectorAll('[data-book]').forEach(function(a){
+    a.href = BOOKING_URL; a.target = "_blank"; a.rel = "noopener";
+  });
+
+  var y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
+
+  /* ---- aparición progresiva ("inflado" escalonado) ---- */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.rise').forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+
+  var watch = [];
+  document.querySelectorAll('.rise-group').forEach(function(el){ watch.push(el); });
+  document.querySelectorAll('.rise').forEach(function(el){
+    if (!el.closest('.rise-group')) watch.push(el);
+  });
+
+  function reveal(el){
+    var items = el.classList.contains('rise-group') ? el.querySelectorAll('.rise') : [el];
+    Array.prototype.forEach.call(items, function(it, i){
+      it.style.transitionDelay = (i * 80) + 'ms';
+      it.classList.add('in');
+    });
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      reveal(en.target);
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px 12% 0px' });
+
+  watch.forEach(function(el){ io.observe(el); });
+
+  requestAnimationFrame(function(){
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    watch.forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * 1.15 && r.bottom > -80){ reveal(el); io.unobserve(el); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
