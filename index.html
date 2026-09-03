@@ -802,11 +802,19 @@ body.ready .rise{ opacity:1; transform:none; }
     /* ================================================================
        CAL.COM · Reserva de reuniones
        ----------------------------------------------------------------
-       EDITÁ SOLO ESTA LÍNEA con tu enlace de Cal.com (sin "cal.com/"):
-         · si tu página es  https://cal.com/lado-t/reunion  ->  "lado-t/reunion"
-         · si es solo        https://cal.com/lado-t          ->  "lado-t"
+       EDITÁ SOLO ESTA LÍNEA. Sirve de cualquiera de las 2 formas:
+         · link completo   ->  "https://cal.com/lado-t-studio-dy6oki/40min"
+         · solo el final   ->  "lado-t-studio-dy6oki/40min"
        ================================================================ */
     var CAL_LINK = "https://cal.com/lado-t-studio-dy6oki/40min";
+
+    /* deja SIEMPRE "usuario/evento" limpio, aunque pegues el link completo */
+    var CAL_PATH = String(CAL_LINK).trim()
+      .replace(/^https?:\/\//i, "")
+      .replace(/^(www\.)?cal\.com\//i, "")
+      .replace(/^\/+/, "")
+      .replace(/[?#].*$/, "");
+    var CAL_URL = "https://cal.com/" + CAL_PATH;
 
     /* El calendario se abre en un popup SOBRE la página (embed oficial de Cal.com).
        Nota: dentro del preview del Artifact el script externo queda bloqueado y el
@@ -823,10 +831,10 @@ body.ready .rise{ opacity:1; transform:none; }
     } catch (e) {}
 
     document.querySelectorAll('[data-book]').forEach(function (a) {
-      a.href = "https://cal.com/" + CAL_LINK;          /* fallback: abre Cal.com en pestaña nueva */
+      a.href = CAL_URL;                                 /* fallback: abre Cal.com en pestaña nueva */
       a.target = "_blank";
       a.rel = "noopener";
-      a.setAttribute('data-cal-link', CAL_LINK);        /* principal: popup del calendario */
+      a.setAttribute('data-cal-link', CAL_PATH);        /* principal: popup del calendario */
       a.setAttribute('data-cal-namespace', 'ladot');
       a.setAttribute('data-cal-config', '{"layout":"month_view"}');
     });
