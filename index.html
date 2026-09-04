@@ -356,7 +356,15 @@ svg{ display:block; }
 .cards .card--wa{ width:250px; aspect-ratio:auto; height:auto; --ty:-96px; }
 .card--wa .mock{ position:static; inset:auto; }   /* saca el mock del position:absolute para que su alto real defina el de la tarjeta */
 @media (max-width:700px){
-  .cards .card--wa{ width:206px; --ty:18px; }   /* más abajo: la tarjeta creció y no debe tapar el botón */
+  /* mobile: tarjeta más angosta y proporcional al resto del cluster (Google/Ads/carpeta),
+     con paddings y tipografía escalados hacia abajo para que respire */
+  .cards .card--wa{ width:172px; --ty:30px; }
+  .wa-bar{ padding:6px 8px; gap:5px; font-size:8.5px; }
+  .wa-ava{ width:16px; height:16px; }
+  .wa-verified{ width:8px; height:8px; }
+  .wa-biz{ font-size:7.5px; }                 /* el nombre del negocio se corta con "…" si no entra */
+  .wa-chat{ padding:7px 7px 12px; gap:5px; }
+  .bub{ font-size:7.8px; line-height:1.55; padding:4.5px 7px; }   /* más chico pero con más aire entre líneas */
 }
 
 /* capturas de Ads Manager (modo oscuro) */
