@@ -43,10 +43,11 @@
   TÍTULO DEL HERO: sans geométrica "Plus Jakarta Sans" (peso 800), ancho normal.
   Dos líneas forzadas con .l1 / .l2 (display:block); toda la .l2 en bordó.
 
-  SECCIÓN 3 · SERVICIOS (.services): layout editorial en zig-zag. Cada fila
-  es .svc-row (flex); .svc-row--reverse invierte a "texto izquierda" en desktop.
-  Cada servicio = etiqueta de papel con clip (nº + título) → subtítulo →
-  párrafo → botón "Agendar reunión". Sin imágenes ni íconos.
+  SECCIÓN 3 · SERVICIOS (.services): los 5 bloques usan la MISMA estructura
+  .svc-row.svc-row--stacked (columna única, max-width:640px, mismo padding
+  y gap en los 5, mobile y desktop). Cada servicio = etiqueta de papel con
+  clip (nº + título) → subtítulo → párrafo → botón "Agendar reunión".
+  Sin imágenes ni íconos.
   ===================================================================
 -->
 
@@ -324,29 +325,50 @@ svg{ display:block; }
 .rv-stars{ color:#F5B400; font-size:12px; letter-spacing:1px; }
 .rv-quote{ font-size:9.5px; color:#4a4a4a; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
-/* chat de WhatsApp */
+/* chat de WhatsApp — testimonio real (Marce · El Palacio de la Cerámica Laferrere) */
 .mock--wa{ background:#E9E1D8; }
-.wa-bar{ background:#075E54; color:#fff; display:flex; align-items:center; gap:6px; padding:7px 10px; font-size:9.5px; font-weight:600; flex:none; }
-.wa-ava{ width:15px; height:15px; border-radius:50%; background:#cbd4d0; flex:none; }
-.wa-on{ margin-left:auto; font-weight:400; font-size:8px; opacity:.85; }
-.wa-chat{ flex:1; padding:9px 9px 10px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
-.bub{ max-width:80%; padding:5px 8px; border-radius:9px; font-size:9px; box-shadow:0 1px 1px rgba(0,0,0,.08); }
-.bub--in{ background:#fff; align-self:flex-start; border-top-left-radius:3px; }
-.bub--out{ background:#DCF8C6; color:#1f2d22; align-self:flex-end; border-top-right-radius:3px; }
+.wa-bar{ background:#075E54; color:#fff; display:flex; align-items:center; gap:7px; padding:7px 10px; font-size:9.5px; font-weight:600; flex:none; }
+.wa-ava{                                              /* foto de perfil: cerámicas apiladas (placeholder hasta subir la foto real) */
+  width:19px; height:19px; border-radius:50%; flex:none;
+  background:
+    radial-gradient(circle at 24% 22%, #F6F1E8 0%, #F6F1E8 30%, transparent 32%),
+    radial-gradient(circle at 66% 16%, #D98A2B 0%, #D98A2B 24%, transparent 26%),
+    radial-gradient(circle at 82% 56%, #5E9E93 0%, #5E9E93 20%, transparent 22%),
+    radial-gradient(circle at 38% 66%, #C1543F 0%, #C1543F 32%, transparent 34%),
+    linear-gradient(160deg, #E7DFD1 0%, #CDBFA8 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);
+}
+.wa-name{ display:flex; align-items:center; gap:3px; min-width:0; }
+.wa-verified{ width:9px; height:9px; flex:none; }
+.wa-biz{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:400; font-size:8.5px; opacity:.82; }
+.wa-chat{ flex:1; padding:9px 9px 16px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
+.bub{
+  max-width:86%; padding:5px 8px; border-radius:9px; font-size:8.5px; line-height:1.4;
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  box-shadow:0 2px 4px rgba(43,42,39,.08);            /* sombra suave, prolija */
+}
+.bub--in{ background:#fff; align-self:flex-start; border-top-left-radius:3px; color:#333; }
+.bub--out{ background:#DBE6E1; align-self:flex-end; border-top-right-radius:3px; color:var(--ink); }   /* menta suave de marca */
 .bub .tk{ color:#34B7F1; font-size:8px; margin-left:4px; }
+
+/* la tarjeta de WhatsApp crece en ancho para que el testimonio se lea COMPLETO
+   (sin recortar con "…"); el alto se ajusta SOLO al contenido, sin aire de más */
+.cards .card--wa{ width:250px; aspect-ratio:auto; height:auto; --ty:-96px; }
+.card--wa .mock{ position:static; inset:auto; }   /* saca el mock del position:absolute para que su alto real defina el de la tarjeta */
+@media (max-width:700px){
+  .cards .card--wa{ width:206px; --ty:18px; }   /* más abajo: la tarjeta creció y no debe tapar el botón */
+}
 
 /* capturas de Ads Manager (modo oscuro) */
 .mock--ads{ background:#15161C; color:#E7E8EE; padding:11px 12px; gap:9px; }
 .ads-top{ display:flex; align-items:center; justify-content:space-between; font-size:8.5px; color:#9aa0ab; }
 .ads-brand{ display:flex; align-items:center; gap:5px; color:#c9ccd4; font-weight:600; }
 .ads-brand i{ width:7px; height:7px; border-radius:2px; background:#1877F2; flex:none; }
-.ads-kpis{ display:flex; gap:14px; }
-.ads-kpi{ display:flex; flex-direction:column; gap:1px; }
-.ads-kpi b{ font-size:8px; font-weight:500; color:#8f95a1; letter-spacing:.04em; text-transform:uppercase; }
-.ads-kpi span{ font-size:15px; font-weight:600; color:#fff; letter-spacing:-.01em; }
-.ads-kpi em{ font-style:normal; font-size:8.5px; font-weight:600; }
-.ads-kpi em.up{ color:#35D07F; }
-.ads-kpi em.down{ color:#35D07F; }
+.ads-kpis{ display:flex; gap:10px; }
+.ads-kpi{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+.ads-kpi b{ font-size:7.5px; font-weight:500; color:#8f95a1; letter-spacing:.04em; text-transform:uppercase; }
+.ads-kpi span{ font-size:13.5px; font-weight:600; color:#fff; letter-spacing:-.01em; white-space:nowrap; }
+.ads-kpi .ads-pos{ color:#35D07F; }   /* ROAS: la métrica estrella, en verde */
 .ads-bars{ flex:1; display:flex; align-items:flex-end; gap:5px; padding-top:2px; }
 .ads-bars i{ flex:1; height:var(--h,20%); background:#35D07F; border-radius:3px 3px 1px 1px; opacity:.92; }
 .ads-line{ flex:1; width:100%; }
@@ -417,7 +439,6 @@ svg{ display:block; }
 
 @media (min-width:900px){
   .svc-row{ flex-direction:row; align-items:center; gap:clamp(48px,7vw,110px); }
-  .svc-row--reverse{ flex-direction:row-reverse; }   /* zig-zag: texto a la izquierda */
   .svc-row > *{ flex:1 1 0; min-width:0; }
 }
 
@@ -517,16 +538,6 @@ svg{ display:block; }
   z-index:2;
 }
 
-/* --- Servicio 4 (Auditoría): DESKTOP en zig-zag 2 columnas con Título full-width arriba; MOBILE apilado --- */
-@media (min-width:900px){
-  .svc-row--titled{
-    flex-wrap:wrap;
-    align-items:flex-start;
-    gap:14px clamp(48px,7vw,110px);   /* row-gap chico (título↔contenido) · column-gap grande (2 col) */
-  }
-  .svc-row--titled > .svc-titlebar{ flex:1 0 100%; }   /* la barra título (nº + h2) ocupa toda la fila, arriba */
-}
-
 /* ===================== APARICIÓN AL CARGAR (texto) ===================== */
 .js .rise{ opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .6s cubic-bezier(.2,.72,.24,1); }
 body.ready .rise{ opacity:1; transform:none; }
@@ -612,15 +623,23 @@ body.ready .rise{ opacity:1; transform:none; }
             </div>
           </article>
 
-          <!-- Tarjeta 3 · WhatsApp -->
+          <!-- Tarjeta 3 · WhatsApp: testimonio real de Marce (El Palacio de la Cerámica Laferrere) -->
           <article class="card card--wa">
-            <!-- ▼ PLACEHOLDER → reemplazar por: <img src="whatsapp.png" alt="Conversación de WhatsApp" class="card__img"> -->
+            <!-- ▼ PLACEHOLDER → reemplazar .wa-ava por: <img class="wa-ava" src="marce.jpg" alt="Marce, El Palacio de la Cerámica Laferrere"> -->
             <div class="mock mock--wa">
-              <div class="wa-bar"><span class="wa-ava"></span><span>Lado T</span><span class="wa-on">en línea</span></div>
+              <div class="wa-bar">
+                <span class="wa-ava" aria-hidden="true"></span>
+                <span class="wa-name">Marce
+                  <svg class="wa-verified" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="11" fill="#fff"/>
+                    <path d="M7 12.5l3 3 7-7.5" fill="none" stroke="#075E54" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="wa-biz">(El Palacio de la Cerámica Laferrere)</span>
+                </span>
+              </div>
               <div class="wa-chat">
-                <div class="bub bub--in">¿Cómo venimos este mes?</div>
-                <div class="bub bub--out">Facturamos 2,4x vs. el mes pasado <span class="tk">✓✓</span></div>
-                <div class="bub bub--in">Bestial. Sigamos con todo.</div>
+                <div class="bub bub--out">Como venimos este meees?<span class="tk">✓✓</span></div>
+                <div class="bub bub--in bub--testimonial">La verdad Tizi súper contenta, si no fuese por el trabajo que hacen no tendría más local hoy. A veces sólo vendo online, y el triple de lo que facturo en el local.. no lo puedo creer todavía jaja gracias chicos</div>
               </div>
             </div>
           </article>
@@ -634,8 +653,9 @@ body.ready .rise{ opacity:1; transform:none; }
                 <span>Últimos 7 días</span>
               </div>
               <div class="ads-kpis">
-                <span class="ads-kpi"><b>ROAS</b><span>4,3x</span><em class="up">▲ 58%</em></span>
-                <span class="ads-kpi"><b>CPA</b><span>$3,10</span><em class="down">▼ 22%</em></span>
+                <span class="ads-kpi"><b>CPA</b><span>$9,21</span></span>
+                <span class="ads-kpi"><b>CTR</b><span>7,21%</span></span>
+                <span class="ads-kpi"><b>ROAS</b><span class="ads-pos">11,39x</span></span>
               </div>
               <div class="ads-bars">
                 <i style="--h:24%"></i><i style="--h:37%"></i><i style="--h:31%"></i><i style="--h:52%"></i><i style="--h:63%"></i><i style="--h:79%"></i><i style="--h:94%"></i>
@@ -652,8 +672,9 @@ body.ready .rise{ opacity:1; transform:none; }
                 <span>Este mes</span>
               </div>
               <div class="ads-kpis">
-                <span class="ads-kpi"><b>Conversiones</b><span>1.284</span><em class="up">▲ 91%</em></span>
-                <span class="ads-kpi"><b>ROI</b><span>312%</span><em class="up">▲ 40%</em></span>
+                <span class="ads-kpi"><b>CPA</b><span>$8,55</span></span>
+                <span class="ads-kpi"><b>CTR</b><span>5,52%</span></span>
+                <span class="ads-kpi"><b>ROAS</b><span class="ads-pos">13,85x</span></span>
               </div>
               <svg class="ads-line" viewBox="0 0 200 66" preserveAspectRatio="none" aria-hidden="true">
                 <polygon points="0,60 26,52 54,48 88,36 120,30 156,16 200,5 200,66 0,66"/>
@@ -761,8 +782,8 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
         </article>
 
-        <!-- Servicio 4 · Auditoría 1:1 — DESKTOP: zig-zag 2 col con título full-width arriba · MOBILE: apilado -->
-        <article class="svc-row svc-row--titled svc-row--reverse">
+        <!-- Servicio 4 · Auditoría 1:1 — mismo bloque apilado que 01-03 y 05: Etiqueta → Subtítulo → Párrafo → Botón -->
+        <article class="svc-row svc-row--stacked">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">04</span>
@@ -776,8 +797,8 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
         </article>
 
-        <!-- Servicio 5 · Content Management — DESKTOP: título full-width arriba, texto debajo · MOBILE: apilado -->
-        <article class="svc-row svc-row--titled">
+        <!-- Servicio 5 · Content Management — mismo bloque apilado que 01-04: Etiqueta → Subtítulo → Párrafo → Botón -->
+        <article class="svc-row svc-row--stacked">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">05</span>
