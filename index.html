@@ -325,11 +325,13 @@ svg{ display:block; }
 .rv-stars{ color:#F5B400; font-size:12px; letter-spacing:1px; }
 .rv-quote{ font-size:9.5px; color:#4a4a4a; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 
-/* chat de WhatsApp — testimonio real (Marce · El Palacio de la Cerámica Laferrere) */
+/* chat de WhatsApp — testimonio real (Marce · El Palacio de la Cerámica Laferrere)
+   EN REPOSO: mismo tamaño que el resto del cluster (Google/Ads), preview corta.
+   AL ENFOCAR (hover / tap / teclado): se agranda y el mensaje se lee completo. */
 .mock--wa{ background:#E9E1D8; }
-.wa-bar{ background:#075E54; color:#fff; display:flex; align-items:center; gap:7px; padding:7px 10px; font-size:9.5px; font-weight:600; flex:none; }
+.wa-bar{ background:#075E54; color:#fff; display:flex; align-items:center; gap:5px; padding:6px 8px; font-size:8.5px; font-weight:600; flex:none; }
 .wa-ava{                                              /* foto de perfil: cerámicas apiladas (placeholder hasta subir la foto real) */
-  width:19px; height:19px; border-radius:50%; flex:none;
+  width:16px; height:16px; border-radius:50%; flex:none;
   background:
     radial-gradient(circle at 24% 22%, #F6F1E8 0%, #F6F1E8 30%, transparent 32%),
     radial-gradient(circle at 66% 16%, #D98A2B 0%, #D98A2B 24%, transparent 26%),
@@ -339,32 +341,41 @@ svg{ display:block; }
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);
 }
 .wa-name{ display:flex; align-items:center; gap:3px; min-width:0; }
-.wa-verified{ width:9px; height:9px; flex:none; }
-.wa-biz{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:400; font-size:8.5px; opacity:.82; }
-.wa-chat{ flex:1; padding:9px 9px 16px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
+.wa-verified{ width:8px; height:8px; flex:none; }
+.wa-biz{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:400; font-size:7.5px; opacity:.82; }
+.wa-chat{ flex:1; padding:7px 7px 10px; display:flex; flex-direction:column; gap:5px; overflow:hidden; }
 .bub{
-  max-width:86%; padding:5px 8px; border-radius:9px; font-size:8.5px; line-height:1.4;
+  max-width:86%; padding:4.5px 7px; border-radius:9px; font-size:7.8px; line-height:1.5;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   box-shadow:0 2px 4px rgba(43,42,39,.08);            /* sombra suave, prolija */
 }
 .bub--in{ background:#fff; align-self:flex-start; border-top-left-radius:3px; color:#333; }
 .bub--out{ background:#DBE6E1; align-self:flex-end; border-top-right-radius:3px; color:var(--ink); }   /* menta suave de marca */
 .bub .tk{ color:#34B7F1; font-size:8px; margin-left:4px; }
+.bub--testimonial{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }   /* preview corta en reposo */
 
-/* la tarjeta de WhatsApp crece en ancho para que el testimonio se lea COMPLETO
-   (sin recortar con "…"); el alto se ajusta SOLO al contenido, sin aire de más */
-.cards .card--wa{ width:250px; aspect-ratio:auto; height:auto; --ty:-96px; }
-.card--wa .mock{ position:static; inset:auto; }   /* saca el mock del position:absolute para que su alto real defina el de la tarjeta */
+/* --- estado enfocado: la tarjeta crece y el testimonio se lee completo --- */
+.folder-stage.open .card.card--wa:hover,
+.folder-stage.open .card.card--wa:focus-visible,
+.folder-stage.open .card.card--wa.is-front{
+  width:230px; aspect-ratio:auto; height:auto;
+  transform:translate(0, -128px) scale(1);
+  z-index:60;
+  box-shadow:0 40px 78px -18px rgba(43,42,39,.52), 0 12px 26px -8px rgba(43,42,39,.26);
+}
+.card--wa:hover .mock,
+.card--wa:focus-visible .mock,
+.card--wa.is-front .mock{ position:static; inset:auto; }   /* el alto real del mensaje define el de la tarjeta */
+.card--wa:hover .bub--testimonial,
+.card--wa:focus-visible .bub--testimonial,
+.card--wa.is-front .bub--testimonial{ -webkit-line-clamp:unset; display:block; }
 @media (max-width:700px){
-  /* mobile: tarjeta más angosta y proporcional al resto del cluster (Google/Ads/carpeta),
-     con paddings y tipografía escalados hacia abajo para que respire */
-  .cards .card--wa{ width:172px; --ty:30px; }
-  .wa-bar{ padding:6px 8px; gap:5px; font-size:8.5px; }
-  .wa-ava{ width:16px; height:16px; }
-  .wa-verified{ width:8px; height:8px; }
-  .wa-biz{ font-size:7.5px; }                 /* el nombre del negocio se corta con "…" si no entra */
-  .wa-chat{ padding:7px 7px 12px; gap:5px; }
-  .bub{ font-size:7.8px; line-height:1.55; padding:4.5px 7px; }   /* más chico pero con más aire entre líneas */
+  .folder-stage.open .card.card--wa:hover,
+  .folder-stage.open .card.card--wa:focus-visible,
+  .folder-stage.open .card.card--wa.is-front{
+    width:198px;
+    transform:translate(0, -14px) scale(1);
+  }
 }
 
 /* capturas de Ads Manager (modo oscuro) */
