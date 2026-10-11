@@ -42,9 +42,11 @@
 
   TIRA (.marquee): dos grupos idénticos + translateX 0 → -50%, linear infinite.
 
-  SERVICIOS: franja menta + una tarjeta por servicio (.svc-row). La etiqueta de
-  papel con clip (.service-label: nº + título) sobresale del borde superior.
-  En desktop ancho el título queda fijo a la izquierda y las tarjetas a la derecha.
+  SERVICIOS: franja menta. Arriba un selector de 5 opciones (.svc-picker) y debajo
+  un carrusel horizontal de tarjetas (.svc-track): 3 a la vista en desktop, 2 en
+  tablet, 1 + la siguiente asomando en mobile. Tocar una opción, una tarjeta o
+  deslizar mueve las tarjetas; la etiqueta de papel con clip (.service-label)
+  se "pega" en la elegida (.is-active).
 
   CTA único: "Agendar reunión" → popup de Cal.com (CAL_LINK en el script al final).
   ===================================================================
@@ -449,8 +451,9 @@ svg{ display:block; }
 }
 
 /* ===================================================================
-   SERVICIOS — franja menta + tarjetas redondeadas; la etiqueta de papel
-   (nº + título) queda "pegada" con su clip al borde superior de cada una
+   SERVICIOS — selector arriba (5 opciones) + carrusel horizontal de tarjetas.
+   Al tocar una opción (o una tarjeta, o deslizar en mobile) las tarjetas se
+   mueven y el CLIP de papel se "pega" en la elegida.
    =================================================================== */
 .services{
   position:relative;
@@ -458,7 +461,7 @@ svg{ display:block; }
   border-bottom:1px solid var(--mint-edge);
   padding-block:clamp(64px,11vw,128px);
 }
-.services .wrap{ display:grid; gap:clamp(36px,7vw,56px); }
+.services .wrap{ display:grid; gap:clamp(28px,5vw,44px); }
 
 .svc-eyebrow{   /* TÍTULO GENERAL — mayúsculas grandes, bordó, firmado con la T inclinada */
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -474,17 +477,86 @@ svg{ display:block; }
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg transform='rotate(148 12 12.5)' fill='none' stroke='%23c1543f' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 6h12M12 6v13'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
 }
 
-.svc-list{ display:grid; gap:clamp(68px,9vw,80px); padding-top:30px; }   /* aire para que cada etiqueta sobresalga */
+/* escenario: en mobile sangra hasta los bordes para que se vea la tarjeta que asoma */
+.svc-stage{ display:grid; gap:6px; margin-inline:calc(var(--pad) * -1); container-type:inline-size; }
+
+/* --- selector (arriba, como en la referencia): pastilla con 5 opciones --- */
+.svc-picker{
+  position:relative;
+  display:flex; gap:4px; margin-inline:var(--pad); padding:6px;
+  background:#fff; border:1px solid var(--mint-edge); border-radius:28px;
+  box-shadow:0 16px 32px -22px rgba(43,42,39,.4);
+  overflow-x:auto; scrollbar-width:none; scroll-snap-type:x proximity;
+}
+.svc-picker::-webkit-scrollbar{ display:none; }
+.svc-tab{
+  flex:0 0 auto; min-width:152px; min-height:60px;
+  display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px;
+  padding:11px 16px;
+  border:0; border-radius:22px; background:transparent; color:var(--ink);
+  font:inherit; text-align:left; cursor:pointer; scroll-snap-align:center;
+  transition:background-color .25s ease, color .25s ease, box-shadow .3s ease;
+}
+.svc-tab:hover{ background:rgba(166,197,187,.28); }
+.svc-tab__n{
+  font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:12px; letter-spacing:.08em; line-height:1; color:var(--accent-2);
+  font-variant-numeric:tabular-nums;
+}
+.svc-tab__t{
+  font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600; font-size:13.5px; line-height:1.25; letter-spacing:-.005em;
+}
+.svc-tab[aria-current="true"]{                       /* elegida: bordó con aro menta */
+  background:var(--accent); color:#fff;
+  box-shadow:0 0 0 3px var(--mint), 0 10px 20px -10px rgba(193,84,63,.7);
+}
+.svc-tab[aria-current="true"]:hover{ background:var(--accent-2); }
+.svc-tab[aria-current="true"] .svc-tab__n{ color:#fff; }
+.svc-tab:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+/* --- carrusel: 1 tarjeta + la siguiente asomando (mobile) · 2 (tablet) · 3 (desktop) --- */
+.svc-track{
+  --gap:18px;
+  --cw:min(80vw,400px);
+  position:relative;
+  display:flex; gap:var(--gap);
+  overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none;
+  scroll-snap-type:x mandatory;
+  padding:48px calc((100vw - var(--cw)) / 2) 44px;      /* arriba/abajo: aire para la etiqueta, el clip y las sombras */
+  scroll-padding-inline:calc((100vw - var(--cw)) / 2);
+}
+@supports (width:1cqi){
+  .svc-track{
+    --cw:min(80cqi,400px);
+    padding-inline:calc((100cqi - var(--cw)) / 2);
+    scroll-padding-inline:calc((100cqi - var(--cw)) / 2);
+  }
+}
+.svc-track::-webkit-scrollbar{ display:none; }
+.svc-track:focus-visible{ outline:2px solid var(--accent); outline-offset:-6px; border-radius:var(--r-lg); }
 
 /* tarjeta */
 .svc-row{
   position:relative;
-  max-width:700px;
-  padding:34px clamp(22px,4vw,38px) clamp(28px,4vw,36px);
-  background:#fff;
+  flex:0 0 var(--cw);
+  display:flex; flex-direction:column;
+  padding:34px clamp(22px,2.6vw,32px) 30px;
+  background:#FCFBF8;
   border:1px solid var(--mint-edge);
   border-radius:var(--r-lg);
-  box-shadow:var(--shadow-card);
+  box-shadow:0 10px 24px -20px rgba(43,42,39,.3);
+  scroll-snap-align:center; scroll-snap-stop:always;
+  transform:scale(.97); transform-origin:50% 100%;
+  transition:transform .5s var(--ease-pop), box-shadow .4s ease, border-color .3s ease, background-color .3s ease;
+  cursor:pointer;
+}
+.svc-row:not(.is-active):hover{ border-color:rgba(193,84,63,.55); }
+.svc-row.is-active{                                   /* la elegida: sube un poco, borde bordó */
+  background:#fff; border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent), var(--shadow-card);
+  transform:translateY(-6px);
+  cursor:default;
 }
 .svc-list > .svc-row:nth-child(odd){ --tilt:-1.3deg; }
 .svc-list > .svc-row:nth-child(even){ --tilt:.9deg; }
@@ -502,10 +574,15 @@ svg{ display:block; }
              inset 0 0 15px rgba(0,0,0,0.03);          /* volumen + arruga sutil */
   transform:rotate(var(--tilt,-1deg));                  /* "de lado": cada etiqueta con su propio ángulo */
   transform-origin:14% 60%;
+  transition:transform .6s cubic-bezier(.2,1.2,.3,1), box-shadow .4s ease;
+}
+.svc-row:not(.is-active) .service-label{                /* sin elegir: el papel queda apoyado, sin clip */
+  transform:rotate(0deg);
+  box-shadow:1px 2px 3px rgba(0,0,0,0.05), inset 0 0 12px rgba(0,0,0,0.03);
 }
 .service-number{
   flex:none;
-  color:var(--accent);
+  color:var(--accent-2);
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:700; font-variant-numeric:tabular-nums;
   font-size:15px; line-height:1;
@@ -517,10 +594,7 @@ svg{ display:block; }
   font-weight:600;
   font-size:18px;
   line-height:1.25; letter-spacing:-0.015em;
-  text-wrap:balance;                                   /* si envuelve en mobile, reparte parejo */
-}
-@media (min-width:1280px){
-  .service-title{ font-size:20px; white-space:nowrap; }   /* desktop ancho: siempre una sola línea */
+  text-wrap:balance;                                   /* si envuelve, reparte parejo */
 }
 .service-label::after{                                 /* clip metálico real (SVG), fuera del área de texto */
   content:'';
@@ -531,10 +605,15 @@ svg{ display:block; }
   background-size:contain;
   background-repeat:no-repeat;
   z-index:2;
+  transform-origin:50% 100%;
+  transition:transform .55s cubic-bezier(.2,1.4,.3,1) .1s, opacity .25s ease .1s;
+}
+.svc-row:not(.is-active) .service-label::after{         /* el clip se despega y salta a la tarjeta elegida */
+  opacity:0; transform:translateY(-16px) rotate(-24deg) scale(.7);
 }
 
 /* --- texto --- */
-.svc-text{ max-width:56ch; }
+.svc-text{ flex:1; display:flex; flex-direction:column; max-width:56ch; }
 .svc-text h3{   /* SUBTÍTULO — idéntico en los 5 bloques */
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:600;
@@ -546,7 +625,7 @@ svg{ display:block; }
 .svc-text p{
   margin-top:14px;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:400; font-size:1.02rem; line-height:1.72;
+  font-weight:400; font-size:1rem; line-height:1.7;
   color:#333333;
 }
 .svc-flag{
@@ -559,15 +638,21 @@ svg{ display:block; }
   border:1.5px solid var(--accent); border-radius:var(--pill);
   padding:.5em 1em;
 }
-.svc-link{ margin-top:26px; font-size:.95rem; padding:.9rem 1.5rem; }
+.svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las 5 tarjetas alinean */
+.svc-text > :nth-last-child(2){ margin-bottom:26px; }
 
-/* DESKTOP ancho: título grande y fijo a la izquierda, tarjetas a la derecha */
+/* TABLET y DESKTOP: varias tarjetas a la vista, alineadas al borde del título */
+@media (min-width:700px){
+  .svc-stage{ margin-inline:0; }
+  .svc-picker{ margin-inline:0; }
+  .svc-track{ --n:2; --gap:22px; padding-inline:0; scroll-padding-inline:0; }
+  .svc-row{ flex:0 0 calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); scroll-snap-align:start; }
+  .service-label{ min-height:74px; padding-inline:22px; }                 /* etiquetas de igual alto → los subtítulos alinean */
+  .service-title{ font-size:16px; }
+}
 @media (min-width:1100px){
-  .services .wrap{
-    grid-template-columns:minmax(0,.7fr) minmax(0,1.45fr);
-    gap:clamp(48px,6vw,96px); align-items:start;
-  }
-  .svc-eyebrow{ position:sticky; top:112px; }
+  .svc-track{ --n:3; --gap:24px; }
+  .svc-tab{ flex:1 1 0; min-width:0; }                                   /* 5 celdas iguales, como la referencia */
 }
 
 /* ===================== APARICIÓN AL CARGAR (texto) ===================== */
@@ -584,16 +669,10 @@ body.ready .rise{ opacity:1; transform:none; }
   transition-delay:var(--d,0s);
 }
 .js .reveal.in{ opacity:1; transform:none; }
-/* la etiqueta de papel se "pega" a la tarjeta con su clip */
-.js .svc-row .service-label{
-  opacity:0; transform:translateY(-14px) rotate(calc(var(--tilt) * 4));
-  transition:opacity .45s ease .22s, transform .7s cubic-bezier(.2,1.2,.3,1) .22s;
-}
-.js .svc-row.in .service-label{ opacity:1; transform:rotate(var(--tilt)); }
 
 @media (prefers-reduced-motion:reduce){
   .js .reveal{ opacity:1; transform:none; transition:none; }
-  .js .svc-row .service-label{ opacity:1; transform:rotate(var(--tilt)); transition:none; }
+  .svc-row, .service-label, .service-label::after, .svc-tab{ transition:none; }
   .js .rise{ transition:none; }
   .card{ transition:none; }
   .folder__front{ transition:none; }
@@ -778,15 +857,39 @@ body.ready .rise{ opacity:1; transform:none; }
   </section>
 
   <!-- ===================== SERVICIOS (franja menta + tarjetas) ===================== -->
-  <!-- Estructura por servicio: etiqueta de papel (sobresale del borde) + subtítulo + párrafo + botón -->
+  <!-- Selector arriba + carrusel horizontal. Por servicio: etiqueta de papel (sobresale del borde; el clip marca el elegido) + subtítulo + párrafo + botón -->
   <section class="services" aria-label="Servicios de Lado T">
     <div class="wrap">
       <h2 class="svc-eyebrow">Servicios</h2>
 
-      <div class="svc-list">
+      <div class="svc-stage reveal">
+      <div class="svc-picker" id="svcPicker" role="group" aria-label="Elegí un servicio">
+        <button type="button" class="svc-tab" aria-controls="svcTrack" aria-current="true">
+          <span class="svc-tab__n">01</span>
+          <span class="svc-tab__t">Consultoría de Publicidad Digital&nbsp;360°</span>
+        </button>
+        <button type="button" class="svc-tab" aria-controls="svcTrack">
+          <span class="svc-tab__n">02</span>
+          <span class="svc-tab__t">Agencia Lado T</span>
+        </button>
+        <button type="button" class="svc-tab" aria-controls="svcTrack">
+          <span class="svc-tab__n">03</span>
+          <span class="svc-tab__t">Desarrollo Web</span>
+        </button>
+        <button type="button" class="svc-tab" aria-controls="svcTrack">
+          <span class="svc-tab__n">04</span>
+          <span class="svc-tab__t">Auditoría 1:1</span>
+        </button>
+        <button type="button" class="svc-tab" aria-controls="svcTrack">
+          <span class="svc-tab__n">05</span>
+          <span class="svc-tab__t">Content Management</span>
+        </button>
+      </div>
+
+      <div class="svc-list svc-track" id="svcTrack" role="region" aria-label="Servicios de Lado T" tabindex="0">
 
         <!-- Servicio 1 · Consultoría — bloque apilado: Etiqueta → Subtítulo → Párrafo → Botón -->
-        <article class="svc-row reveal">
+        <article class="svc-row is-active">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">01</span>
@@ -801,7 +904,7 @@ body.ready .rise{ opacity:1; transform:none; }
         </article>
 
         <!-- Servicio 2 · Agencia — bloque apilado: Etiqueta → Subtítulo → Párrafo → Flag → Botón -->
-        <article class="svc-row reveal">
+        <article class="svc-row">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">02</span>
@@ -817,7 +920,7 @@ body.ready .rise{ opacity:1; transform:none; }
         </article>
 
         <!-- Servicio 3 · Desarrollo Web — bloque apilado: Etiqueta → Subtítulo → Párrafo → Botón -->
-        <article class="svc-row reveal">
+        <article class="svc-row">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">03</span>
@@ -832,7 +935,7 @@ body.ready .rise{ opacity:1; transform:none; }
         </article>
 
         <!-- Servicio 4 · Auditoría 1:1 — mismo bloque apilado que 01-03 y 05: Etiqueta → Subtítulo → Párrafo → Botón -->
-        <article class="svc-row reveal">
+        <article class="svc-row">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">04</span>
@@ -847,7 +950,7 @@ body.ready .rise{ opacity:1; transform:none; }
         </article>
 
         <!-- Servicio 5 · Content Management — mismo bloque apilado que 01-04: Etiqueta → Subtítulo → Párrafo → Botón -->
-        <article class="svc-row reveal">
+        <article class="svc-row">
           <div class="svc-titlebar">
             <div class="service-label">
               <span class="service-number">05</span>
@@ -861,6 +964,7 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
         </article>
 
+      </div>
       </div>
     </div>
   </section>
@@ -969,6 +1073,81 @@ body.ready .rise{ opacity:1; transform:none; }
     /* --- aparición al scroll ("inflado"): una sola vez, escalonada --- */
     var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
     function show(el){ el.classList.add('in'); }
+    /* --- selector de servicios: opciones arriba + carrusel horizontal --- */
+    (function(){
+      var picker = document.getElementById('svcPicker');
+      var track  = document.getElementById('svcTrack');
+      if (!picker || !track) return;
+      var tabs  = Array.prototype.slice.call(picker.querySelectorAll('.svc-tab'));
+      var cards = Array.prototype.slice.call(track.querySelectorAll('.svc-row'));
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var cur = 0, lockUntil = 0, syncT, resizeT;
+
+      /* ¿hay 2 o más tarjetas a la vista? (tablet / desktop) → se alinean al borde; si no, se centran */
+      function multi(){ return cards[0].offsetWidth * 1.6 < track.clientWidth; }
+      function targetLeft(i){
+        var c = cards[i], max = track.scrollWidth - track.clientWidth, left;
+        if (multi()) left = c.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0);
+        else         left = c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2;
+        return Math.max(0, Math.min(max, left));
+      }
+      function paint(i, smooth){
+        cur = i;
+        tabs.forEach(function(t, k){
+          if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
+        });
+        cards.forEach(function(c, k){ c.classList.toggle('is-active', k === i); });
+        /* si la pastilla scrollea (mobile), deja visible la opción elegida */
+        if (picker.scrollWidth > picker.clientWidth + 2){
+          var t = tabs[i];
+          picker.scrollTo({ left: t.offsetLeft - (picker.clientWidth - t.offsetWidth) / 2, behavior: (smooth && !reduce) ? 'smooth' : 'auto' });
+        }
+      }
+      function go(i, scroll){
+        i = Math.max(0, Math.min(cards.length - 1, i));
+        paint(i, scroll);
+        if (scroll){
+          lockUntil = Date.now() + 750;                 /* ignora el scroll que provoca el propio movimiento */
+          track.scrollTo({ left: targetLeft(i), behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+
+      tabs.forEach(function(t, i){ t.addEventListener('click', function(){ go(i, true); }); });
+      cards.forEach(function(c, i){
+        c.addEventListener('click', function(e){
+          if (i !== cur && !e.target.closest('a, button')) go(i, true);   /* tocar una tarjeta que asoma la trae */
+        });
+      });
+      /* flechas del teclado, con el foco en el selector o en el carrusel */
+      function onKey(e){
+        if (e.key === 'ArrowRight'){ e.preventDefault(); go(cur + 1, true); if (e.currentTarget === picker) tabs[cur].focus(); }
+        else if (e.key === 'ArrowLeft'){ e.preventDefault(); go(cur - 1, true); if (e.currentTarget === picker) tabs[cur].focus(); }
+      }
+      picker.addEventListener('keydown', onKey);
+      track.addEventListener('keydown', function(e){ if (e.target === track) onKey(e); });
+
+      /* mobile (1 tarjeta por vez): al deslizar con el dedo, la opción elegida acompaña */
+      track.addEventListener('scroll', function(){
+        if (multi()) return;
+        clearTimeout(syncT);
+        syncT = setTimeout(function(){
+          if (Date.now() < lockUntil) return;
+          var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = Infinity;
+          cards.forEach(function(c, k){
+            var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+            if (d < bd){ bd = d; best = k; }
+          });
+          if (best !== cur) paint(best, true);
+        }, 90);
+      }, { passive:true });
+
+      window.addEventListener('resize', function(){
+        clearTimeout(resizeT);
+        resizeT = setTimeout(function(){ track.scrollTo({ left: targetLeft(cur), behavior: 'auto' }); }, 120);
+      });
+      paint(0, false);
+    })();
+
     /* barrido directo (carga, scroll, resize): no depende de que el observer dispare,
        así nada queda invisible aunque el navegador lo demore */
     function sweep(){
