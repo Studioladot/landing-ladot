@@ -639,15 +639,19 @@ svg{ display:block; }
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:600; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2);
 }
-.svc-chips{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:7px; }
-.svc-chips li{
-  display:inline-flex; align-items:center; gap:.5em;
-  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:600; font-size:.8rem; line-height:1.2; color:var(--ink);
-  background:rgba(166,197,187,.26); border:1px solid var(--mint-edge); border-radius:var(--pill);
-  padding:.45em .85em;
+.svc-feats{ list-style:none; margin:0; padding:0; display:grid; gap:13px; }
+.svc-feats li{ position:relative; padding-left:18px; }
+.svc-feats li::before{ content:""; position:absolute; left:2px; top:.5em; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+.svc-feats b{
+  display:block;
+  font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:.98rem; line-height:1.3; letter-spacing:-.01em; color:var(--ink);
 }
-.svc-chips li::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--accent); flex:none; }
+.svc-feats span{
+  display:block; margin-top:2px;
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:400; font-size:.9rem; line-height:1.55; color:#4a4a4a;
+}
 
 .svc-sys{
   margin-top:20px; padding:16px;
@@ -695,6 +699,16 @@ svg{ display:block; }
 .sys-perf s::after{ content:""; position:absolute; inset:0 auto 0 0; width:var(--w); border-radius:4px; background:#8FB6AA; }
 .sys-perf .row:first-of-type s::after{ background:var(--accent); }     /* lo que mejor funciona */
 
+/* MOBILE: la tarjeta 1 es larga; tipografía y espacios un poco más compactos para que no se haga eterna */
+@media (max-width:699px){
+  .svc-text p{ font-size:.95rem; line-height:1.62; }
+  .svc-feats{ gap:11px; }
+  .svc-feats b{ font-size:.94rem; }
+  .svc-feats span{ font-size:.86rem; line-height:1.5; }
+  .svc-sys{ padding:14px; gap:12px; }
+  .svc-sys__p, .svc-text .svc-sys p{ font-size:.9rem; line-height:1.55; }
+}
+
 /* TABLET y DESKTOP: varias tarjetas a la vista, alineadas al borde del título */
 @media (min-width:700px){
   .svc-stage{ margin-inline:0; }
@@ -706,6 +720,8 @@ svg{ display:block; }
   /* el servicio central (1) ocupa 2 columnas: tiene más para contar */
   .svc-row:first-child{ flex-basis:calc(((100% - (var(--n) - 1) * var(--gap)) / var(--n)) * 2 + var(--gap)); }
   .svc-row:first-child .svc-text{ max-width:none; }
+  .svc-row:first-child .svc-feats{ grid-template-columns:1fr 1fr; gap:16px 28px; }
+  .svc-row:first-child .svc-feats li:last-child:nth-child(odd){ grid-column:1 / -1; }
   .svc-row:first-child .svc-sys{ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); align-items:center; gap:20px; padding:20px; }
   .svc-row:first-child .svc-sys__ill{ order:-1; }
 }
@@ -959,15 +975,15 @@ body.ready .rise{ opacity:1; transform:none; }
             <p>La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce combinando formación, acompañamiento y tecnología para que cada dueño de negocio pueda construir un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
             <div class="svc-incl">
               <span class="svc-incl__t">Incluye</span>
-              <ul class="svc-chips">
-                <li>Todos los módulos</li>
-                <li>Reuniones semanales</li>
-                <li>Seguimiento</li>
-                <li>Acompañamiento</li>
-                <li>Personalización</li>
+              <ul class="svc-feats">
+                <li><b>Módulos completos de cada tema</b><span>Cada tema explicado de punta a punta y listo para aplicar desde el primer día.</span></li>
+                <li><b>Reuniones semanales</b><span>Un espacio fijo para revisar resultados, destrabar problemas y definir el próximo paso.</span></li>
+                <li><b>Seguimiento uno a uno</b><span>Cada negocio se mira de cerca y la estrategia se ajusta sobre la marcha.</span></li>
+                <li><b>Acompañamiento diario</b><span>Un equipo presente en el día a día, para resolver dudas antes de que frenen el avance.</span></li>
+                <li><b>Personalización total</b><span>La estrategia se arma a medida de cada marca, su producto y su momento.</span></li>
               </ul>
             </div>
-            <p>Desde que entrás al programa ya tenés acceso a todo, y el ritmo lo manejás vos: no hace falta esperar los seis meses para ver resultados, ya en el primer mes podés notar muy buenos resultados generales. Nosotros te damos todas las herramientas; hasta dónde y qué tan rápido llegás depende de vos.</p>
+            <p>El programa queda abierto completo desde el primer día: módulos, herramientas y equipo a disposición. Cada marca lo recorre a su ritmo. Hay quienes arrancan a fondo y ya en el primer mes ven muy buenos resultados generales, y hay quienes van más de a poco; en los dos casos el programa se ajusta y nadie tiene que esperar a que pasen los seis meses para empezar a crecer.</p>
             <div class="svc-sys">
               <div class="svc-sys__ill">
                 <div class="sys-ui" role="img" aria-label="Ilustración del Lado T System: calendario de contenido y rendimiento de cada publicación">
