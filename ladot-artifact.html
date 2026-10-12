@@ -43,6 +43,10 @@
   deslizar mueve las tarjetas; la etiqueta de papel con clip (.service-label)
   se "pega" en la elegida (.is-active).
 
+  QUÉ INCLUYE CADA SERVICIO: cuadro comparativo debajo (tabla de 5 columnas en desktop,
+  columnas que se deslizan en mobile); resalta el servicio elegido en el carrusel.
+  Las tarjetas de servicio son NEGRAS (pedido del usuario), con la etiqueta de papel encima.
+
   CTA único: "Agendar reunión" → popup de Cal.com (CAL_LINK en el script al final).
   ===================================================================
 -->
@@ -533,19 +537,20 @@ svg{ display:block; }
   flex:0 0 var(--cw);
   display:flex; flex-direction:column;
   padding:34px clamp(22px,2.6vw,32px) 30px;
-  background:#FCFBF8;
-  border:1px solid var(--mint-edge);
+  background:#1B1A18;                                   /* fondo negro (cálido), como la referencia */
+  color:#D6D2C8;
+  border:1px solid rgba(166,197,187,.3);
   border-radius:var(--r-lg);
-  box-shadow:0 10px 24px -20px rgba(43,42,39,.3);
+  box-shadow:0 18px 34px -24px rgba(0,0,0,.55);
   scroll-snap-align:center; scroll-snap-stop:always;
   transform:scale(.97); transform-origin:50% 100%;
   transition:transform .5s var(--ease-pop), box-shadow .4s ease, border-color .3s ease, background-color .3s ease;
   cursor:pointer;
 }
-.svc-row:not(.is-active):hover{ border-color:rgba(193,84,63,.55); }
+.svc-row:not(.is-active):hover{ border-color:rgba(193,84,63,.7); }
 .svc-row.is-active{                                   /* la elegida: sube un poco, borde bordó */
-  background:#fff; border-color:var(--accent);
-  box-shadow:0 0 0 1px var(--accent), var(--shadow-card);
+  background:#141311; border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent), 0 30px 54px -26px rgba(0,0,0,.65);
   transform:translateY(-6px);
   cursor:default;
 }
@@ -610,59 +615,39 @@ svg{ display:block; }
   font-weight:600;
   font-size:clamp(1.15rem, 1.02rem + .6vw, 1.42rem);
   line-height:1.22; letter-spacing:-0.01em;
-  color:var(--ink);
+  color:#fff;
   text-wrap:balance;                                   /* sin palabras sueltas al final en mobile */
 }
 .svc-text p{
   margin-top:14px;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:400; font-size:1rem; line-height:1.7;
-  color:#333333;
+  color:#D6D2C8;
 }
 .svc-flag{
   display:flex; width:fit-content; align-items:center; gap:.45em;
   margin-top:18px;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:600; font-size:.82rem; letter-spacing:.01em; line-height:1.2;
-  color:var(--accent-2);
-  background:rgba(193,84,63,.08);
+  color:#F5BFB1;
+  background:rgba(193,84,63,.22);
   border:1.5px solid var(--accent); border-radius:var(--pill);
   padding:.5em 1em;
 }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las 5 tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
 
-/* --- servicio 1: qué incluye + Lado T System --- */
-.svc-incl{ margin-top:18px; }
-.svc-incl__t{
-  display:block; margin-bottom:9px;
-  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:600; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2);
-}
-.svc-feats{ list-style:none; margin:0; padding:0; display:grid; gap:13px; }
-.svc-feats li{ position:relative; padding-left:18px; }
-.svc-feats li::before{ content:""; position:absolute; left:2px; top:.5em; width:6px; height:6px; border-radius:50%; background:var(--accent); }
-.svc-feats b{
-  display:block;
-  font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:700; font-size:.98rem; line-height:1.3; letter-spacing:-.01em; color:var(--ink);
-}
-.svc-feats span{
-  display:block; margin-top:2px;
-  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:400; font-size:.9rem; line-height:1.55; color:#4a4a4a;
-}
-
+/* --- servicio 1: Lado T System --- */
 .svc-sys{
   margin-top:20px; padding:16px;
-  background:rgba(166,197,187,.2); border:1px solid var(--mint-edge); border-radius:var(--r);
+  background:rgba(166,197,187,.1); border:1px solid rgba(166,197,187,.32); border-radius:var(--r);
   display:grid; gap:14px;
 }
 .svc-sys__t{
   margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:700; font-size:1.05rem; letter-spacing:-.01em; color:var(--ink);
+  font-weight:700; font-size:1.05rem; letter-spacing:-.01em; color:#fff;
 }
-.svc-sys__p{ margin:6px 0 0; font-size:.94rem; line-height:1.62; color:#333; }
+.svc-sys__p{ margin:6px 0 0; font-size:.94rem; line-height:1.62; color:#D6D2C8; }
 .svc-text .svc-sys p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
 
 /* ilustración del sistema (maqueta en CSS, igual que las tarjetas del hero) */
@@ -702,9 +687,6 @@ svg{ display:block; }
 /* MOBILE: la tarjeta 1 es larga; tipografía y espacios un poco más compactos para que no se haga eterna */
 @media (max-width:699px){
   .svc-text p{ font-size:.95rem; line-height:1.62; }
-  .svc-feats{ gap:11px; }
-  .svc-feats b{ font-size:.94rem; }
-  .svc-feats span{ font-size:.86rem; line-height:1.5; }
   .svc-sys{ padding:14px; gap:12px; }
   .svc-sys__p, .svc-text .svc-sys p{ font-size:.9rem; line-height:1.55; }
 }
@@ -720,14 +702,96 @@ svg{ display:block; }
   /* el servicio central (1) ocupa 2 columnas: tiene más para contar */
   .svc-row:first-child{ flex-basis:calc(((100% - (var(--n) - 1) * var(--gap)) / var(--n)) * 2 + var(--gap)); }
   .svc-row:first-child .svc-text{ max-width:none; }
-  .svc-row:first-child .svc-feats{ grid-template-columns:1fr 1fr; gap:16px 28px; }
-  .svc-row:first-child .svc-feats li:last-child:nth-child(odd){ grid-column:1 / -1; }
+
   .svc-row:first-child .svc-sys{ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); align-items:center; gap:20px; padding:20px; }
   .svc-row:first-child .svc-sys__ill{ order:-1; }
 }
 @media (min-width:1100px){
   .svc-track{ --n:3; --gap:24px; }
   .svc-tab{ flex:1 1 0; min-width:0; }                                   /* 5 celdas iguales, como la referencia */
+}
+
+/* ===================================================================
+   QUÉ INCLUYE CADA SERVICIO — cuadro comparativo
+   Desktop: tabla de 5 columnas con filas alineadas. Tablet/mobile: columnas-tarjeta
+   que se deslizan. La columna del servicio elegido arriba se resalta.
+   =================================================================== */
+.compare{ padding-block:clamp(56px,9vw,104px); }
+.compare .wrap{ display:grid; gap:clamp(24px,4vw,36px); }
+.cmp-title{
+  font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:clamp(1.75rem, 1rem + 2.2vw, 2.8rem); line-height:1.05;
+  letter-spacing:-.005em; text-transform:uppercase; color:var(--accent); text-wrap:balance;
+}
+.cmp-scroll{
+  margin-inline:calc(var(--pad) * -1); padding:6px var(--pad) 22px; scroll-padding-inline:var(--pad);
+  overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain;
+}
+.cmp-scroll::-webkit-scrollbar{ display:none; }
+.cmp{ display:flex; gap:14px; width:max-content; }
+.cmp-rows{ display:none; }
+.cmp-col{
+  flex:0 0 min(82vw,340px); scroll-snap-align:start;
+  display:flex; flex-direction:column; gap:14px; padding:22px 20px 24px;
+  background:#fff; border:1px solid var(--mint-edge); border-radius:var(--r-lg); box-shadow:var(--shadow-card);
+  transition:border-color .3s ease, box-shadow .3s ease, background-color .3s ease;
+}
+.cmp-col.is-sel{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), var(--shadow-card); }
+.cmp-h{ display:flex; align-items:baseline; gap:10px; }
+.cmp-h h3{
+  margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:1.02rem; line-height:1.25; letter-spacing:-.01em; color:var(--ink); text-wrap:balance;
+}
+.cmp-s{
+  margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600; font-size:.98rem; line-height:1.3; color:var(--ink); text-wrap:balance;
+}
+.cmp-s::before, .cmp-i::before{
+  display:block; margin-bottom:8px;
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:600; font-size:.68rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2);
+}
+.cmp-s::before{ content:"Para qué sirve"; }
+.cmp-i::before{ content:"Incluye"; }
+.cmp-i{ list-style:none; margin:0; padding:0; display:grid; gap:13px; align-content:start; }
+.cmp-i li{ position:relative; padding-left:27px; }
+.cmp-i li::before{                                      /* círculo bordó con tilde, como la referencia */
+  content:""; position:absolute; left:0; top:.08em; width:17px; height:17px; border-radius:50%;
+  background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.7 3.7 7.3-7.6' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
+}
+.cmp-i b{
+  display:block; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:.94rem; line-height:1.3; letter-spacing:-.01em; color:var(--ink);
+}
+.cmp-i span{ display:block; margin-top:2px; font-size:.86rem; line-height:1.5; color:#4a4a4a; }
+.cmp-cta{ margin-top:2px; }
+
+@media (min-width:700px){ .cmp-col{ flex-basis:340px; } }
+@media (min-width:1100px){
+  .cmp-scroll{ margin-inline:0; padding:0; overflow:visible; }
+  .cmp{
+    width:auto; display:grid; gap:0;
+    grid-template-columns:112px repeat(5, minmax(0,1fr)); grid-template-rows:auto auto 1fr;
+    background:#fff; border:1px solid var(--mint-edge); border-radius:var(--r-lg); box-shadow:var(--shadow-card); overflow:hidden;
+  }
+  .cmp-rows{
+    display:grid; grid-column:1; grid-row:1 / span 3; grid-template-rows:subgrid;
+    background:rgba(166,197,187,.16); border-right:1px solid var(--mint-edge);
+  }
+  .cmp-rows span{
+    padding:24px 16px; font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:600; font-size:.68rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2); border-bottom:1px solid var(--mint-edge);
+  }
+  .cmp-rows span:last-child{ border-bottom:0; }
+  .cmp-col{
+    grid-row:1 / span 3; display:grid; grid-template-rows:subgrid; gap:0; flex:none;
+    padding:0; border:0; border-left:1px solid var(--mint-edge); border-radius:0; box-shadow:none;
+  }
+  .cmp-col:nth-of-type(1){ border-left:0; }
+  .cmp-col > *{ padding:24px 18px; }
+  .cmp-h, .cmp-s{ border-bottom:1px solid var(--mint-edge); }
+  .cmp-s::before, .cmp-i::before{ display:none; }
+  .cmp-col.is-sel{ background:rgba(193,84,63,.05); box-shadow:none; border-color:var(--mint-edge); }
 }
 
 /* ===================== APARICIÓN AL CARGAR (texto) ===================== */
@@ -973,16 +1037,6 @@ body.ready .rise{ opacity:1; transform:none; }
           <div class="svc-text">
             <h3>Dominá el crecimiento de tu marca</h3>
             <p>La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce combinando formación, acompañamiento y tecnología para que cada dueño de negocio pueda construir un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
-            <div class="svc-incl">
-              <span class="svc-incl__t">Incluye</span>
-              <ul class="svc-feats">
-                <li><b>Módulos completos de cada tema</b><span>Cada tema explicado de punta a punta y listo para aplicar desde el primer día.</span></li>
-                <li><b>Reuniones semanales</b><span>Un espacio fijo para revisar resultados, destrabar problemas y definir el próximo paso.</span></li>
-                <li><b>Seguimiento uno a uno</b><span>Cada negocio se mira de cerca y la estrategia se ajusta sobre la marcha.</span></li>
-                <li><b>Acompañamiento diario</b><span>Un equipo presente en el día a día, para resolver dudas antes de que frenen el avance.</span></li>
-                <li><b>Personalización total</b><span>La estrategia se arma a medida de cada marca, su producto y su momento.</span></li>
-              </ul>
-            </div>
             <p>El programa queda abierto completo desde el primer día: módulos, herramientas y equipo a disposición. Cada marca lo recorre a su ritmo. Hay quienes arrancan a fondo y ya en el primer mes ven muy buenos resultados generales, y hay quienes van más de a poco; en los dos casos el programa se ajusta y nadie tiene que esperar a que pasen los seis meses para empezar a crecer.</p>
             <div class="svc-sys">
               <div class="svc-sys__ill">
@@ -1084,6 +1138,73 @@ body.ready .rise{ opacity:1; transform:none; }
 
       </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUÉ INCLUYE CADA SERVICIO (cuadro comparativo) ===================== -->
+  <section class="compare" aria-label="Qué incluye cada servicio">
+    <div class="wrap">
+      <h2 class="cmp-title">Qué incluye cada servicio</h2>
+      <div class="cmp-scroll reveal">
+        <div class="cmp">
+          <div class="cmp-rows" aria-hidden="true"><span></span><span>Para qué sirve</span><span>Incluye</span></div>
+        <article class="cmp-col is-sel">
+          <header class="cmp-h"><span class="service-number">01</span><h3>Consultoría de Publicidad Digital&nbsp;360°</h3></header>
+          <p class="cmp-s">Dominá el crecimiento de tu marca</p>
+          <ul class="cmp-i">
+            <li><b>Módulos completos de cada tema</b><span>Cada tema de punta a punta, listo para aplicar.</span></li>
+            <li><b>Reuniones semanales</b><span>Para revisar resultados y definir el próximo paso.</span></li>
+            <li><b>Seguimiento uno a uno</b><span>Cada negocio de cerca, con ajustes sobre la marcha.</span></li>
+            <li><b>Acompañamiento diario</b><span>Equipo presente en el día a día para resolver dudas.</span></li>
+            <li><b>Personalización total</b><span>Estrategia a medida de cada marca.</span></li>
+            <li><b>Acceso al Lado T System</b><span>Calendario propio y métricas por publicación.</span></li>
+          </ul>
+        </article>
+        <article class="cmp-col">
+          <header class="cmp-h"><span class="service-number">02</span><h3>Agencia Lado T</h3></header>
+          <p class="cmp-s">Lo hacemos por vos</p>
+          <ul class="cmp-i">
+            <li><b>Gestión de anuncios</b><span>Campañas de punta a punta a cargo del equipo.</span></li>
+            <li><b>Escalado de campañas</b><span>Se potencia lo que funciona para vender más.</span></li>
+            <li><b>Optimización de la conversión de la web</b><span>Para que más visitas terminen en venta.</span></li>
+            <li><b>Dirección creativa clara</b><span>Guiones y referencias para grabar con agilidad.</span></li>
+            <li><b>Cupos limitados</b><span>Hoy quedan solo 3 cupos.</span></li>
+          </ul>
+        </article>
+        <article class="cmp-col">
+          <header class="cmp-h"><span class="service-number">03</span><h3>Desarrollo Web</h3></header>
+          <p class="cmp-s">Ecosistemas diseñados para convertir</p>
+          <ul class="cmp-i">
+            <li><b>Tienda online o landing desde cero</b><span>Base sólida para quienes aún no tienen web.</span></li>
+            <li><b>Optimizaciones técnicas avanzadas</b><span>Para webs ya validadas y con ventas.</span></li>
+            <li><b>Integraciones con IA</b><span>Parte de las mejoras en webs que ya venden.</span></li>
+            <li><b>Mejoras de UX</b><span>Destraban cuellos de botella y suben la conversión.</span></li>
+          </ul>
+        </article>
+        <article class="cmp-col">
+          <header class="cmp-h"><span class="service-number">04</span><h3>Auditoría 1:1</h3></header>
+          <p class="cmp-s">Claridad absoluta en una sola llamada</p>
+          <ul class="cmp-i">
+            <li><b>Sesión intensiva uno a uno</b><span>Análisis del negocio en profundidad.</span></li>
+            <li><b>Revisión de comunicación, Instagram, web y anuncios</b><span>Para detectar qué frena las ventas.</span></li>
+            <li><b>Diagnóstico claro</b><span>Panorama nítido de lo que frena el crecimiento.</span></li>
+            <li><b>Pasos exactos</b><span>Qué hacer para destrabar el crecimiento ya.</span></li>
+          </ul>
+        </article>
+        <article class="cmp-col">
+          <header class="cmp-h"><span class="service-number">05</span><h3>Content Management</h3></header>
+          <p class="cmp-s">Dirección creativa para construir audiencias</p>
+          <ul class="cmp-i">
+            <li><b>Estrategia de redes</b><span>Pensada para construir una audiencia fiel.</span></li>
+            <li><b>Guiones</b><span>Redactados por nuestro equipo.</span></li>
+            <li><b>Edición del material</b><span>Lo editamos nosotros.</span></li>
+            <li><b>Calendarización</b><span>Cada publicación, programada.</span></li>
+            <li><b>Peso creativo y operativo a cargo nuestro</b><span>El día a día no recae en el negocio.</span></li>
+          </ul>
+        </article>
+        </div>
+      </div>
+      <a class="btn btn--accent cmp-cta" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
 </main>
@@ -1226,6 +1347,7 @@ body.ready .rise{ opacity:1; transform:none; }
           if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
         });
         cards.forEach(function(c, k){ c.classList.toggle('is-active', k === i); });
+        document.querySelectorAll('.cmp-col').forEach(function(c, k){ c.classList.toggle('is-sel', k === i); });
         /* si la pastilla scrollea (mobile), deja visible la opción elegida */
         if (picker.scrollWidth > picker.clientWidth + 2){
           var t = tabs[i];
