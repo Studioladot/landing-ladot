@@ -78,6 +78,10 @@
   --r:20px;
   --r-lg:28px;
   --pill:999px;
+  --ink-black:#1B1A18;                    /* negro cálido de marca: tarjetas, tira, selector */
+  --clip:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 68'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='.45'%3E%3Cstop offset='0' stop-color='%23f7f9fa'/%3E%3Cstop offset='.35' stop-color='%23aab1b7'/%3E%3Cstop offset='.68' stop-color='%236b737a'/%3E%3Cstop offset='1' stop-color='%23cdd2d6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 60V20a6 6 0 0 1 12 0V56a9 9 0 0 1-18 0V14a12 12 0 0 1 24 0V62' stroke='%233b4147' stroke-width='4.4'/%3E%3Cpath d='M10 60V20a6 6 0 0 1 12 0V56a9 9 0 0 1-18 0V14a12 12 0 0 1 24 0V62' stroke='url(%23g)' stroke-width='3.1'/%3E%3Cpath d='M10 60V20a6 6 0 0 1 12 0V56a9 9 0 0 1-18 0V14a12 12 0 0 1 24 0V62' stroke='%23fff' stroke-opacity='.75' stroke-width='.8' transform='translate(-.8 -.6)'/%3E%3C/g%3E%3C/svg%3E");
+  --paper-tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011 .017' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='2.5'%3E%3CfeDistantLight azimuth='225' elevation='55'/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.17'/%3E%3CfeFuncG type='linear' slope='1.17'/%3E%3CfeFuncB type='linear' slope='1.17'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --paper-fold:linear-gradient(104deg,transparent 0 30%,rgba(70,45,20,.075) 30.5%,rgba(255,255,255,.5) 31.4%,transparent 33%,transparent 69%,rgba(70,45,20,.06) 69.6%,transparent 71%),linear-gradient(62deg,transparent 0 55%,rgba(70,45,20,.05) 55.5%,transparent 57%);
   --pad:22px;
   --maxw:1200px;
 }
@@ -416,9 +420,9 @@ svg{ display:block; }
 .marquee{
   position:relative; z-index:10;          /* se superpone a la grilla del fondo */
   overflow:hidden;
-  background-color:var(--paper);           /* off-white sólido: tapa la grilla */
-  border-top:1px solid #a6c5bb;
-  border-bottom:1px solid #a6c5bb;
+  background-color:var(--ink-black);       /* negro de marca: la tira corta la página entre el hero y los servicios */
+  border-top:1px solid var(--ink-black);
+  border-bottom:1px solid var(--ink-black);
 }
 .marquee__track{
   display:flex;
@@ -437,7 +441,7 @@ svg{ display:block; }
   font-size:clamp(.8rem,.74rem + .3vw,1rem);
   letter-spacing:2px;
   text-transform:uppercase;
-  color:var(--ink);
+  color:var(--mint);
   white-space:nowrap;
 }
 .marquee__sep{
@@ -458,20 +462,30 @@ svg{ display:block; }
    =================================================================== */
 .services{
   position:relative;
-  background-color:var(--mint-wash);                 /* menta de marca, plana (sin degradés) */
-  border-bottom:1px solid var(--mint-edge);
+  background-color:var(--mint);                      /* menta de marca, plana (sin degradés): las tarjetas negras y el bordó resaltan encima */
   padding-block:clamp(64px,11vw,128px);
 }
 .services .wrap{ display:grid; gap:clamp(28px,5vw,44px); }
 
-.svc-eyebrow{   /* TÍTULO GENERAL — mayúsculas grandes, bordó, firmado con la T inclinada */
+.svc-eyebrow{   /* TÍTULO GENERAL — mayúsculas grandes, en negro, encerrado en la elipse bordó "a mano" (la misma del cupo del servicio 02) */
+  position:relative; width:fit-content;
+  margin:.34em 0 .22em .58em;
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size:clamp(2.1rem, 1rem + 2.4vw, 3.4rem);
   font-weight:700;
   letter-spacing:-.005em; text-transform:uppercase;
   line-height:1;
-  color:var(--accent);
+  color:var(--ink-black);
 }
+.svc-eyebrow > span{ position:relative; z-index:1; }
+.svc-eyebrow::before{
+  content:""; position:absolute; inset:-.34em -.6em -.3em -.6em; pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 110' preserveAspectRatio='none'%3E%3Cpath d='M205 7C112 3 12 20 14 56c2 40 108 49 200 47 104-2 176-20 172-55C382 17 298 5 188 11' fill='none' stroke='%23A5432F' stroke-width='3.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M236 14C150 9 40 22 36 54' fill='none' stroke='%23A5432F' stroke-width='1.6' stroke-linecap='round' stroke-opacity='.55' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  transform:rotate(-1.4deg);
+  clip-path:inset(0 0 0 0);
+  transition:clip-path 1.25s cubic-bezier(.55,.1,.25,1) .35s;      /* se dibuja de izquierda a derecha, una vez */
+}
+.js .svc-eyebrow:not(.in)::before{ clip-path:inset(0 100% 0 0); }
 /* escenario: en mobile sangra hasta los bordes para que se vea la tarjeta que asoma */
 .svc-stage{ display:grid; gap:6px; margin-inline:calc(var(--pad) * -1); container-type:inline-size; }
 
@@ -479,8 +493,8 @@ svg{ display:block; }
 .svc-picker{
   position:relative;
   display:flex; gap:4px; margin-inline:var(--pad); padding:6px;
-  background:#fff; border:1px solid var(--mint-edge); border-radius:28px;
-  box-shadow:0 16px 32px -22px rgba(43,42,39,.4);
+  background:var(--ink-black); border:1px solid var(--ink-black); border-radius:28px;
+  box-shadow:0 18px 30px -18px rgba(27,26,24,.7);
   overflow-x:auto; scrollbar-width:none; scroll-snap-type:x proximity;
 }
 .svc-picker::-webkit-scrollbar{ display:none; }
@@ -488,14 +502,14 @@ svg{ display:block; }
   flex:0 0 auto; min-width:152px; min-height:60px;
   display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px;
   padding:11px 16px;
-  border:0; border-radius:22px; background:transparent; color:var(--ink);
+  border:0; border-radius:22px; background:transparent; color:#ECE9E0;
   font:inherit; text-align:left; cursor:pointer; scroll-snap-align:center;
   transition:background-color .25s ease, color .25s ease, box-shadow .3s ease;
 }
-.svc-tab:hover{ background:rgba(166,197,187,.28); }
+.svc-tab:hover{ background:rgba(166,197,187,.16); }
 .svc-tab__n{
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:700; font-size:12px; letter-spacing:.08em; line-height:1; color:var(--accent-2);
+  font-weight:700; font-size:12px; letter-spacing:.08em; line-height:1; color:#E9806B;
   font-variant-numeric:tabular-nums;
 }
 .svc-tab__t{
@@ -508,7 +522,7 @@ svg{ display:block; }
 }
 .svc-tab[aria-current="true"]:hover{ background:var(--accent-2); }
 .svc-tab[aria-current="true"] .svc-tab__n{ color:#fff; }
-.svc-tab:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+.svc-tab:focus-visible{ outline:2px solid var(--mint); outline-offset:2px; }
 
 /* --- carrusel: 1 tarjeta + la siguiente asomando (mobile) · 2 (tablet) · 3 (desktop) --- */
 .svc-track{
@@ -542,13 +556,13 @@ svg{ display:block; }
   color:#D6D2C8;
   border:1px solid rgba(166,197,187,.3);
   border-radius:var(--r-lg);
-  box-shadow:0 18px 34px -24px rgba(0,0,0,.55);
+  box-shadow:0 22px 34px -22px rgba(27,26,24,.75);
   scroll-snap-align:center; scroll-snap-stop:always;
   transform:scale(.97); transform-origin:50% 100%;
   transition:transform .5s var(--ease-pop), box-shadow .4s ease, border-color .3s ease, background-color .3s ease;
   cursor:pointer;
 }
-.svc-row:not(.is-active):hover{ border-color:rgba(193,84,63,.7); }
+.svc-row:not(.is-active):hover{ border-color:rgba(193,84,63,.8); transform:translateY(-6px) scale(.97); }
 .svc-row.is-active{                                   /* la elegida: sube un poco, borde bordó */
   background:#141311; border-color:var(--accent);
   box-shadow:0 0 0 1px var(--accent), 0 30px 54px -26px rgba(0,0,0,.65);
@@ -565,17 +579,19 @@ svg{ display:block; }
   display:inline-flex; align-items:center; gap:14px;
   padding:16px 30px;                                    /* aire: el clip nunca toca el texto */
   background-color:#f9f8f6;                             /* papel crudo, no blanco puro */
-  border:1px solid rgba(0,0,0,0.06);
+  background-image:var(--paper-fold), var(--paper-tex); /* pliegues + arrugado (ruido iluminado) */
+  background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
+  border:1px solid rgba(0,0,0,0.07);
   border-radius:10px;
-  box-shadow:2px 3px 6px rgba(0,0,0,0.06),
-             inset 0 0 15px rgba(0,0,0,0.03);          /* volumen + arruga sutil */
+  box-shadow:2px 4px 8px rgba(0,0,0,0.12),
+             inset 0 0 18px rgba(70,45,20,0.07);        /* volumen + borde ligeramente gastado */
   transform:rotate(var(--tilt,-1deg));                  /* "de lado": cada etiqueta con su propio ángulo */
   transform-origin:14% 60%;
   transition:transform .6s cubic-bezier(.2,1.2,.3,1), box-shadow .4s ease;
 }
 .svc-row:not(.is-active) .service-label{                /* sin elegir: el papel queda apoyado, sin clip */
   transform:rotate(0deg);
-  box-shadow:1px 2px 3px rgba(0,0,0,0.05), inset 0 0 12px rgba(0,0,0,0.03);
+  box-shadow:1px 2px 4px rgba(0,0,0,0.1), inset 0 0 14px rgba(70,45,20,0.06);
 }
 .service-number{
   flex:none;
@@ -593,21 +609,29 @@ svg{ display:block; }
   line-height:1.25; letter-spacing:-0.015em;
   text-wrap:balance;                                   /* si envuelve, reparte parejo */
 }
-.service-label::after{                                 /* clip metálico real (SVG), fuera del área de texto */
+.service-label::after{                                 /* clip metálico real: doble lazo, degradé de acero, brillo y sombra proyectada */
   content:'';
   position:absolute;
-  top:-15px; right:-5px;
-  width:14px; height:35px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 64'%3E%3Cpath fill='none' stroke='%23555' stroke-width='3' stroke-linecap='round' d='M12,50 V14 a6,6 0 0,0 -12,0 v32 a10,10 0 0,0 20,0 V10 a14,14 0 0,0 -28,0'/%3E%3C/svg%3E");
-  background-size:contain;
-  background-repeat:no-repeat;
+  top:-23px; right:6px;
+  width:21px; height:45px;
+  background:var(--clip) center / contain no-repeat;
+  filter:drop-shadow(1px 3px 2px rgba(0,0,0,.38));
   z-index:2;
-  transform-origin:50% 100%;
+  transform:rotate(4deg);
+  transform-origin:50% 85%;
   transition:transform .55s cubic-bezier(.2,1.4,.3,1) .1s, opacity .25s ease .1s;
+}
+.service-label::before{                                /* sombra suave del clip sobre el papel */
+  content:''; position:absolute; top:6px; right:3px; width:24px; height:30px; z-index:1;
+  background:radial-gradient(ellipse at 50% 45%, rgba(40,25,10,.3), transparent 68%);
+  transform:rotate(4deg); transition:opacity .25s ease; pointer-events:none;
 }
 .svc-row:not(.is-active) .service-label::after{         /* el clip se despega y salta a la tarjeta elegida */
   opacity:0; transform:translateY(-16px) rotate(-24deg) scale(.7);
 }
+.svc-row:not(.is-active) .service-label::before{ opacity:0; }
+.svc-row.is-active .service-label{ animation:paperFloat 7s ease-in-out infinite; }
+.svc-row.is-active .service-label::after{ animation:clipSway 5s ease-in-out infinite; }
 
 /* --- texto --- */
 .svc-text{ flex:1; display:flex; flex-direction:column; max-width:56ch; }
@@ -625,6 +649,29 @@ svg{ display:block; }
   font-weight:400; font-size:1rem; line-height:1.7;
   color:#D6D2C8;
 }
+/* bloques de texto: párrafo corto de entrada + bloques con etiqueta, unidos por una línea punteada (corte visual) */
+.svc-lead{ color:#ECE9E0; }
+.svc-blks{ margin-top:22px; display:grid; position:relative; }
+.svc-blk{ position:relative; padding:0 0 20px 26px; }
+.svc-blk:last-child{ padding-bottom:0; }
+.svc-blk::before{                                      /* nodo bordó */
+  content:""; position:absolute; left:0; top:.28em; width:10px; height:10px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 0 3px rgba(193,84,63,.28);
+}
+.svc-blk:not(:last-child)::after{                      /* hilo menta punteado hacia el siguiente bloque */
+  content:""; position:absolute; left:4.25px; top:1.7em; bottom:.35em; border-left:1.5px dashed rgba(166,197,187,.5);
+}
+.svc-blk__k{
+  display:block; font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600; font-size:.72rem; line-height:1.3; letter-spacing:.13em; text-transform:uppercase; color:var(--mint);
+}
+.svc-text .svc-blk p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
+.svc-chips{ list-style:none; margin:9px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.svc-chips li{
+  padding:.3em .8em; border:1px solid rgba(166,197,187,.55); border-radius:var(--pill);
+  font-size:.82rem; line-height:1.3; color:var(--mint);
+}
+.svc-chips + p{ margin-top:10px !important; }
 .svc-flag{                                             /* encerrado con una elipse "a mano", como el "cupos limitados" de la referencia */
   display:flex; width:fit-content; align-items:center; gap:.45em;
   margin-top:18px; padding:.78em 1.5em; border:0; border-radius:0;
@@ -633,6 +680,7 @@ svg{ display:block; }
   color:#F5BFB1;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 44' preserveAspectRatio='none'%3E%3Cpath d='M112 3C62 1 6 8 6 22c0 15 56 20 106 19 52 0 102-6 101-20C212 9 160 2 106 5' fill='none' stroke='%23c1543f' stroke-width='2.2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   transform:rotate(-1.5deg);
+  animation:flagPulse 3.8s ease-in-out infinite;
 }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
@@ -650,6 +698,16 @@ svg{ display:block; }
 .svc-sys__p{ margin:6px 0 0; font-size:.94rem; line-height:1.62; color:#D6D2C8; }
 .svc-text .svc-sys p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
 
+.svc-sys__toggle{
+  display:none; align-items:center; gap:.5em; width:fit-content; margin-top:12px; padding:.55em 1.05em;
+  font:600 .82rem/1.2 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif; color:var(--mint);
+  background:transparent; border:1px solid rgba(166,197,187,.55); border-radius:var(--pill); cursor:pointer;
+  transition:background-color .2s ease;
+}
+.svc-sys__toggle:hover{ background:rgba(166,197,187,.14); }
+.svc-sys__toggle:focus-visible{ outline:2px solid var(--mint); outline-offset:2px; }
+.svc-sys__toggle svg{ width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s ease; }
+.svc-sys.is-open .svc-sys__toggle svg{ transform:rotate(180deg); }
 .svc-sys__fig{ display:block; margin-top:9px; font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-size:.72rem; letter-spacing:.02em; color:#A39E92; }
 .svc-sys__fig b{ font-weight:700; color:#E9806B; margin-right:.35em; }
 
@@ -690,6 +748,9 @@ svg{ display:block; }
 /* MOBILE: la tarjeta 1 es larga; tipografía y espacios un poco más compactos para que no se haga eterna */
 @media (max-width:699px){
   .svc-text p{ font-size:.95rem; line-height:1.62; }
+  .svc-sys__ill{ order:2; }
+  .svc-sys:not(.is-open) .svc-sys__fold, .svc-sys:not(.is-open) .svc-sys__p{ display:none; }                 /* en el celular la maqueta se despliega a pedido: la tarjeta 1 no se hace eterna */
+  .svc-sys__toggle{ display:inline-flex; margin-top:2px; }
   .svc-sys{ padding:14px; gap:12px; }
   .svc-sys__p, .svc-text .svc-sys p{ font-size:.9rem; line-height:1.55; }
 }
@@ -711,7 +772,15 @@ svg{ display:block; }
 }
 @media (min-width:1100px){
   .svc-track{ --n:3; --gap:24px; }
-  .svc-tab{ flex:1 1 0; min-width:0; }                                   /* 5 celdas iguales, como la referencia */
+  /* servicio 1 (tarjeta ancha): texto a la izquierda, Lado T System a la derecha → su alto se parece al de las otras */
+  .svc-row:first-child .svc-text{ display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr); column-gap:26px; grid-template-rows:auto auto 1fr auto; align-content:start; }
+  .svc-row:first-child .svc-text > h3, .svc-row:first-child .svc-text > .svc-lead, .svc-row:first-child .svc-text > .svc-blks{ grid-column:1; }
+  .svc-row:first-child .svc-text > .svc-blks{ margin-bottom:26px; }
+  .svc-row:first-child .svc-sys{ grid-column:2; grid-row:1 / span 4; align-self:start; margin:0; grid-template-columns:1fr; gap:12px; padding:14px; }
+  .svc-row:first-child .svc-sys__p{ font-size:.88rem; line-height:1.55; }
+  .svc-row:first-child .svc-sys__t{ font-size:1rem; }
+  .svc-row:first-child .svc-text > .svc-link{ grid-column:1; margin-top:0; }
+  .svc-tab{ flex:1 1 0; min-width:0; }                                   /* 4 celdas iguales, como la referencia */
 }
 
 /* ===================================================================
@@ -723,18 +792,20 @@ svg{ display:block; }
    =================================================================== */
 .compare{
   --zig:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9' viewBox='0 0 18 9'%3E%3Cpath d='M0 9L9 0l9 9z' fill='%23f9f8f6'/%3E%3C/svg%3E");
-  background-color:var(--mint);                          /* menta de marca como bloque de color */
+  background-color:var(--ink-black);                     /* bloque negro: el papel crudo y los clips saltan a la vista */
   padding-block:clamp(64px,10vw,112px);
 }
 .compare .wrap{ display:grid; gap:clamp(30px,5vw,44px); }
 .cmp-title{
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:700; font-size:clamp(1.75rem, 1rem + 2.2vw, 2.8rem); line-height:1.15;
-  letter-spacing:-.005em; text-transform:uppercase; color:#1B1A18; text-wrap:balance;
+  letter-spacing:-.005em; text-transform:uppercase; color:#F4F1EA; text-wrap:balance;
 }
 .cmp-mark{                                              /* tira de papel detrás de las palabras clave */
-  display:inline-block; padding:.02em .26em .08em; background:#f9f8f6; border-radius:8px;
-  transform:rotate(-1.2deg); box-shadow:2px 3px 6px rgba(27,26,24,.14);
+  display:inline-block; padding:.02em .26em .08em; color:var(--ink-black); border-radius:8px;
+  background-color:#f9f8f6; background-image:var(--paper-fold), var(--paper-tex); background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
+  transform:rotate(-1.2deg); box-shadow:2px 4px 8px rgba(0,0,0,.35), inset 0 0 12px rgba(70,45,20,.08);
+  animation:markSway 6.5s ease-in-out infinite;
 }
 .cmp-scroll{
   margin-inline:calc(var(--pad) * -1); padding:16px var(--pad) 30px; scroll-padding-inline:var(--pad);
@@ -746,21 +817,24 @@ svg{ display:block; }
 .cmp-col{
   position:relative; flex:0 0 min(80vw,330px); scroll-snap-align:start;
   display:flex; flex-direction:column; gap:14px; padding:26px 20px 28px;
-  background:#f9f8f6;
-  filter:drop-shadow(0 14px 14px rgba(27,26,24,.22));
+  background-color:#f9f8f6; background-image:var(--paper-fold), var(--paper-tex); background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
+  filter:drop-shadow(0 14px 18px rgba(0,0,0,.5));
 }
 .cmp-col::before, .cmp-col::after, .cmp::before, .cmp::after{      /* borde de dientes arriba y abajo */
-  content:""; position:absolute; left:0; right:0; height:9px; background:var(--zig) repeat-x left top;
+  content:""; position:absolute; left:0; right:0; height:9px;
+  background-color:#f9f8f6; background-image:var(--paper-tex); background-size:260px 260px; background-blend-mode:multiply;
+  -webkit-mask:var(--zig) repeat-x left top; mask:var(--zig) repeat-x left top;      /* dientes con el mismo papel arrugado */
 }
 .cmp::before, .cmp::after{ display:none; }
 .cmp-col::before, .cmp::before{ top:-8px; }
 .cmp-col::after, .cmp::after{ bottom:-8px; transform:scaleY(-1); }
-.cmp-col.is-sel{ background:#f6ece6; }
+.cmp-col.is-sel{ background-color:#f6ece6; }
 .cmp-col.is-sel .service-number{ background:var(--accent); color:#fff; padding:.22em .5em; border-radius:7px; }
 .cmp-h{ position:relative; display:flex; align-items:baseline; gap:10px; }
 .cmp-col.is-sel .cmp-h::after{                          /* el clip salta a la columna del servicio elegido */
-  content:""; position:absolute; top:-43px; right:2px; width:14px; height:35px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 64'%3E%3Cpath fill='none' stroke='%23555' stroke-width='3' stroke-linecap='round' d='M12,50 V14 a6,6 0 0,0 -12,0 v32 a10,10 0 0,0 20,0 V10 a14,14 0 0,0 -28,0'/%3E%3C/svg%3E") center / contain no-repeat;
+  content:""; position:absolute; top:-51px; right:6px; width:21px; height:45px;
+  background:var(--clip) center / contain no-repeat; filter:drop-shadow(1px 3px 2px rgba(0,0,0,.4));
+  transform:rotate(4deg); transform-origin:50% 85%; animation:clipSway 5s ease-in-out infinite;
 }
 .cmp-h h3{
   margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -795,7 +869,8 @@ svg{ display:block; }
   .cmp{
     position:relative; width:auto; display:grid; gap:0;
     grid-template-columns:112px repeat(4, minmax(0,1fr)); grid-template-rows:auto auto 1fr;
-    background:#f9f8f6; filter:drop-shadow(0 18px 18px rgba(27,26,24,.22));
+    background-color:#f9f8f6; background-image:var(--paper-fold), var(--paper-tex); background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
+    filter:drop-shadow(0 22px 26px rgba(0,0,0,.55));
   }
   .cmp::before, .cmp::after{ display:block; }
   .cmp-rows{ display:grid; grid-column:1; grid-row:1 / span 3; grid-template-rows:subgrid; }
@@ -813,8 +888,17 @@ svg{ display:block; }
   .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
   .cmp-col.is-sel{ background:rgba(193,84,63,.08); }
-  .cmp-col.is-sel .cmp-h::after{ top:-17px; right:14px; }   /* aquí el encabezado arranca en el borde del recibo */
+  .cmp-col.is-sel .cmp-h::after{ top:-25px; right:16px; }   /* aquí el encabezado arranca en el borde del recibo */
 }
+
+/* ===================== MOVIMIENTO SUAVE ===================== */
+@keyframes clipSway{ 0%,100%{ transform:rotate(3deg); } 50%{ transform:rotate(8deg); } }
+@keyframes paperFloat{
+  0%,100%{ transform:rotate(var(--tilt,-1deg)) translateY(0); }
+  50%{ transform:rotate(calc(var(--tilt,-1deg) + .6deg)) translateY(-3px); }
+}
+@keyframes flagPulse{ 0%,100%{ transform:rotate(-1.5deg) scale(1); } 50%{ transform:rotate(-1.5deg) scale(1.045); } }
+@keyframes markSway{ 0%,100%{ transform:rotate(-1.2deg); } 50%{ transform:rotate(-.1deg) translateY(-2px); } }
 
 /* ===================== APARICIÓN AL CARGAR (texto) ===================== */
 .js .rise{ opacity:0; transform:translateY(16px) scale(.96); transform-origin:left top; transition:opacity .6s ease, transform .7s var(--ease-pop); }
@@ -840,6 +924,9 @@ body.ready .rise{ opacity:1; transform:none; }
   .folder-hint{ animation:none; }
   .marquee__track{ animation:none; }
   .marquee{ overflow-x:auto; }
+  .svc-row.is-active .service-label, .svc-row.is-active .service-label::after, .svc-flag, .cmp-mark, .cmp-col.is-sel .cmp-h::after{ animation:none; }
+  .svc-eyebrow::before{ transition:none; }
+  .js .svc-eyebrow:not(.in)::before{ clip-path:none; }
 }
 </style>
 </head>
@@ -1017,7 +1104,7 @@ body.ready .rise{ opacity:1; transform:none; }
   <!-- Selector arriba + carrusel horizontal. Por servicio: etiqueta de papel (sobresale del borde; el clip marca el elegido) + subtítulo + párrafo + botón -->
   <section class="services" aria-label="Servicios de Lado T">
     <div class="wrap">
-      <h2 class="svc-eyebrow">Servicios</h2>
+      <h2 class="svc-eyebrow reveal"><span>Servicios</span></h2>
 
       <div class="svc-stage reveal">
       <div class="svc-picker" id="svcPicker" role="group" aria-label="Elegí un servicio">
@@ -1051,10 +1138,15 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Dominá el crecimiento de tu marca</h3>
-            <p>La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce combinando formación, acompañamiento y tecnología para que cada dueño de negocio pueda construir un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
-            <p>El programa queda abierto completo desde el primer día: módulos, herramientas y equipo a disposición. Cada marca lo recorre a su ritmo. Hay quienes arrancan a fondo y ya en el primer mes ven muy buenos resultados generales, y hay quienes van más de a poco; en los dos casos el programa se ajusta y nadie tiene que esperar a que pasen los seis meses para empezar a crecer.</p>
+            <p class="svc-lead">La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce, combinando formación, acompañamiento y tecnología para que cada dueño de negocio construya un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
+            <div class="svc-blks">
+              <div class="svc-blk"><span class="svc-blk__k">Desde el día 1</span><p>El programa queda abierto completo: módulos, herramientas y equipo a disposición.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">A cada ritmo</span><p>Hay quienes arrancan a fondo y ya en el primer mes ven muy buenos resultados generales, y quienes van más de a poco.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Se ajusta</span><p>En los dos casos el programa se adapta: nadie tiene que esperar a que pasen los seis meses para empezar a crecer.</p></div>
+            </div>
             <div class="svc-sys">
               <div class="svc-sys__ill">
+                <div class="svc-sys__fold" id="sysFold">
                 <div class="sys-ui" role="img" aria-label="Ilustración del Lado T System: calendario de contenido y rendimiento de cada publicación">
                   <div class="sys-bar">
                     <span class="sys-brand">Lado T System</span>
@@ -1080,10 +1172,12 @@ body.ready .rise{ opacity:1; transform:none; }
                   </div>
                 </div>
                 <span class="svc-sys__fig"><b>Fig. 01</b> Lado T System · calendario y rendimiento</span>
+                </div>
               </div>
               <div class="svc-sys__body">
                 <h4 class="svc-sys__t">Lado T System</h4>
                 <p class="svc-sys__p">Nuestro sistema privado, donde organizamos todo juntos. Te damos acceso a tu propio calendario para que organices tu contenido y tengas el control absoluto de todo lo que se publica. Leés tus métricas y analizás el rendimiento de cada publicación para saber qué funciona.</p>
+                <button class="svc-sys__toggle" type="button" aria-expanded="false" aria-controls="sysFold"><span>Ver cómo funciona</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></button>
               </div>
             </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
@@ -1100,8 +1194,11 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Lo hacemos por vos</h3>
-            <p>Delegá la gestión de tus anuncios y enfocate en tu producto: prácticamente hacemos todo por vos. Nos encargamos de escalar tus campañas, optimizar la conversión de tu web y darte dirección creativa clara (guiones y referencias) para que grabar el contenido sea un proceso mucho más ágil. Es un trabajo súper arduo de nuestra parte.</p>
-            <p>Tu parte también es clave: brindarnos todo lo necesario para que podamos hacer bien nuestro trabajo.</p>
+            <p class="svc-lead">Delegá la gestión de tus anuncios y enfocate en tu producto: prácticamente hacemos todo por vos. Es un trabajo súper arduo de nuestra parte.</p>
+            <div class="svc-blks">
+              <div class="svc-blk"><span class="svc-blk__k">Nuestra parte</span><p>Escalamos tus campañas, optimizamos la conversión de tu web y damos dirección creativa clara (guiones y referencias) para que grabar el contenido sea un proceso mucho más ágil.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Tu parte</span><p>También es clave: brindarnos todo lo necesario para que podamos hacer bien nuestro trabajo.</p></div>
+            </div>
             <span class="svc-flag">🚨 Solo 3 cupos disponibles</span>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
@@ -1117,7 +1214,11 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Ecosistemas diseñados para convertir</h3>
-            <p>Si necesitás una base sólida, desarrollamos tu tienda online o landing page desde cero. Si ya tenés una web validada y con ventas, aplicamos optimizaciones técnicas avanzadas, integraciones con IA y mejoras de UX para destrabar cuellos de botella y llevar tu tasa de conversión al máximo.</p>
+            <p class="svc-lead">Webs pensadas para vender, tanto si hay que construirlas como si ya están funcionando y se pueden llevar más lejos.</p>
+            <div class="svc-blks">
+              <div class="svc-blk"><span class="svc-blk__k">Si necesitás una base sólida</span><p>Desarrollamos tu tienda online o landing page desde cero.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web con ventas</span><p>Aplicamos optimizaciones técnicas avanzadas, integraciones con IA y mejoras de UX para destrabar cuellos de botella y llevar tu tasa de conversión al máximo.</p></div>
+            </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
         </article>
@@ -1132,7 +1233,13 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Claridad absoluta en una sola llamada</h3>
-            <p>Una sesión intensiva donde analizamos tu negocio en profundidad. Revisamos tu comunicación, tu Instagram, tu web y tu Administrador de Anuncios para detectar qué está frenando tus ventas. Te llevás un diagnóstico claro y los pasos exactos para destrabar tu crecimiento hoy mismo.</p>
+            <p class="svc-lead">Una sesión intensiva donde analizamos tu negocio en profundidad.</p>
+            <div class="svc-blks">
+              <div class="svc-blk"><span class="svc-blk__k">Qué revisamos</span>
+                <ul class="svc-chips"><li>Comunicación</li><li>Instagram</li><li>Web</li><li>Administrador de Anuncios</li></ul>
+                <p>Para detectar qué está frenando tus ventas.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Te llevás</span><p>Un diagnóstico claro y los pasos exactos para destrabar tu crecimiento hoy mismo.</p></div>
+            </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
         </article>
@@ -1320,17 +1427,38 @@ body.ready .rise{ opacity:1; transform:none; }
         else         left = c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2;
         return Math.max(0, Math.min(max, left));
       }
-      /* el carrusel toma el alto de las tarjetas que están a la vista (no de la más alta de todas) */
+      /* todas las tarjetas miden lo mismo (la más alta manda) y el carrusel toma ese alto */
+      var eqBusy = false;
       function fit(left){
+        if (eqBusy) return;
+        eqBusy = true;
         var cs = getComputedStyle(track);
         var pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
-        var from = (left == null ? track.scrollLeft : left), to = from + track.clientWidth, h = 0;
+        cards.forEach(function(c){ c.style.minHeight = ''; });
+        /* tablet / desktop: las 4 miden lo mismo. Celular (una por vez): la 1 es la destacada (lleva el sistema) y las otras 3 miden lo mismo entre sí */
+        var groups = multi() ? [cards] : [[cards[0]], cards.slice(1)];
+        groups.forEach(function(g){
+          var h = 0;
+          g.forEach(function(c){ h = Math.max(h, c.offsetHeight); });
+          g.forEach(function(c){ c.style.minHeight = h + 'px'; });
+        });
+        /* el carrusel toma el alto de lo que está a la vista */
+        var from = (left == null ? track.scrollLeft : left), to = from + track.clientWidth, th = 0;
         cards.forEach(function(c){
           var a = Math.max(c.offsetLeft, from), b = Math.min(c.offsetLeft + c.offsetWidth, to);
-          if (b - a > c.offsetWidth * .4 || c.classList.contains('is-active')) h = Math.max(h, c.offsetHeight);
+          if (b - a > c.offsetWidth * .4 || c.classList.contains('is-active')) th = Math.max(th, c.offsetHeight);
         });
-        if (h) track.style.height = (h + pad) + 'px';
+        if (th) track.style.height = (th + pad) + 'px';
+        requestAnimationFrame(function(){ eqBusy = false; });
       }
+      var sysBox = track.querySelector('.svc-sys'), sysBtn = track.querySelector('.svc-sys__toggle');
+      if (sysBox && sysBtn) sysBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var open = sysBox.classList.toggle('is-open');
+        sysBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        sysBtn.firstElementChild.textContent = open ? 'Ocultar' : 'Ver cómo funciona';
+        fit();
+      });
       function paint(i, smooth){
         cur = i;
         tabs.forEach(function(t, k){
