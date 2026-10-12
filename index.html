@@ -19,7 +19,7 @@
   ===================================================================
   LADO T · LANDING — SISTEMA DE IDENTIDAD
   ===================================================================
-  Salió del logo (monolínea redondeada + una "T" inclinada ≈148°) y de la
+  Salió del logo (monolínea redondeada + una "T" inclinada ≈148°, hoy solo en el favicon) y de la
   identidad guardada del proyecto:
      · PALETA: bordó #c1543f (CTAs y detalles que guían la mirada) · menta
        #a6c5bb (franjas y bloques suaves) · off-white #F7F5F0 · negro/tinta.
@@ -28,8 +28,8 @@
        Inter (texto, liviano). Selección de texto: fondo bordó, letra blanca.
      · FORMA: esquinas generosas en todo (tarjetas 28px, botones pastilla),
        trazos redondeados (flechas, clip, T), sombras cálidas y suaves.
-     · GESTO "DE LADO": la T inclinada firma el título de Servicios y separa
-       la tira; las etiquetas de papel se pegan con un ángulo distinto cada una.
+     · GESTO "DE LADO": las etiquetas de papel se pegan con un ángulo distinto
+       cada una y el clip salta a la elegida; la tira se separa con un punto bordó.
      · MOVIMIENTO: aparición "inflada" (opacidad + subida + scale .94→1),
        una sola vez y escalonada; se apaga con prefers-reduced-motion.
      · MOBILE PRIMERO: una columna, cero scroll horizontal.
@@ -440,9 +440,10 @@ svg{ display:block; }
   color:var(--ink);
   white-space:nowrap;
 }
-.marquee__sep{                          /* la "T" inclinada del logo (≈148°) en trazo redondeado */
-  flex:none; width:15px; height:17px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg transform='rotate(148 12 12.5)' fill='none' stroke='%23c1543f' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 6h12M12 6v13'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+.marquee__sep{
+  flex:none;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--accent);
 }
 
 @keyframes marqueeScroll{
@@ -471,12 +472,6 @@ svg{ display:block; }
   line-height:1;
   color:var(--accent);
 }
-.svc-eyebrow::after{
-  content:""; display:inline-block;
-  width:.5em; height:.58em; margin-left:.14em; transform:translateY(-.04em);
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg transform='rotate(148 12 12.5)' fill='none' stroke='%23c1543f' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 6h12M12 6v13'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
-}
-
 /* escenario: en mobile sangra hasta los bordes para que se vea la tarjeta que asoma */
 .svc-stage{ display:grid; gap:6px; margin-inline:calc(var(--pad) * -1); container-type:inline-size; }
 
@@ -520,8 +515,9 @@ svg{ display:block; }
   --gap:18px;
   --cw:min(80vw,400px);
   position:relative;
-  display:flex; gap:var(--gap);
-  overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none;
+  display:flex; align-items:flex-start; gap:var(--gap);          /* cada tarjeta con su alto natural */
+  overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; scrollbar-width:none;
+  transition:height .5s var(--ease-pop);                          /* el alto (lo fija el JS) se adapta a las tarjetas a la vista */
   scroll-snap-type:x mandatory;
   padding:48px calc((100vw - var(--cw)) / 2) 44px;      /* arriba/abajo: aire para la etiqueta, el clip y las sombras */
   scroll-padding-inline:calc((100vw - var(--cw)) / 2);
@@ -641,6 +637,69 @@ svg{ display:block; }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las 5 tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
 
+/* --- servicio 1: qué incluye + Lado T System --- */
+.svc-incl{ margin-top:18px; }
+.svc-incl__t{
+  display:block; margin-bottom:9px;
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2);
+}
+.svc-chips{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:7px; }
+.svc-chips li{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600; font-size:.8rem; line-height:1.2; color:var(--ink);
+  background:rgba(166,197,187,.26); border:1px solid var(--mint-edge); border-radius:var(--pill);
+  padding:.45em .85em;
+}
+.svc-chips li::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--accent); flex:none; }
+
+.svc-sys{
+  margin-top:20px; padding:16px;
+  background:rgba(166,197,187,.2); border:1px solid var(--mint-edge); border-radius:var(--r);
+  display:grid; gap:14px;
+}
+.svc-sys__t{
+  margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700; font-size:1.05rem; letter-spacing:-.01em; color:var(--ink);
+}
+.svc-sys__p{ margin:6px 0 0; font-size:.94rem; line-height:1.62; color:#333; }
+.svc-text .svc-sys p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
+
+/* ilustración del sistema (maqueta en CSS, igual que las tarjetas del hero) */
+.sys-ui{
+  font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-size:10px; line-height:1.3; color:var(--ink);
+  background:#fff; border:1px solid var(--mint-edge); border-radius:16px; overflow:hidden;
+  box-shadow:0 14px 28px -20px rgba(43,42,39,.35);
+}
+.sys-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:8px 11px; background:rgba(166,197,187,.3); border-bottom:1px solid var(--mint-edge);
+}
+.sys-brand{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:700; font-size:11px; letter-spacing:-.01em; }
+.sys-lock{
+  display:inline-flex; align-items:center; gap:4px; padding:2px 7px;
+  font-weight:600; font-size:8.5px; background:#fff; border:1px solid var(--mint-edge); border-radius:var(--pill);
+}
+.sys-lock svg{ width:8px; height:8px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.sys-body{ display:grid; gap:12px; padding:11px; }
+.sys-h{ display:flex; align-items:baseline; justify-content:space-between; gap:6px; margin-bottom:6px; }
+.sys-h b{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:700; font-size:10px; }
+.sys-h span{ font-size:8.5px; color:#6f685d; }
+.sys-days, .sys-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.sys-days i{ font-style:normal; text-align:center; font-size:8px; font-weight:600; color:#6f685d; }
+.sys-grid{ margin-top:3px; }
+.sys-grid u{ display:block; height:15px; border-radius:5px; background:#F1EEE6; text-decoration:none; }
+.sys-grid u.a{ background:var(--accent); }                       /* publicación programada */
+.sys-grid u.b{ background:#8FB6AA; }
+.sys-grid u.c{ background:var(--ink); }
+.sys-grid u.t{ box-shadow:0 0 0 1.5px var(--accent); background:#fff; }   /* hoy */
+.sys-perf .row{ display:grid; grid-template-columns:48px 1fr; align-items:center; gap:6px; margin-top:4px; }
+.sys-perf em{ font-style:normal; font-size:8.5px; font-weight:600; }
+.sys-perf s{ display:block; height:8px; border-radius:4px; background:#EAEFEC; text-decoration:none; position:relative; overflow:hidden; }
+.sys-perf s::after{ content:""; position:absolute; inset:0 auto 0 0; width:var(--w); border-radius:4px; background:#8FB6AA; }
+.sys-perf .row:first-of-type s::after{ background:var(--accent); }     /* lo que mejor funciona */
+
 /* TABLET y DESKTOP: varias tarjetas a la vista, alineadas al borde del título */
 @media (min-width:700px){
   .svc-stage{ margin-inline:0; }
@@ -649,6 +708,11 @@ svg{ display:block; }
   .svc-row{ flex:0 0 calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); scroll-snap-align:start; }
   .service-label{ min-height:74px; padding-inline:22px; }                 /* etiquetas de igual alto → los subtítulos alinean */
   .service-title{ font-size:16px; }
+  /* el servicio central (1) ocupa 2 columnas: tiene más para contar */
+  .svc-row:first-child{ flex-basis:calc(((100% - (var(--n) - 1) * var(--gap)) / var(--n)) * 2 + var(--gap)); }
+  .svc-row:first-child .svc-text{ max-width:none; }
+  .svc-row:first-child .svc-sys{ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); align-items:center; gap:20px; padding:20px; }
+  .svc-row:first-child .svc-sys__ill{ order:-1; }
 }
 @media (min-width:1100px){
   .svc-track{ --n:3; --gap:24px; }
@@ -898,7 +962,50 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Dominá el crecimiento de tu marca</h3>
-            <p>La consultoría es un programa de 4 meses. Nos especializamos en el crecimiento de marcas con e-commerce combinando formación, acompañamiento y tecnología para que cada dueño de negocio pueda construir un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
+            <p>La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce combinando formación, acompañamiento y tecnología para que cada dueño de negocio pueda construir un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
+            <div class="svc-incl">
+              <span class="svc-incl__t">Incluye</span>
+              <ul class="svc-chips">
+                <li>Todos los módulos</li>
+                <li>Reuniones semanales</li>
+                <li>Seguimiento</li>
+                <li>Acompañamiento</li>
+                <li>Personalización</li>
+              </ul>
+            </div>
+            <p>Desde que entrás al programa ya tenés acceso a todo, y el ritmo lo manejás vos: no hace falta esperar los seis meses para ver resultados, ya en el primer mes podés notar muy buenos resultados generales. Nosotros te damos todas las herramientas; hasta dónde y qué tan rápido llegás depende de vos.</p>
+            <div class="svc-sys">
+              <div class="svc-sys__ill">
+                <div class="sys-ui" role="img" aria-label="Ilustración del Lado T System: calendario de contenido y rendimiento de cada publicación">
+                  <div class="sys-bar">
+                    <span class="sys-brand">Lado T System</span>
+                    <span class="sys-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Privado</span>
+                  </div>
+                  <div class="sys-body">
+                    <div class="sys-cal">
+                      <div class="sys-h"><b>Calendario de contenido</b><span>Este mes</span></div>
+                      <div class="sys-days"><i>L</i><i>M</i><i>M</i><i>J</i><i>V</i><i>S</i><i>D</i></div>
+                      <div class="sys-grid" aria-hidden="true">
+                        <u></u><u class="a"></u><u></u><u class="b"></u><u></u><u class="c"></u><u></u>
+                        <u></u><u></u><u class="t"></u><u class="a"></u><u></u><u class="b"></u><u></u>
+                        <u class="c"></u><u></u><u class="b"></u><u></u><u class="a"></u><u></u><u></u>
+                        <u></u><u class="a"></u><u></u><u class="c"></u><u></u><u class="b"></u><u class="a"></u>
+                      </div>
+                    </div>
+                    <div class="sys-perf">
+                      <div class="sys-h"><b>Rendimiento</b><span>por publicación</span></div>
+                      <div class="row"><em>Reel</em><s style="--w:92%"></s></div>
+                      <div class="row"><em>Carrusel</em><s style="--w:64%"></s></div>
+                      <div class="row"><em>Historia</em><s style="--w:38%"></s></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="svc-sys__body">
+                <h4 class="svc-sys__t">Lado T System</h4>
+                <p class="svc-sys__p">Nuestro sistema privado, donde organizamos todo juntos. Te damos acceso a tu propio calendario para que organices tu contenido y tengas el control absoluto de todo lo que se publica. Leés tus métricas y analizás el rendimiento de cada publicación para saber qué funciona.</p>
+              </div>
+            </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
         </article>
@@ -913,8 +1020,9 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Lo hacemos por vos</h3>
-            <p>Delegá la gestión de tus anuncios y enfocate en tu producto. Nos encargamos de escalar tus campañas, optimizar la conversión de tu web y darte dirección creativa clara (guiones y referencias) para que grabar el contenido sea un proceso mucho más ágil.</p>
-            <span class="svc-flag">🚨 Últimos 4 cupos disponibles</span>
+            <p>Delegá la gestión de tus anuncios y enfocate en tu producto: prácticamente hacemos todo por vos. Nos encargamos de escalar tus campañas, optimizar la conversión de tu web y darte dirección creativa clara (guiones y referencias) para que grabar el contenido sea un proceso mucho más ágil. Es un trabajo súper arduo de nuestra parte.</p>
+            <p>Tu parte también es clave: brindarnos todo lo necesario para que podamos hacer bien nuestro trabajo.</p>
+            <span class="svc-flag">🚨 Solo 3 cupos disponibles</span>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
         </article>
@@ -1084,12 +1192,23 @@ body.ready .rise{ opacity:1; transform:none; }
       var cur = 0, lockUntil = 0, syncT, resizeT;
 
       /* ¿hay 2 o más tarjetas a la vista? (tablet / desktop) → se alinean al borde; si no, se centran */
-      function multi(){ return cards[0].offsetWidth * 1.6 < track.clientWidth; }
+      function multi(){ return cards[1].offsetWidth * 1.6 < track.clientWidth; }
       function targetLeft(i){
         var c = cards[i], max = track.scrollWidth - track.clientWidth, left;
         if (multi()) left = c.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0);
         else         left = c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2;
         return Math.max(0, Math.min(max, left));
+      }
+      /* el carrusel toma el alto de las tarjetas que están a la vista (no de la más alta de las 5) */
+      function fit(left){
+        var cs = getComputedStyle(track);
+        var pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+        var from = (left == null ? track.scrollLeft : left), to = from + track.clientWidth, h = 0;
+        cards.forEach(function(c){
+          var a = Math.max(c.offsetLeft, from), b = Math.min(c.offsetLeft + c.offsetWidth, to);
+          if (b - a > c.offsetWidth * .4 || c.classList.contains('is-active')) h = Math.max(h, c.offsetHeight);
+        });
+        if (h) track.style.height = (h + pad) + 'px';
       }
       function paint(i, smooth){
         cur = i;
@@ -1109,6 +1228,7 @@ body.ready .rise{ opacity:1; transform:none; }
         if (scroll){
           lockUntil = Date.now() + 750;                 /* ignora el scroll que provoca el propio movimiento */
           track.scrollTo({ left: targetLeft(i), behavior: reduce ? 'auto' : 'smooth' });
+          fit(targetLeft(i));
         }
       }
 
@@ -1138,14 +1258,22 @@ body.ready .rise{ opacity:1; transform:none; }
             if (d < bd){ bd = d; best = k; }
           });
           if (best !== cur) paint(best, true);
+          fit(track.scrollLeft);
         }, 90);
       }, { passive:true });
 
       window.addEventListener('resize', function(){
         clearTimeout(resizeT);
-        resizeT = setTimeout(function(){ track.scrollTo({ left: targetLeft(cur), behavior: 'auto' }); }, 120);
+        resizeT = setTimeout(function(){ track.scrollTo({ left: targetLeft(cur), behavior: 'auto' }); fit(targetLeft(cur)); }, 120);
       });
       paint(0, false);
+      fit(0);
+      /* si cambia el alto de una tarjeta (fuentes que cargan, otro ancho), se reajusta */
+      if ('ResizeObserver' in window){
+        var ro = new ResizeObserver(function(){ fit(targetLeft(cur)); });
+        cards.forEach(function(c){ ro.observe(c); });
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fit(targetLeft(cur)); });
     })();
 
     /* barrido directo (carga, scroll, resize): no depende de que el observer dispare,
