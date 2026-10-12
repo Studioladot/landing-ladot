@@ -5,7 +5,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_AR">
 <meta property="og:title" content="Lado T — el acompañamiento estratégico que tu marca necesita">
-<meta property="og:description" content="Publicistas y dueños de e-commerce. Consultoría, agencia, desarrollo web, auditorías 1:1 y content management.">
+<meta property="og:description" content="Publicistas y dueños de e-commerce. Consultoría, agencia, desarrollo web y auditorías 1:1.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
@@ -37,14 +37,15 @@
 
   TIRA (.marquee): dos grupos idénticos + translateX 0 → -50%, linear infinite.
 
-  SERVICIOS: franja menta. Arriba un selector de 5 opciones (.svc-picker) y debajo
+  SERVICIOS: franja menta. Arriba un selector de 4 opciones (.svc-picker) y debajo
   un carrusel horizontal de tarjetas (.svc-track): 3 a la vista en desktop, 2 en
   tablet, 1 + la siguiente asomando en mobile. Tocar una opción, una tarjeta o
   deslizar mueve las tarjetas; la etiqueta de papel con clip (.service-label)
   se "pega" en la elegida (.is-active).
 
-  QUÉ INCLUYE CADA SERVICIO: cuadro comparativo debajo (tabla de 5 columnas en desktop,
-  columnas que se deslizan en mobile); resalta el servicio elegido en el carrusel.
+  QUÉ INCLUYE CADA SERVICIO: "recibo" de papel crudo (borde de dientes, líneas de puntos) sobre un
+  bloque menta; tabla de 4 columnas en desktop, un recibo por servicio deslizable en mobile; el clip
+  marca la columna del servicio elegido arriba.
   Las tarjetas de servicio son NEGRAS (pedido del usuario), con la etiqueta de papel encima.
 
   CTA único: "Agendar reunión" → popup de Cal.com (CAL_LINK en el script al final).
@@ -451,7 +452,7 @@ svg{ display:block; }
 }
 
 /* ===================================================================
-   SERVICIOS — selector arriba (5 opciones) + carrusel horizontal de tarjetas.
+   SERVICIOS — selector arriba (4 opciones) + carrusel horizontal de tarjetas.
    Al tocar una opción (o una tarjeta, o deslizar en mobile) las tarjetas se
    mueven y el CLIP de papel se "pega" en la elegida.
    =================================================================== */
@@ -474,7 +475,7 @@ svg{ display:block; }
 /* escenario: en mobile sangra hasta los bordes para que se vea la tarjeta que asoma */
 .svc-stage{ display:grid; gap:6px; margin-inline:calc(var(--pad) * -1); container-type:inline-size; }
 
-/* --- selector (arriba, como en la referencia): pastilla con 5 opciones --- */
+/* --- selector (arriba, como en la referencia): pastilla con 4 opciones --- */
 .svc-picker{
   position:relative;
   display:flex; gap:4px; margin-inline:var(--pad); padding:6px;
@@ -610,7 +611,7 @@ svg{ display:block; }
 
 /* --- texto --- */
 .svc-text{ flex:1; display:flex; flex-direction:column; max-width:56ch; }
-.svc-text h3{   /* SUBTÍTULO — idéntico en los 5 bloques */
+.svc-text h3{   /* SUBTÍTULO — idéntico en los 4 bloques */
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:600;
   font-size:clamp(1.15rem, 1.02rem + .6vw, 1.42rem);
@@ -624,17 +625,16 @@ svg{ display:block; }
   font-weight:400; font-size:1rem; line-height:1.7;
   color:#D6D2C8;
 }
-.svc-flag{
+.svc-flag{                                             /* encerrado con una elipse "a mano", como el "cupos limitados" de la referencia */
   display:flex; width:fit-content; align-items:center; gap:.45em;
-  margin-top:18px;
+  margin-top:18px; padding:.78em 1.5em; border:0; border-radius:0;
   font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:600; font-size:.82rem; letter-spacing:.01em; line-height:1.2;
   color:#F5BFB1;
-  background:rgba(193,84,63,.22);
-  border:1.5px solid var(--accent); border-radius:var(--pill);
-  padding:.5em 1em;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 44' preserveAspectRatio='none'%3E%3Cpath d='M112 3C62 1 6 8 6 22c0 15 56 20 106 19 52 0 102-6 101-20C212 9 160 2 106 5' fill='none' stroke='%23c1543f' stroke-width='2.2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  transform:rotate(-1.5deg);
 }
-.svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las 5 tarjetas alinean */
+.svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
 
 /* --- servicio 1: Lado T System --- */
@@ -649,6 +649,9 @@ svg{ display:block; }
 }
 .svc-sys__p{ margin:6px 0 0; font-size:.94rem; line-height:1.62; color:#D6D2C8; }
 .svc-text .svc-sys p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
+
+.svc-sys__fig{ display:block; margin-top:9px; font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-size:.72rem; letter-spacing:.02em; color:#A39E92; }
+.svc-sys__fig b{ font-weight:700; color:#E9806B; margin-right:.35em; }
 
 /* ilustración del sistema (maqueta en CSS, igual que las tarjetas del hero) */
 .sys-ui{
@@ -712,32 +715,53 @@ svg{ display:block; }
 }
 
 /* ===================================================================
-   QUÉ INCLUYE CADA SERVICIO — cuadro comparativo
-   Desktop: tabla de 5 columnas con filas alineadas. Tablet/mobile: columnas-tarjeta
-   que se deslizan. La columna del servicio elegido arriba se resalta.
+   QUÉ INCLUYE CADA SERVICIO — "recibo" de papel crudo sobre un bloque menta.
+   Idea tomada de la referencia (el detalle tipo ticket con borde rasgado), pasada
+   por la identidad Lado T: papel crudo + borde de dientes + líneas de puntos +
+   el clip marcando el servicio elegido arriba. Desktop: un solo recibo de 4
+   columnas con filas alineadas. Tablet/mobile: un recibo por servicio, deslizables.
    =================================================================== */
-.compare{ padding-block:clamp(56px,9vw,104px); }
-.compare .wrap{ display:grid; gap:clamp(24px,4vw,36px); }
+.compare{
+  --zig:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9' viewBox='0 0 18 9'%3E%3Cpath d='M0 9L9 0l9 9z' fill='%23f9f8f6'/%3E%3C/svg%3E");
+  background-color:var(--mint);                          /* menta de marca como bloque de color */
+  padding-block:clamp(64px,10vw,112px);
+}
+.compare .wrap{ display:grid; gap:clamp(30px,5vw,44px); }
 .cmp-title{
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:700; font-size:clamp(1.75rem, 1rem + 2.2vw, 2.8rem); line-height:1.05;
-  letter-spacing:-.005em; text-transform:uppercase; color:var(--accent); text-wrap:balance;
+  font-weight:700; font-size:clamp(1.75rem, 1rem + 2.2vw, 2.8rem); line-height:1.15;
+  letter-spacing:-.005em; text-transform:uppercase; color:#1B1A18; text-wrap:balance;
+}
+.cmp-mark{                                              /* tira de papel detrás de las palabras clave */
+  display:inline-block; padding:.02em .26em .08em; background:#f9f8f6; border-radius:8px;
+  transform:rotate(-1.2deg); box-shadow:2px 3px 6px rgba(27,26,24,.14);
 }
 .cmp-scroll{
-  margin-inline:calc(var(--pad) * -1); padding:6px var(--pad) 22px; scroll-padding-inline:var(--pad);
+  margin-inline:calc(var(--pad) * -1); padding:16px var(--pad) 30px; scroll-padding-inline:var(--pad);
   overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain;
 }
 .cmp-scroll::-webkit-scrollbar{ display:none; }
-.cmp{ display:flex; gap:14px; width:max-content; }
+.cmp{ display:flex; gap:24px; width:max-content; }
 .cmp-rows{ display:none; }
 .cmp-col{
-  flex:0 0 min(82vw,340px); scroll-snap-align:start;
-  display:flex; flex-direction:column; gap:14px; padding:22px 20px 24px;
-  background:#fff; border:1px solid var(--mint-edge); border-radius:var(--r-lg); box-shadow:var(--shadow-card);
-  transition:border-color .3s ease, box-shadow .3s ease, background-color .3s ease;
+  position:relative; flex:0 0 min(80vw,330px); scroll-snap-align:start;
+  display:flex; flex-direction:column; gap:14px; padding:26px 20px 28px;
+  background:#f9f8f6;
+  filter:drop-shadow(0 14px 14px rgba(27,26,24,.22));
 }
-.cmp-col.is-sel{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), var(--shadow-card); }
-.cmp-h{ display:flex; align-items:baseline; gap:10px; }
+.cmp-col::before, .cmp-col::after, .cmp::before, .cmp::after{      /* borde de dientes arriba y abajo */
+  content:""; position:absolute; left:0; right:0; height:9px; background:var(--zig) repeat-x left top;
+}
+.cmp::before, .cmp::after{ display:none; }
+.cmp-col::before, .cmp::before{ top:-8px; }
+.cmp-col::after, .cmp::after{ bottom:-8px; transform:scaleY(-1); }
+.cmp-col.is-sel{ background:#f6ece6; }
+.cmp-col.is-sel .service-number{ background:var(--accent); color:#fff; padding:.22em .5em; border-radius:7px; }
+.cmp-h{ position:relative; display:flex; align-items:baseline; gap:10px; }
+.cmp-col.is-sel .cmp-h::after{                          /* el clip salta a la columna del servicio elegido */
+  content:""; position:absolute; top:-43px; right:2px; width:14px; height:35px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 64'%3E%3Cpath fill='none' stroke='%23555' stroke-width='3' stroke-linecap='round' d='M12,50 V14 a6,6 0 0,0 -12,0 v32 a10,10 0 0,0 20,0 V10 a14,14 0 0,0 -28,0'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .cmp-h h3{
   margin:0; font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:700; font-size:1.02rem; line-height:1.25; letter-spacing:-.01em; color:var(--ink); text-wrap:balance;
@@ -755,7 +779,7 @@ svg{ display:block; }
 .cmp-i::before{ content:"Incluye"; }
 .cmp-i{ list-style:none; margin:0; padding:0; display:grid; gap:13px; align-content:start; }
 .cmp-i li{ position:relative; padding-left:27px; }
-.cmp-i li::before{                                      /* círculo bordó con tilde, como la referencia */
+.cmp-i li::before{                                      /* círculo bordó con tilde */
   content:""; position:absolute; left:0; top:.08em; width:17px; height:17px; border-radius:50%;
   background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.7 3.7 7.3-7.6' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
 }
@@ -766,32 +790,30 @@ svg{ display:block; }
 .cmp-i span{ display:block; margin-top:2px; font-size:.86rem; line-height:1.5; color:#4a4a4a; }
 .cmp-cta{ margin-top:2px; }
 
-@media (min-width:700px){ .cmp-col{ flex-basis:340px; } }
 @media (min-width:1100px){
-  .cmp-scroll{ margin-inline:0; padding:0; overflow:visible; }
+  .cmp-scroll{ margin-inline:0; padding:22px 0 26px; overflow:visible; }
   .cmp{
-    width:auto; display:grid; gap:0;
-    grid-template-columns:112px repeat(5, minmax(0,1fr)); grid-template-rows:auto auto 1fr;
-    background:#fff; border:1px solid var(--mint-edge); border-radius:var(--r-lg); box-shadow:var(--shadow-card); overflow:hidden;
+    position:relative; width:auto; display:grid; gap:0;
+    grid-template-columns:112px repeat(4, minmax(0,1fr)); grid-template-rows:auto auto 1fr;
+    background:#f9f8f6; filter:drop-shadow(0 18px 18px rgba(27,26,24,.22));
   }
-  .cmp-rows{
-    display:grid; grid-column:1; grid-row:1 / span 3; grid-template-rows:subgrid;
-    background:rgba(166,197,187,.16); border-right:1px solid var(--mint-edge);
-  }
+  .cmp::before, .cmp::after{ display:block; }
+  .cmp-rows{ display:grid; grid-column:1; grid-row:1 / span 3; grid-template-rows:subgrid; }
   .cmp-rows span{
     padding:24px 16px; font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:600; font-size:.68rem;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2); border-bottom:1px solid var(--mint-edge);
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2); border-bottom:1px dashed rgba(27,26,24,.3);
   }
   .cmp-rows span:last-child{ border-bottom:0; }
   .cmp-col{
     grid-row:1 / span 3; display:grid; grid-template-rows:subgrid; gap:0; flex:none;
-    padding:0; border:0; border-left:1px solid var(--mint-edge); border-radius:0; box-shadow:none;
+    padding:0; background:transparent; filter:none; border-left:1px dashed rgba(27,26,24,.3);
   }
-  .cmp-col:nth-of-type(1){ border-left:0; }
+  .cmp-col::before, .cmp-col::after{ display:none; }
   .cmp-col > *{ padding:24px 18px; }
-  .cmp-h, .cmp-s{ border-bottom:1px solid var(--mint-edge); }
+  .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
-  .cmp-col.is-sel{ background:rgba(193,84,63,.05); box-shadow:none; border-color:var(--mint-edge); }
+  .cmp-col.is-sel{ background:rgba(193,84,63,.08); }
+  .cmp-col.is-sel .cmp-h::after{ top:-17px; right:14px; }   /* aquí el encabezado arranca en el borde del recibo */
 }
 
 /* ===================== APARICIÓN AL CARGAR (texto) ===================== */
@@ -820,7 +842,8 @@ body.ready .rise{ opacity:1; transform:none; }
   .marquee{ overflow-x:auto; }
 }
 </style>
-
+</head>
+<body>
 
 <header class="nav">
   <div class="wrap nav__in">
@@ -970,8 +993,6 @@ body.ready .rise{ opacity:1; transform:none; }
       <div class="marquee__group">
         <span class="marquee__item">Auditorías 1:1</span>
         <span class="marquee__sep" aria-hidden="true"></span>
-        <span class="marquee__item">Content Manager</span>
-        <span class="marquee__sep" aria-hidden="true"></span>
         <span class="marquee__item">Consultoría 360</span>
         <span class="marquee__sep" aria-hidden="true"></span>
         <span class="marquee__item">Agencia Lado T</span>
@@ -981,8 +1002,6 @@ body.ready .rise{ opacity:1; transform:none; }
       </div>
       <div class="marquee__group" aria-hidden="true">
         <span class="marquee__item">Auditorías 1:1</span>
-        <span class="marquee__sep"></span>
-        <span class="marquee__item">Content Manager</span>
         <span class="marquee__sep"></span>
         <span class="marquee__item">Consultoría 360</span>
         <span class="marquee__sep"></span>
@@ -1017,10 +1036,6 @@ body.ready .rise{ opacity:1; transform:none; }
         <button type="button" class="svc-tab" aria-controls="svcTrack">
           <span class="svc-tab__n">04</span>
           <span class="svc-tab__t">Auditoría 1:1</span>
-        </button>
-        <button type="button" class="svc-tab" aria-controls="svcTrack">
-          <span class="svc-tab__n">05</span>
-          <span class="svc-tab__t">Content Management</span>
         </button>
       </div>
 
@@ -1064,6 +1079,7 @@ body.ready .rise{ opacity:1; transform:none; }
                     </div>
                   </div>
                 </div>
+                <span class="svc-sys__fig"><b>Fig. 01</b> Lado T System · calendario y rendimiento</span>
               </div>
               <div class="svc-sys__body">
                 <h4 class="svc-sys__t">Lado T System</h4>
@@ -1121,21 +1137,6 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
         </article>
 
-        <!-- Servicio 5 · Content Management — mismo bloque apilado que 01-04: Etiqueta → Subtítulo → Párrafo → Botón -->
-        <article class="svc-row">
-          <div class="svc-titlebar">
-            <div class="service-label">
-              <span class="service-number">05</span>
-              <h3 class="service-title">Content Management</h3>
-            </div>
-          </div>
-          <div class="svc-text">
-            <h3>Dirección creativa para construir audiencias</h3>
-            <p>Diseñamos la estrategia de tus redes, redactamos los guiones, editamos el material y calendarizamos cada publicación. Construimos una audiencia fiel para tu marca, sacándote el peso creativo y operativo del día a día.</p>
-            <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
-          </div>
-        </article>
-
       </div>
       </div>
     </div>
@@ -1144,7 +1145,7 @@ body.ready .rise{ opacity:1; transform:none; }
   <!-- ===================== QUÉ INCLUYE CADA SERVICIO (cuadro comparativo) ===================== -->
   <section class="compare" aria-label="Qué incluye cada servicio">
     <div class="wrap">
-      <h2 class="cmp-title">Qué incluye cada servicio</h2>
+      <h2 class="cmp-title">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
       <div class="cmp-scroll reveal">
         <div class="cmp">
           <div class="cmp-rows" aria-hidden="true"><span></span><span>Para qué sirve</span><span>Incluye</span></div>
@@ -1189,17 +1190,6 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Revisión de comunicación, Instagram, web y anuncios</b><span>Para detectar qué frena las ventas.</span></li>
             <li><b>Diagnóstico claro</b><span>Panorama nítido de lo que frena el crecimiento.</span></li>
             <li><b>Pasos exactos</b><span>Qué hacer para destrabar el crecimiento ya.</span></li>
-          </ul>
-        </article>
-        <article class="cmp-col">
-          <header class="cmp-h"><span class="service-number">05</span><h3>Content Management</h3></header>
-          <p class="cmp-s">Dirección creativa para construir audiencias</p>
-          <ul class="cmp-i">
-            <li><b>Estrategia de redes</b><span>Pensada para construir una audiencia fiel.</span></li>
-            <li><b>Guiones</b><span>Redactados por nuestro equipo.</span></li>
-            <li><b>Edición del material</b><span>Lo editamos nosotros.</span></li>
-            <li><b>Calendarización</b><span>Cada publicación, programada.</span></li>
-            <li><b>Peso creativo y operativo a cargo nuestro</b><span>El día a día no recae en el negocio.</span></li>
           </ul>
         </article>
         </div>
@@ -1330,7 +1320,7 @@ body.ready .rise{ opacity:1; transform:none; }
         else         left = c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2;
         return Math.max(0, Math.min(max, left));
       }
-      /* el carrusel toma el alto de las tarjetas que están a la vista (no de la más alta de las 5) */
+      /* el carrusel toma el alto de las tarjetas que están a la vista (no de la más alta de todas) */
       function fit(left){
         var cs = getComputedStyle(track);
         var pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
