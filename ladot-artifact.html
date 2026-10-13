@@ -665,7 +665,16 @@ svg{ display:block; }
   font-weight:600; font-size:.72rem; line-height:1.3; letter-spacing:.13em; text-transform:uppercase; color:var(--mint);
 }
 .svc-text .svc-blk p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
-.svc-cases{ list-style:none; margin:12px 0 0; padding:0; display:grid; gap:14px; }
+.svc-cases{                                             /* se desliza hacia el costado: cada sitio es una "diapositiva" */
+  list-style:none; margin:12px 0 0; padding:0 0 4px; display:flex; gap:12px;
+  overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none;
+}
+.svc-cases::-webkit-scrollbar{ display:none; }
+.svc-cases > li{ flex:0 0 84%; scroll-snap-align:start; }
+.svc-cases:focus-visible{ outline:2px solid var(--mint); outline-offset:3px; border-radius:12px; }
+.svc-cases__hint{ display:inline-flex; align-items:center; gap:.45em; margin-top:8px; font-size:.78rem; letter-spacing:.04em; color:var(--mint); }
+.svc-cases__hint svg{ width:1.1em; height:1.1em; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; animation:hintNudge 1.8s ease-in-out infinite; }
+@keyframes hintNudge{ 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(4px); } }
 .case{ margin:0; }
 .case__shot{                                            /* marco de navegador: reemplazar el contenido por <img src="..." alt="..."> */
   position:relative; overflow:hidden; border:1px solid rgba(166,197,187,.4); border-radius:14px; background:#222120;
@@ -932,6 +941,7 @@ body.ready .rise{ opacity:1; transform:none; }
   .folder-hint{ animation:none; }
   .marquee__track{ animation:none; }
   .marquee{ overflow-x:auto; }
+  .svc-cases__hint svg{ animation:none; }
   .svc-row.is-active .service-label, .svc-row.is-active .service-label::after, .svc-flag, .cmp-mark, .cmp-col .cmp-h::after{ animation:none; }
   .svc-eyebrow::before{ transition:none; }
   .js .svc-eyebrow:not(.in)::before{ clip-path:none; }
@@ -1227,18 +1237,20 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Ecosistemas diseñados para convertir</h3>
-            <p class="svc-lead">Armamos landings y sitios web pensados para vender, con un objetivo claro: aumentar las conversiones. Funcionan igual de bien para quien vende productos que para quien vende servicios.</p>
+            <p class="svc-lead">Armamos landings y sitios web pensados para vender, con un objetivo claro: aumentar las conversiones.</p>
             <div class="svc-blks">
-              <div class="svc-blk"><span class="svc-blk__k">Productos y servicios</span><p>Una buena landing o un sitio bien armado también es el terreno ideal para quienes ofrecen servicios: ahí las visitas se convierten en consultas y en clientes.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Productos y servicios</span><p>Una buena landing o un sitio bien armado sirve tanto para vender productos como para ofrecer servicios: en ambos casos convierte las visitas en compras, consultas y clientes.</p></div>
               <div class="svc-blk"><span class="svc-blk__k">Si todavía no tenés web</span><p>Desarrollamos tu tienda online, landing page o sitio desde cero, pensado desde el primer día para convertir.</p></div>
-              <div class="svc-blk"><span class="svc-blk__k">Inteligencia artificial integrada</span><p>Integramos IA en la web para automatizar procesos que siempre fueron muy humanos. Al automatizarlos, comprar resulta mucho más fácil y hay menos carritos abandonados.</p></div>
-              <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web</span><p>Con ventas o sin ellas, trabajamos sobre la que ya tenés: optimizaciones técnicas avanzadas, las integraciones con IA y mejoras de diseño de interfaz (UI y UX) para destrabar cuellos de botella y llevar la tasa de conversión al máximo.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Inteligencia artificial integrada</span><p>Integramos IA en la web para automatizar procesos que siempre fueron muy humanos. Con esa automatización, comprar resulta mucho más fácil y hay menos carritos abandonados.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web</span><p>Trabajamos sobre la base que ya tenés: optimizaciones técnicas avanzadas, las integraciones con IA y mejoras de diseño de interfaz (UI y UX) para destrabar cuellos de botella y llevar la tasa de conversión al máximo.</p></div>
               <div class="svc-blk"><span class="svc-blk__k">Casos reales</span>
                 <!-- ▼ CASOS: reemplazar cada .case__ph por <img src="caso-1.jpg" alt="Sitio de [cliente]"> y completar el pie de foto -->
-                <ul class="svc-cases">
+                <ul class="svc-cases" tabindex="0" aria-label="Casos reales: deslizá hacia el costado para ver más">
+                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
                   <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
                   <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
                 </ul>
+                <span class="svc-cases__hint" aria-hidden="true">Deslizá para ver más <svg viewBox="0 0 24 24" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
               </div>
             </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
@@ -1457,14 +1469,10 @@ body.ready .rise{ opacity:1; transform:none; }
         var cs = getComputedStyle(track);
         var pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
         cards.forEach(function(c){ c.style.minHeight = ''; });
-        /* tablet / desktop: las 4 miden lo mismo. Celular (una por vez): la 1 es la destacada (lleva el sistema) y las otras 3 miden lo mismo entre sí */
-        var groups = multi() ? [cards] : [[cards[0]], cards.slice(1)];
-        groups.forEach(function(g){
-          var h = 0;
-          g.forEach(function(c){ h = Math.max(h, c.offsetHeight); });
-          /* se igualan las tarjetas de largo parecido; si una es mucho más corta (a la espera de su texto) no se estira hasta dejar un vacío enorme */
-          g.forEach(function(c){ if (c.offsetHeight >= h * .8) c.style.minHeight = h + 'px'; });
-        });
+        /* las 4 tarjetas miden lo mismo (manda la más alta) en todos los tamaños */
+        var h = 0;
+        cards.forEach(function(c){ h = Math.max(h, c.offsetHeight); });
+        cards.forEach(function(c){ c.style.minHeight = h + 'px'; });
         /* el carrusel toma el alto de lo que está a la vista */
         var from = (left == null ? track.scrollLeft : left), to = from + track.clientWidth, th = 0;
         cards.forEach(function(c){
