@@ -829,9 +829,9 @@ svg{ display:block; }
 .cmp-col::before, .cmp::before{ top:-8px; }
 .cmp-col::after, .cmp::after{ bottom:-8px; transform:scaleY(-1); }
 .cmp-col.is-sel{ background-color:#F3EBDD; }
-.cmp-col.is-sel .service-number{ background:var(--accent); color:#fff; padding:.22em .5em; border-radius:7px; }
+.cmp-col .service-number{ background:var(--accent); color:#fff; padding:.22em .5em; border-radius:7px; }
 .cmp-h{ position:relative; display:flex; align-items:baseline; gap:10px; }
-.cmp-col.is-sel .cmp-h::after{                          /* el clip salta a la columna del servicio elegido */
+.cmp-col .cmp-h::after{                          /* el clip salta a la columna del servicio elegido */
   content:""; position:absolute; top:-46px; right:10px; width:21px; height:45px;
   background:var(--clip) center / contain no-repeat; filter:drop-shadow(1px 3px 2px rgba(0,0,0,.4));
   transform:rotate(4deg); transform-origin:50% 85%; animation:clipSway 5s ease-in-out infinite;
@@ -888,7 +888,7 @@ svg{ display:block; }
   .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
   .cmp-col.is-sel{ background:transparent; }
-  .cmp-col.is-sel .cmp-h::after{ top:-20px; right:18px; }   /* aquí el encabezado arranca en el borde del recibo */
+  .cmp-col .cmp-h::after{ top:-20px; right:18px; }   /* aquí el encabezado arranca en el borde del recibo */
 }
 
 /* ===================== MOVIMIENTO SUAVE ===================== */
@@ -924,7 +924,7 @@ body.ready .rise{ opacity:1; transform:none; }
   .folder-hint{ animation:none; }
   .marquee__track{ animation:none; }
   .marquee{ overflow-x:auto; }
-  .svc-row.is-active .service-label, .svc-row.is-active .service-label::after, .svc-flag, .cmp-mark, .cmp-col.is-sel .cmp-h::after{ animation:none; }
+  .svc-row.is-active .service-label, .svc-row.is-active .service-label::after, .svc-flag, .cmp-mark, .cmp-col .cmp-h::after{ animation:none; }
   .svc-eyebrow::before{ transition:none; }
   .js .svc-eyebrow:not(.in)::before{ clip-path:none; }
 }
