@@ -670,6 +670,24 @@ svg{ display:block; }
   font-weight:600; font-size:.72rem; line-height:1.3; letter-spacing:.13em; text-transform:uppercase; color:var(--mint);
 }
 .svc-text .svc-blk p{ margin-top:6px; font-size:.94rem; line-height:1.62; }
+.svc-cases{ list-style:none; margin:12px 0 0; padding:0; display:grid; gap:14px; }
+.case{ margin:0; }
+.case__shot{                                            /* marco de navegador: reemplazar el contenido por <img src="..." alt="..."> */
+  position:relative; overflow:hidden; border:1px solid rgba(166,197,187,.4); border-radius:14px; background:#222120;
+}
+.case__bar{ display:flex; gap:5px; padding:8px 11px; border-bottom:1px solid rgba(166,197,187,.25); }
+.case__bar i{ width:7px; height:7px; border-radius:50%; background:rgba(166,197,187,.5); }
+.case__bar i:first-child{ background:var(--accent); }
+.case__ph{                                              /* lugar reservado para la captura */
+  display:grid; place-items:center; aspect-ratio:16/10; padding:12px; text-align:center;
+  font:600 .76rem/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif; letter-spacing:.06em; text-transform:uppercase; color:rgba(166,197,187,.75);
+  background:
+    linear-gradient(rgba(166,197,187,.1) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(166,197,187,.1) 1px, transparent 1px) 0 0 / 24px 24px;
+}
+.case__shot img{ display:block; width:100%; height:auto; }
+.case figcaption{ margin-top:7px; font-size:.82rem; line-height:1.4; color:#A39E92; }
+.case figcaption b{ color:#ECE9E0; font-weight:600; }
 .svc-chips{ list-style:none; margin:9px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
 .svc-chips li{
   padding:.3em .8em; border:1px solid rgba(166,197,187,.55); border-radius:var(--pill);
@@ -686,8 +704,8 @@ svg{ display:block; }
   transform:rotate(-1.5deg);
   animation:flagPulse 3.8s ease-in-out infinite;
 }
-.svc-cupos{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-top:20px; }
-.svc-text .svc-why__txt{ flex:1 0 100%; margin-top:2px; font-size:.92rem; line-height:1.62; }
+.svc-cupos{ display:flex; flex-direction:column; align-items:flex-start; gap:12px; margin-top:20px; }   /* siempre hacia abajo */
+.svc-text .svc-why__txt{ margin-top:2px; font-size:.92rem; line-height:1.62; }
 .svc-cupos:not(.is-open) .svc-why__txt{ display:none; }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
@@ -711,7 +729,6 @@ svg{ display:block; }
   background:transparent; border:1px solid rgba(166,197,187,.55); border-radius:var(--pill); cursor:pointer;
   transition:background-color .2s ease;
 }
-.svc-sys__toggle{ display:none; }
 .svc-toggle:hover{ background:rgba(166,197,187,.14); }
 .svc-toggle:focus-visible{ outline:2px solid var(--mint); outline-offset:2px; }
 .svc-toggle svg{ width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s ease; }
@@ -753,14 +770,15 @@ svg{ display:block; }
 .sys-perf s::after{ content:""; position:absolute; inset:0 auto 0 0; width:var(--w); border-radius:4px; background:#8FB6AA; }
 .sys-perf .row:first-of-type s::after{ background:var(--accent); }     /* lo que mejor funciona */
 
-/* MOBILE: la tarjeta 1 es larga; tipografía y espacios un poco más compactos para que no se haga eterna */
+/* Todas las tarjetas son de UNA columna (ninguna ocupa dos) y la información baja siempre hacia abajo.
+   El panel de Lado T System es largo: se despliega a pedido en todos los tamaños. */
+.svc-sys__ill{ order:2; }
+.svc-sys:not(.is-open) .svc-sys__fold, .svc-sys:not(.is-open) .svc-sys__p{ display:none; }
+.svc-sys__toggle{ display:inline-flex; margin-top:2px; }
+.svc-sys{ padding:14px; gap:12px; }
+.svc-sys__p, .svc-text .svc-sys p{ font-size:.9rem; line-height:1.55; }
 @media (max-width:699px){
   .svc-text p{ font-size:.95rem; line-height:1.62; }
-  .svc-sys__ill{ order:2; }
-  .svc-sys:not(.is-open) .svc-sys__fold, .svc-sys:not(.is-open) .svc-sys__p{ display:none; }                 /* en el celular la maqueta se despliega a pedido: la tarjeta 1 no se hace eterna */
-  .svc-sys__toggle{ display:inline-flex; margin-top:2px; }
-  .svc-sys{ padding:14px; gap:12px; }
-  .svc-sys__p, .svc-text .svc-sys p{ font-size:.9rem; line-height:1.55; }
 }
 
 /* TABLET y DESKTOP: varias tarjetas a la vista, alineadas al borde del título */
@@ -771,23 +789,9 @@ svg{ display:block; }
   .svc-row{ flex:0 0 calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)); scroll-snap-align:start; }
   .service-label{ min-height:74px; padding-inline:22px; }                 /* etiquetas de igual alto → los subtítulos alinean */
   .service-title{ font-size:16px; }
-  /* el servicio central (1) ocupa 2 columnas: tiene más para contar */
-  .svc-row:nth-child(-n+2){ flex-basis:calc(((100% - (var(--n) - 1) * var(--gap)) / var(--n)) * 2 + var(--gap)); }   /* 1 y 2 (las más largas) ocupan 2 columnas */
-  .svc-row:nth-child(-n+2) .svc-text{ max-width:none; }
-
-  .svc-row:first-child .svc-sys{ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); align-items:center; gap:20px; padding:20px; }
-  .svc-row:first-child .svc-sys__ill{ order:-1; }
 }
 @media (min-width:1100px){
   .svc-track{ --n:3; --gap:24px; }
-  /* servicio 1 (tarjeta ancha): texto a la izquierda, Lado T System a la derecha → su alto se parece al de las otras */
-  .svc-row:first-child .svc-text{ display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr); column-gap:26px; grid-template-rows:auto auto 1fr auto; align-content:start; }
-  .svc-row:first-child .svc-text > h3, .svc-row:first-child .svc-text > .svc-lead, .svc-row:first-child .svc-text > .svc-blks{ grid-column:1; }
-  .svc-row:first-child .svc-text > .svc-blks{ margin-bottom:26px; }
-  .svc-row:first-child .svc-sys{ grid-column:2; grid-row:1 / span 4; align-self:start; margin:0; grid-template-columns:1fr; gap:12px; padding:14px; }
-  .svc-row:first-child .svc-sys__p{ font-size:.88rem; line-height:1.55; }
-  .svc-row:first-child .svc-sys__t{ font-size:1rem; }
-  .svc-row:first-child .svc-text > .svc-link{ grid-column:1; margin-top:0; }
   .svc-tab{ flex:1 1 0; min-width:0; }                                   /* 4 celdas iguales, como la referencia */
 }
 
@@ -1228,10 +1232,19 @@ body.ready .rise{ opacity:1; transform:none; }
           </div>
           <div class="svc-text">
             <h3>Ecosistemas diseñados para convertir</h3>
-            <p class="svc-lead">Webs pensadas para vender, tanto si hay que construirlas como si ya están funcionando y se pueden llevar más lejos.</p>
+            <p class="svc-lead">Armamos landings y sitios web pensados para vender, con un objetivo claro: aumentar las conversiones. Funcionan igual de bien para quien vende productos que para quien vende servicios.</p>
             <div class="svc-blks">
-              <div class="svc-blk"><span class="svc-blk__k">Si necesitás una base sólida</span><p>Desarrollamos tu tienda online o landing page desde cero.</p></div>
-              <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web con ventas</span><p>Aplicamos optimizaciones técnicas avanzadas, integraciones con IA y mejoras de UX para destrabar cuellos de botella y llevar tu tasa de conversión al máximo.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Productos y servicios</span><p>Una buena landing o un sitio bien armado también es el terreno ideal para quienes ofrecen servicios: ahí las visitas se convierten en consultas y en clientes.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Si todavía no tenés web</span><p>Desarrollamos tu tienda online, landing page o sitio desde cero, pensado desde el primer día para convertir.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Inteligencia artificial integrada</span><p>Integramos IA en la web para automatizar procesos que siempre fueron muy humanos. Al automatizarlos, comprar resulta mucho más fácil y hay menos carritos abandonados.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web</span><p>Con ventas o sin ellas, trabajamos sobre la que ya tenés: optimizaciones técnicas avanzadas, las integraciones con IA y mejoras de diseño de interfaz (UI y UX) para destrabar cuellos de botella y llevar la tasa de conversión al máximo.</p></div>
+              <div class="svc-blk"><span class="svc-blk__k">Casos reales</span>
+                <!-- ▼ CASOS: reemplazar cada .case__ph por <img src="caso-1.jpg" alt="Sitio de [cliente]"> y completar el pie de foto -->
+                <ul class="svc-cases">
+                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
+                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
+                </ul>
+              </div>
             </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
           </div>
@@ -1434,7 +1447,7 @@ body.ready .rise{ opacity:1; transform:none; }
       var cur = 0, lockUntil = 0, syncT, resizeT;
 
       /* ¿hay 2 o más tarjetas a la vista? (tablet / desktop) → se alinean al borde; si no, se centran */
-      function multi(){ return cards[2].offsetWidth * 1.6 < track.clientWidth; }
+      function multi(){ return cards[1].offsetWidth * 1.6 < track.clientWidth; }
       function targetLeft(i){
         var c = cards[i], max = track.scrollWidth - track.clientWidth, left;
         if (multi()) left = c.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0);
@@ -1454,7 +1467,8 @@ body.ready .rise{ opacity:1; transform:none; }
         groups.forEach(function(g){
           var h = 0;
           g.forEach(function(c){ h = Math.max(h, c.offsetHeight); });
-          g.forEach(function(c){ c.style.minHeight = h + 'px'; });
+          /* se igualan las tarjetas de largo parecido; si una es mucho más corta (a la espera de su texto) no se estira hasta dejar un vacío enorme */
+          g.forEach(function(c){ if (c.offsetHeight >= h * .8) c.style.minHeight = h + 'px'; });
         });
         /* el carrusel toma el alto de lo que está a la vista */
         var from = (left == null ? track.scrollLeft : left), to = from + track.clientWidth, th = 0;
