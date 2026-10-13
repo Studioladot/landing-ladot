@@ -425,9 +425,9 @@ svg{ display:block; }
 .marquee{
   position:relative; z-index:10;          /* se superpone a la grilla del fondo */
   overflow:hidden;
-  background:transparent;                  /* crudo + grilla, igual que el hero: el verde queda en los filetes y la tipografía */
-  border-top:1px solid rgba(143,182,170,.65);
-  border-bottom:1px solid rgba(143,182,170,.65);
+  background-color:var(--mint);            /* franja verde: se distingue como bloque propio entre el hero y los servicios */
+  border-top:1px solid rgba(27,26,24,.14);
+  border-bottom:1px solid rgba(27,26,24,.14);
 }
 .marquee__track{
   display:flex;
@@ -522,8 +522,7 @@ svg{ display:block; }
   font-weight:600; font-size:13.5px; line-height:1.25; letter-spacing:-.005em;
 }
 .svc-tab[aria-current="true"]{                       /* elegida: bordó con aro menta */
-  background:var(--accent); color:#fff;
-  box-shadow:0 0 0 3px var(--mint), 0 10px 20px -10px rgba(193,84,63,.7);
+  background:var(--accent); color:#fff;                 /* elegida: terracota liso sobre el negro, sin aro */
 }
 .svc-tab[aria-current="true"]:hover{ background:var(--accent-2); }
 .svc-tab[aria-current="true"] .svc-tab__n{ color:#fff; }
@@ -834,7 +833,7 @@ svg{ display:block; }
 .cmp::before, .cmp::after{ display:none; }
 .cmp-col::before, .cmp::before{ top:-8px; }
 .cmp-col::after, .cmp::after{ bottom:-8px; transform:scaleY(-1); }
-.cmp-col.is-sel{ background-color:#F2E0D6; }
+.cmp-col.is-sel{ background-color:#F3EBDD; }
 .cmp-col.is-sel .service-number{ background:var(--accent); color:#fff; padding:.22em .5em; border-radius:7px; }
 .cmp-h{ position:relative; display:flex; align-items:baseline; gap:10px; }
 .cmp-col.is-sel .cmp-h::after{                          /* el clip salta a la columna del servicio elegido */
@@ -893,7 +892,7 @@ svg{ display:block; }
   .cmp-col > *{ padding:24px 18px; }
   .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
-  .cmp-col.is-sel{ background:rgba(193,84,63,.08); }
+  .cmp-col.is-sel{ background:transparent; }
   .cmp-col.is-sel .cmp-h::after{ top:-20px; right:18px; }   /* aquí el encabezado arranca en el borde del recibo */
 }
 
