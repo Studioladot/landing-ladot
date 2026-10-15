@@ -894,15 +894,21 @@ svg{ display:block; }
   position:absolute; inset:0; z-index:2; pointer-events:none;
   background-image:var(--paper-tex); background-size:260px 260px; mix-blend-mode:multiply; opacity:.6;
 }
-.cmp-grain::after{                                      /* pliegues de la hoja doblada: se alisan al abrirse */
-  content:""; position:absolute; inset:0; opacity:calc(1 - var(--open, 1));
-  background:linear-gradient(90deg,
-    rgba(48,32,16,.34) 0, rgba(255,255,255,.2) 8%, rgba(48,32,16,.05) 16%, rgba(48,32,16,.3) 33%,
-    rgba(255,255,255,.22) 41%, rgba(48,32,16,.05) 50%, rgba(48,32,16,.32) 66%, rgba(255,255,255,.2) 75%,
-    rgba(48,32,16,.05) 83%, rgba(48,32,16,.3) 100%);
+.cmp-col{ --open:1; --R:30px; }
+.cmp{ --open:1; --R:36px; }
+/* ROLLO: el ticket está enrollado y se desenrolla al deslizar. Lo visible es el papel plano [0, open·100%] más el rollo (un cilindro que adelgaza hasta desaparecer) */
+.cmp-roll{
+  position:absolute; z-index:3; top:-6px; bottom:-6px; pointer-events:none;
+  left:calc(var(--open) * 100%); width:calc((1 - var(--open)) * var(--R));
+  border-radius:5px;
+  background-image:var(--paper-tex), linear-gradient(90deg, #a99a7e 0, #e9dfca 20%, #fffaf0 40%, #ece2cd 60%, #bcae92 82%, #9d8e72 100%);
+  background-size:260px 260px, 100% 100%; background-blend-mode:multiply, normal;
+  box-shadow:4px 0 8px rgba(40,25,10,.28), inset 0 3px 3px rgba(255,255,255,.35), inset 0 -3px 3px rgba(60,40,20,.25);
 }
-/* ticket doblado: se abre a medida que se desliza (--open lo calcula el JS; sin JS queda abierto) */
-.cmp-col{ --open:1; transform-origin:0 50%; transform:scaleX(calc(.5 + .5 * var(--open))); }
+.cmp-roll--all{ display:none; }
+.cmp-scroll.rolls .cmp-col:not(.is-flat){
+  clip-path:inset(-40px calc((1 - var(--open)) * (100% - var(--R))) -40px -40px);
+}
 .cmp-cta{ margin-top:2px; }
 
 @media (min-width:1100px){
@@ -926,13 +932,16 @@ svg{ display:block; }
   }
   .cmp-col::before, .cmp-col::after{ display:none; }
   .cmp-col > *{ padding:24px 18px; }
-  .cmp-col{ transform:none; }
-  .cmp-col > :not(.cmp-grain){ transform-origin:0 50%; transform:scaleX(calc(.5 + .5 * var(--open))); }   /* en escritorio el recibo es uno solo: se despliega cada columna al aparecer */
+  .cmp-col .cmp-roll{ display:none; }
+  .cmp-roll--all{ display:block; }
+  .cmp-scroll.rolls .cmp-col:not(.is-flat){ clip-path:none; }
+  .cmp-scroll.rolls .cmp:not(.is-flat){ clip-path:inset(-40px calc((1 - var(--open)) * (100% - var(--R))) -40px -40px); }   /* escritorio: el recibo entero se desenrolla */
   .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
   .cmp-col.is-sel{ background:transparent; }
   .cmp-col .cmp-h::after{ top:-20px; right:18px; }
-  .cmp-grain{ padding:0; border:0; }   /* aquí el encabezado arranca en el borde del recibo */
+  .cmp-grain{ padding:0; border:0; }
+  .cmp > .cmp-roll--all{ padding:0; }   /* aquí el encabezado arranca en el borde del recibo */
 }
 
 /* ===================== MOVIMIENTO SUAVE ===================== */
@@ -1322,6 +1331,7 @@ body.ready .rise{ opacity:1; transform:none; }
       <h2 class="cmp-title">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
       <div class="cmp-scroll reveal">
         <div class="cmp">
+          <i class="cmp-roll cmp-roll--all" aria-hidden="true"></i>
           <div class="cmp-rows" aria-hidden="true"><span></span><span>Para qué sirve</span><span>Incluye</span></div>
         <article class="cmp-col is-sel">
           <header class="cmp-h"><span class="service-number">01</span><h3>Consultoría de Publicidad Digital&nbsp;360°</h3></header>
@@ -1335,6 +1345,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Acceso al Lado T System</b><span>Calendario propio, control de lo que se publica y métricas por publicación.</span></li>
           </ul>
           <i class="cmp-grain" aria-hidden="true"></i>
+          <i class="cmp-roll" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">02</span><h3>Agencia Lado T</h3></header>
@@ -1350,6 +1361,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Cupos limitados</b><span>Hoy quedan solo 3 cupos.</span></li>
           </ul>
           <i class="cmp-grain" aria-hidden="true"></i>
+          <i class="cmp-roll" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">03</span><h3>Desarrollo Web</h3></header>
@@ -1362,6 +1374,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Optimización de tu web actual</b><span>Mejoras técnicas avanzadas, IA y diseño UI y UX sobre la base que ya tenés.</span></li>
           </ul>
           <i class="cmp-grain" aria-hidden="true"></i>
+          <i class="cmp-roll" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">04</span><h3>Auditoría 1:1</h3></header>
@@ -1374,6 +1387,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Conocimiento y aprendizaje</b><span>Una mirada con experiencia que te queda para siempre.</span></li>
           </ul>
           <i class="cmp-grain" aria-hidden="true"></i>
+          <i class="cmp-roll" aria-hidden="true"></i>
         </article>
         </div>
       </div>
@@ -1607,28 +1621,34 @@ body.ready .rise{ opacity:1; transform:none; }
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fit(targetLeft(cur)); });
     })();
 
-    /* tickets doblados: se abren a medida que se desliza (celular) o que la sección aparece (escritorio) */
+    /* tickets enrollados: se desenrollan a medida que se desliza (celular) o que la sección aparece (escritorio) */
     (function(){
       var sc = document.querySelector('.cmp-scroll');
+      var cmp = sc && sc.querySelector('.cmp');
       var cols = Array.prototype.slice.call(document.querySelectorAll('.cmp-col'));
-      if (!sc || !cols.length) return;
+      if (!sc || !cmp || !cols.length) return;
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      sc.classList.add('rolls');
       var raf = 0;
+      function set(el, p){
+        p = Math.max(0, Math.min(1, p));
+        el.style.setProperty('--open', p.toFixed(3));
+        el.classList.toggle('is-flat', p >= .999);
+      }
       function update(){
         raf = 0;
         var horizontal = sc.scrollWidth > sc.clientWidth + 2;
         var sr = sc.getBoundingClientRect();
-        var pad = parseFloat(getComputedStyle(sc).paddingLeft) || 0;
-        cols.forEach(function(c, i){
-          var p;
-          if (horizontal){
-            p = 1 - (c.getBoundingClientRect().left - sr.left - pad) / (sc.clientWidth * .7);
-          } else {
-            p = (window.innerHeight * .92 - sr.top) / (window.innerHeight * .4) - i * .22;
-          }
-          p = Math.max(0, Math.min(1, p));
-          c.style.setProperty('--open', p.toFixed(3));
-        });
+        if (horizontal){
+          var pad = parseFloat(getComputedStyle(sc).paddingLeft) || 0;
+          cmp.classList.add('is-flat');
+          cols.forEach(function(c){
+            set(c, 1.25 - (c.getBoundingClientRect().left - sr.left - pad) / (sc.clientWidth * .55));
+          });
+        } else {
+          cols.forEach(function(c){ c.classList.add('is-flat'); });
+          set(cmp, (window.innerHeight * .95 - sr.top) / (window.innerHeight * .5));
+        }
       }
       function req(){ if (!raf) raf = requestAnimationFrame(update); }
       sc.addEventListener('scroll', req, { passive:true });
