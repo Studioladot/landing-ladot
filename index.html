@@ -843,7 +843,7 @@ svg{ display:block; }
   position:relative; flex:0 0 min(80vw,330px); scroll-snap-align:start;
   display:flex; flex-direction:column; gap:14px; padding:26px 20px 28px;
   background-color:#F3EBDD; background-image:var(--paper-fold), var(--paper-tex); background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
-  filter:drop-shadow(0 1px 1px rgba(27,26,24,.3)) drop-shadow(0 16px 16px rgba(27,26,24,.2));
+  box-shadow:0 1px 1px rgba(27,26,24,.28), 0 14px 22px -10px rgba(27,26,24,.32);
 }
 .cmp-col::before, .cmp-col::after, .cmp::before, .cmp::after{      /* borde de dientes arriba y abajo */
   content:""; position:absolute; left:0; right:0; height:9px;
@@ -888,10 +888,8 @@ svg{ display:block; }
 }
 .cmp-i span{ display:block; margin-top:2px; font-size:.86rem; line-height:1.5; color:#4a4a4a; }
 /* tipografía "escrita" en el papel: tinta tibia, mezcla multiplicada con la hoja, borde irregular y la textura arrugada por ENCIMA del texto */
-.cmp-h h3, .cmp-s, .cmp-i li, .cmp-col .service-number{ mix-blend-mode:multiply; }
-.cmp-h h3, .cmp-s, .cmp-i b, .cmp-i span, .cmp-rows span{ filter:url(#ink); }
 .cmp-h h3, .cmp-s, .cmp-i b{ color:#2A241E; }
-.cmp-h h3, .cmp-s, .cmp-i li, .cmp-col .service-number{
+.cmp-h, .cmp-s, .cmp-i{
   -webkit-mask-image:var(--ink-mask); mask-image:var(--ink-mask); -webkit-mask-size:180px 180px; mask-size:180px 180px;   /* la tinta no cubre parejo: deja ver el papel */
 }
 .cmp-h h3, .cmp-s, .cmp-i b, .cmp-i span{ text-shadow:0 0 .6px rgba(42,36,30,.55); }                                   /* leve sangrado de la tinta en la fibra */
@@ -924,7 +922,7 @@ svg{ display:block; }
     position:relative; width:auto; display:grid; gap:0;
     grid-template-columns:112px repeat(4, minmax(0,1fr)); grid-template-rows:auto auto 1fr;
     background-color:#F3EBDD; background-image:var(--paper-fold), var(--paper-tex); background-size:auto, 260px 260px; background-blend-mode:multiply, multiply;
-    filter:drop-shadow(0 1px 1px rgba(27,26,24,.3)) drop-shadow(0 20px 22px rgba(27,26,24,.2));
+    box-shadow:0 1px 1px rgba(27,26,24,.28), 0 18px 30px -12px rgba(27,26,24,.32);
   }
   .cmp::before, .cmp::after{ display:block; }
   .cmp-rows{ display:grid; grid-column:1; grid-row:1 / span 3; grid-template-rows:subgrid; }
@@ -1332,8 +1330,6 @@ body.ready .rise{ opacity:1; transform:none; }
 
   <!-- ===================== QUÉ INCLUYE CADA SERVICIO (cuadro comparativo) ===================== -->
   <section class="compare" aria-label="Qué incluye cada servicio">
-    <!-- filtro de "tinta": borde levemente irregular, como letra impresa que se absorbe en el papel -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="ink" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
     <div class="wrap">
       <h2 class="cmp-title">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
       <div class="cmp-scroll reveal">
@@ -1628,7 +1624,8 @@ body.ready .rise{ opacity:1; transform:none; }
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fit(targetLeft(cur)); });
     })();
 
-    /* tickets enrollados: se desenrollan a medida que se desliza (celular) o que la sección aparece (escritorio) */
+    /* tickets enrollados: se desenrollan a medida que se desliza (celular) o que la sección aparece (escritorio).
+       Liviano: solo corre mientras la sección está a la vista, lee todo y después escribe, y no toca lo que no cambió. */
     (function(){
       var sc = document.querySelector('.cmp-scroll');
       var cmp = sc && sc.querySelector('.cmp');
@@ -1636,28 +1633,35 @@ body.ready .rise{ opacity:1; transform:none; }
       if (!sc || !cmp || !cols.length) return;
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       sc.classList.add('rolls');
-      var raf = 0;
+      var raf = 0, inView = true, last = new Map();
       function set(el, p){
         p = Math.max(0, Math.min(1, p));
-        el.style.setProperty('--open', p.toFixed(3));
-        el.classList.toggle('is-flat', p >= .999);
+        p = Math.round(p * 200) / 200;                         /* pasos de 0,005: nada de escrituras de más */
+        if (last.get(el) === p) return;
+        last.set(el, p);
+        el.style.setProperty('--open', p);
+        el.classList.toggle('is-flat', p >= 1);
       }
       function update(){
         raf = 0;
+        if (!inView) return;
         var horizontal = sc.scrollWidth > sc.clientWidth + 2;
         var sr = sc.getBoundingClientRect();
+        var w = sc.clientWidth, vh = window.innerHeight;
+        var pad = parseFloat(getComputedStyle(sc).paddingLeft) || 0;
+        var lefts = horizontal ? cols.map(function(c){ return c.getBoundingClientRect().left; }) : null;   /* primero se lee todo… */
         if (horizontal){
-          var pad = parseFloat(getComputedStyle(sc).paddingLeft) || 0;
           cmp.classList.add('is-flat');
-          cols.forEach(function(c){
-            set(c, 1.25 - (c.getBoundingClientRect().left - sr.left - pad) / (sc.clientWidth * .55));
-          });
+          cols.forEach(function(c, i){ set(c, 1.25 - (lefts[i] - sr.left - pad) / (w * .55)); });         /* …después se escribe */
         } else {
           cols.forEach(function(c){ c.classList.add('is-flat'); });
-          set(cmp, (window.innerHeight * .95 - sr.top) / (window.innerHeight * .5));
+          set(cmp, (vh * .95 - sr.top) / (vh * .5));
         }
       }
       function req(){ if (!raf) raf = requestAnimationFrame(update); }
+      if ('IntersectionObserver' in window){
+        new IntersectionObserver(function(en){ inView = en[0].isIntersecting; if (inView) req(); }, { rootMargin:'120px 0px' }).observe(sc);
+      }
       sc.addEventListener('scroll', req, { passive:true });
       window.addEventListener('scroll', req, { passive:true });
       window.addEventListener('resize', req);
