@@ -880,6 +880,24 @@ svg{ display:block; }
   font-weight:700; font-size:.94rem; line-height:1.3; letter-spacing:-.01em; color:var(--ink);
 }
 .cmp-i span{ display:block; margin-top:2px; font-size:.86rem; line-height:1.5; color:#4a4a4a; }
+/* tipografía "escrita" en el papel: tinta tibia, mezcla multiplicada con la hoja, borde irregular y la textura arrugada por ENCIMA del texto */
+.cmp-h h3, .cmp-s, .cmp-i li, .cmp-col .service-number{ mix-blend-mode:multiply; }
+.cmp-h h3, .cmp-s, .cmp-i b, .cmp-i span, .cmp-rows span{ filter:url(#ink); }
+.cmp-h h3, .cmp-s, .cmp-i b{ color:#2A241E; }
+.cmp-i span{ color:rgba(42,36,30,.8); }
+.cmp-grain{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background-image:var(--paper-tex); background-size:260px 260px; mix-blend-mode:multiply; opacity:.6;
+}
+.cmp-grain::after{                                      /* pliegues de la hoja doblada: se alisan al abrirse */
+  content:""; position:absolute; inset:0; opacity:calc(1 - var(--open, 1));
+  background:linear-gradient(90deg,
+    rgba(48,32,16,.34) 0, rgba(255,255,255,.2) 8%, rgba(48,32,16,.05) 16%, rgba(48,32,16,.3) 33%,
+    rgba(255,255,255,.22) 41%, rgba(48,32,16,.05) 50%, rgba(48,32,16,.32) 66%, rgba(255,255,255,.2) 75%,
+    rgba(48,32,16,.05) 83%, rgba(48,32,16,.3) 100%);
+}
+/* ticket doblado: se abre a medida que se desliza (--open lo calcula el JS; sin JS queda abierto) */
+.cmp-col{ --open:1; transform-origin:0 50%; transform:scaleX(calc(.5 + .5 * var(--open))); }
 .cmp-cta{ margin-top:2px; }
 
 @media (min-width:1100px){
@@ -903,10 +921,13 @@ svg{ display:block; }
   }
   .cmp-col::before, .cmp-col::after{ display:none; }
   .cmp-col > *{ padding:24px 18px; }
+  .cmp-col{ transform:none; }
+  .cmp-col > :not(.cmp-grain){ transform-origin:0 50%; transform:scaleX(calc(.5 + .5 * var(--open))); }   /* en escritorio el recibo es uno solo: se despliega cada columna al aparecer */
   .cmp-h, .cmp-s{ border-bottom:1px dashed rgba(27,26,24,.3); }
   .cmp-s::before, .cmp-i::before{ display:none; }
   .cmp-col.is-sel{ background:transparent; }
-  .cmp-col .cmp-h::after{ top:-20px; right:18px; }   /* aquí el encabezado arranca en el borde del recibo */
+  .cmp-col .cmp-h::after{ top:-20px; right:18px; }
+  .cmp-grain{ padding:0; border:0; }   /* aquí el encabezado arranca en el borde del recibo */
 }
 
 /* ===================== MOVIMIENTO SUAVE ===================== */
@@ -1290,6 +1311,8 @@ body.ready .rise{ opacity:1; transform:none; }
 
   <!-- ===================== QUÉ INCLUYE CADA SERVICIO (cuadro comparativo) ===================== -->
   <section class="compare" aria-label="Qué incluye cada servicio">
+    <!-- filtro de "tinta": borde levemente irregular, como letra impresa que se absorbe en el papel -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="ink" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
     <div class="wrap">
       <h2 class="cmp-title">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
       <div class="cmp-scroll reveal">
@@ -1300,12 +1323,13 @@ body.ready .rise{ opacity:1; transform:none; }
           <p class="cmp-s">Dominá el crecimiento de tu marca</p>
           <ul class="cmp-i">
             <li><b>Programa de 6 meses</b><span>Disponible en su totalidad desde el primer día.</span></li>
-            <li><b>Módulos completos por cada área</b><span>Meta Ads, anuncios, construcción de marca (identidad y comunicación) y contenido orgánico.</span></li>
-            <li><b>Reuniones semanales</b><span>Para dudas, avances, mejoras, propuestas y consejos.</span></li>
-            <li><b>Seguimiento uno a uno</b><span>Un consultor a quien escribirle ante cualquier inconveniente, duda o pregunta, para que te ayude a resolverlo en el momento.</span></li>
+            <li><b>Módulos completos por cada área</b><span>Meta Ads, anuncios, construcción de marca (identidad y comunicación), contenido orgánico, fechas estacionales y muchos otros más.</span></li>
+            <li><b>Reuniones semanales</b><span>Para dudas, avances, mejoras, propuestas y consejos. A veces son grupales y a veces individuales.</span></li>
+            <li><b>Seguimiento uno a uno</b><span>Hay un consultor a disposición de cada marca: ante cualquier inconveniente, duda o pregunta, te ayuda a resolverlo en el momento.</span></li>
             <li><b>Acompañamiento diario</b><span>Equipo presente en el día a día para ayudarte con lo que necesites.</span></li>
             <li><b>Acceso al Lado T System</b><span>Calendario propio, control de lo que se publica y métricas por publicación.</span></li>
           </ul>
+          <i class="cmp-grain" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">02</span><h3>Agencia Lado T</h3></header>
@@ -1320,6 +1344,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Comunicación clara</b><span>Consultores que explican cada acción con palabras claras.</span></li>
             <li><b>Cupos limitados</b><span>Hoy quedan solo 3 cupos.</span></li>
           </ul>
+          <i class="cmp-grain" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">03</span><h3>Desarrollo Web</h3></header>
@@ -1331,6 +1356,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Dominio web incluido</b><span>Si todavía no tenés el de tu marca, va dentro del plan, sin costo adicional, por 1 año.</span></li>
             <li><b>Optimización de tu web actual</b><span>Mejoras técnicas avanzadas, IA y diseño UI y UX sobre la base que ya tenés.</span></li>
           </ul>
+          <i class="cmp-grain" aria-hidden="true"></i>
         </article>
         <article class="cmp-col">
           <header class="cmp-h"><span class="service-number">04</span><h3>Auditoría 1:1</h3></header>
@@ -1342,6 +1368,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Indicaciones concretas</b><span>Cosas que se aplican y generan cambios en el negocio.</span></li>
             <li><b>Conocimiento y aprendizaje</b><span>Una mirada con experiencia que te queda para siempre.</span></li>
           </ul>
+          <i class="cmp-grain" aria-hidden="true"></i>
         </article>
         </div>
       </div>
@@ -1573,6 +1600,36 @@ body.ready .rise{ opacity:1; transform:none; }
         cards.forEach(function(c){ ro.observe(c); });
       }
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fit(targetLeft(cur)); });
+    })();
+
+    /* tickets doblados: se abren a medida que se desliza (celular) o que la sección aparece (escritorio) */
+    (function(){
+      var sc = document.querySelector('.cmp-scroll');
+      var cols = Array.prototype.slice.call(document.querySelectorAll('.cmp-col'));
+      if (!sc || !cols.length) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var raf = 0;
+      function update(){
+        raf = 0;
+        var horizontal = sc.scrollWidth > sc.clientWidth + 2;
+        var sr = sc.getBoundingClientRect();
+        var pad = parseFloat(getComputedStyle(sc).paddingLeft) || 0;
+        cols.forEach(function(c, i){
+          var p;
+          if (horizontal){
+            p = 1 - (c.getBoundingClientRect().left - sr.left - pad) / (sc.clientWidth * .7);
+          } else {
+            p = (window.innerHeight * .92 - sr.top) / (window.innerHeight * .4) - i * .22;
+          }
+          p = Math.max(0, Math.min(1, p));
+          c.style.setProperty('--open', p.toFixed(3));
+        });
+      }
+      function req(){ if (!raf) raf = requestAnimationFrame(update); }
+      sc.addEventListener('scroll', req, { passive:true });
+      window.addEventListener('scroll', req, { passive:true });
+      window.addEventListener('resize', req);
+      update();
     })();
 
     /* barrido directo (carga, scroll, resize): no depende de que el observer dispare,
