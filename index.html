@@ -766,10 +766,8 @@ svg{ display:block; }
 .svc-text > .svc-stub::after{                           /* punto de estado */
   content:""; position:absolute; left:17px; top:50%; width:13px; height:13px; margin-top:-6.5px; border-radius:50%; box-sizing:border-box;
 }
-.svc-stub--soon::after{ border:2px solid var(--accent-2); background:transparent; }
 .svc-stub--now::after{ background:var(--mint); border:2px solid #2A241E; animation:stubPulse 2.4s ease-in-out infinite; }
 .svc-stub__k{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:800; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; line-height:1.2; }
-.svc-stub--soon .svc-stub__k{ color:var(--accent-2); }
 .svc-stub__t{ font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:500; font-size:.86rem; line-height:1.35; }
 @keyframes stubPulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(166,197,187,.0); } 50%{ box-shadow:0 0 0 5px rgba(166,197,187,.45); } }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las tarjetas alinean */
@@ -1252,7 +1250,6 @@ body.ready .rise{ opacity:1; transform:none; }
             </div>
           </div>
           <div class="svc-text">
-            <p class="svc-stub svc-stub--soon"><span class="svc-stub__k">Próximamente</span><span class="svc-stub__t">Muy pronto vas a poder unirte a la consultoría.</span></p>
             <h3>Dominá el crecimiento de tu marca</h3>
             <p class="svc-lead">La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce, combinando formación, acompañamiento y tecnología para que cada dueño de negocio construya un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
             <div class="svc-blks">
