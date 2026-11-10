@@ -746,6 +746,27 @@ svg{ display:block; }
 .svc-cupos{ display:flex; flex-direction:column; align-items:flex-start; gap:12px; margin-top:20px; }   /* siempre hacia abajo */
 .svc-text .svc-why__txt{ margin-top:2px; font-size:.92rem; line-height:1.62; }
 .svc-cupos:not(.is-open) .svc-why__txt{ display:none; }
+/* CARTELITO de estado: un ticket de papel kraft con costura punteada, apoyado un poco torcido sobre la tarjeta */
+.svc-text > .svc-stub{
+  position:relative; align-self:flex-start; margin:0 0 18px; padding:11px 18px 11px 44px; max-width:100%;
+  display:flex; flex-direction:column; gap:2px;
+  background-color:#F3EBDD; background-image:var(--paper-tex); background-size:260px 260px; background-blend-mode:multiply;
+  border-radius:8px; color:#2A241E;
+  box-shadow:1px 3px 7px rgba(0,0,0,.35);
+  transform:rotate(-1.2deg);
+}
+.svc-text > .svc-stub::before{                          /* costura punteada */
+  content:""; position:absolute; inset:4px; border:1.5px dashed rgba(42,36,30,.32); border-radius:5px; pointer-events:none;
+}
+.svc-text > .svc-stub::after{                           /* punto de estado */
+  content:""; position:absolute; left:17px; top:50%; width:13px; height:13px; margin-top:-6.5px; border-radius:50%; box-sizing:border-box;
+}
+.svc-stub--soon::after{ border:2px solid var(--accent-2); background:transparent; }
+.svc-stub--now::after{ background:var(--mint); border:2px solid #2A241E; animation:stubPulse 2.4s ease-in-out infinite; }
+.svc-stub__k{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:800; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; line-height:1.2; }
+.svc-stub--soon .svc-stub__k{ color:var(--accent-2); }
+.svc-stub__t{ font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:500; font-size:.86rem; line-height:1.35; }
+@keyframes stubPulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(166,197,187,.0); } 50%{ box-shadow:0 0 0 5px rgba(166,197,187,.45); } }
 .svc-link{ margin-top:auto; font-size:.95rem; padding:.9rem 1.5rem; }   /* el botón siempre al pie: las tarjetas alinean */
 .svc-text > :nth-last-child(2){ margin-bottom:26px; }
 
@@ -1011,6 +1032,7 @@ body.ready .rise{ opacity:1; transform:none; }
   .marquee__track{ animation:none; }
   .marquee{ overflow-x:auto; }
   .svc-cases__hint svg{ animation:none; }
+  .svc-stub--now::after{ animation:none; }
   .svc-row.is-active .service-label, .svc-row.is-active .service-label::after, .svc-flag, .cmp-mark, .cmp-col .cmp-h::after{ animation:none; }
   .svc-eyebrow::before{ transition:none; }
   .js .svc-eyebrow:not(.in)::before{ clip-path:none; }
@@ -1225,6 +1247,7 @@ body.ready .rise{ opacity:1; transform:none; }
             </div>
           </div>
           <div class="svc-text">
+            <p class="svc-stub svc-stub--soon"><span class="svc-stub__k">Próximamente</span><span class="svc-stub__t">Muy pronto vas a poder unirte a la consultoría.</span></p>
             <h3>Dominá el crecimiento de tu marca</h3>
             <p class="svc-lead">La consultoría es un programa de 6 meses para crecer sí o sí. Nos especializamos en el crecimiento de marcas con e-commerce, combinando formación, acompañamiento y tecnología para que cada dueño de negocio construya un sistema de crecimiento sostenible sin depender de nadie más que de ellos mismos.</p>
             <div class="svc-blks">
@@ -1290,7 +1313,7 @@ body.ready .rise{ opacity:1; transform:none; }
               <div class="svc-blk"><span class="svc-blk__k">Lo que nos diferencia</span><p>En Lado T somos consultores y lo que más queremos es que entiendas cada acción de tu negocio. Te explicamos todo con palabras claras y estamos siempre en comunicación, para que el crecimiento de tu marca no sea algo ajeno a vos.</p></div>
             </div>
             <div class="svc-cupos">
-              <span class="svc-flag">Solo 3 cupos disponibles</span>
+              <span class="svc-flag">Cupo agotado</span>
               <button class="svc-toggle svc-why__btn" type="button" aria-expanded="false" aria-controls="whyTxt"><span>¿Por qué?</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></button>
               <p class="svc-why__txt" id="whyTxt">Trabajamos con pocas marcas en Agencia porque le dedicamos mucho tiempo a cada una, para hacer un trabajo mejor y más personalizado, con foco y acompañamiento de cerca en cada proyecto.</p>
             </div>
@@ -1307,6 +1330,7 @@ body.ready .rise{ opacity:1; transform:none; }
             </div>
           </div>
           <div class="svc-text">
+            <p class="svc-stub svc-stub--now"><span class="svc-stub__k">Disponible ahora</span><span class="svc-stub__t">Podés pedir tu landing page o tu sitio web.</span></p>
             <h3>Ecosistemas diseñados para convertir</h3>
             <p class="svc-lead">Armamos landings y sitios web pensados para vender, con un objetivo claro: aumentar las conversiones.</p>
             <div class="svc-blks">
@@ -1338,6 +1362,7 @@ body.ready .rise{ opacity:1; transform:none; }
             </div>
           </div>
           <div class="svc-text">
+            <p class="svc-stub svc-stub--now"><span class="svc-stub__k">Disponible ahora</span><span class="svc-stub__t">Podés pedir tu auditoría 1:1.</span></p>
             <h3>Claridad absoluta en una sola llamada</h3>
             <p class="svc-lead">Una sesión intensiva donde analizamos tu negocio en profundidad, con la mirada profesional de personas que trabajan todos los días en publicidad y e-commerce.</p>
             <div class="svc-blks">
@@ -1390,7 +1415,7 @@ body.ready .rise{ opacity:1; transform:none; }
             <li><b>Dirección creativa clara</b><span>Guiones y referencias para grabar con agilidad.</span></li>
             <li><b>Trabajo en equipo</b><span>Reuniones, consultas y espacio para aportar información.</span></li>
             <li><b>Comunicación clara</b><span>Consultores que explican cada acción con palabras claras.</span></li>
-            <li><b>Cupos limitados</b><span>Hoy quedan solo 3 cupos.</span></li>
+            <li><b>Cupo agotado</b><span>Por ahora no quedan lugares en la agencia.</span></li>
           </ul>
           <i class="cmp-grain" aria-hidden="true"></i>
           <i class="cmp-roll" aria-hidden="true"></i>
