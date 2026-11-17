@@ -1017,12 +1017,12 @@ svg{ display:block; }
 }
 .works-track::-webkit-scrollbar{ display:none; }
 .work{
-  position:relative; flex:0 0 min(78vw,340px); scroll-snap-align:start;
+  position:relative; flex:0 0 min(86vw,440px); scroll-snap-align:start;
   display:flex; flex-direction:column; gap:16px; padding:12px 12px 22px;
   background:#1B1A18; color:#D6D2C8; border:1px solid rgba(166,197,187,.3); border-radius:var(--r-lg);
   box-shadow:0 22px 34px -22px rgba(27,26,24,.75);
 }
-.film{ position:relative; overflow:hidden; aspect-ratio:9 / 16; border-radius:18px; background:#222120; border:1px solid rgba(166,197,187,.22); }
+.film{ position:relative; overflow:hidden; aspect-ratio:16 / 10; border-radius:18px; background:#222120; border:1px solid rgba(166,197,187,.22); }
 .film video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
 .film__btn{
   position:absolute; left:12px; bottom:12px; z-index:3; width:36px; height:36px; border-radius:50%; border:0; cursor:pointer;
@@ -1485,10 +1485,10 @@ body.ready .rise{ opacity:1; transform:none; }
       <p class="works-sub">Proyectos de desarrollo web de Lado T, funcionando hoy.</p>
       <div class="works-track" role="region" aria-label="Webs que ya hicimos" tabindex="0">
 
-        <!-- Para sumar otra web: copiar una tarjeta .work y cambiar nombre, rubro, link, el .mp4 y el poster (video vertical 9:16, mudo, de pocos segundos) -->
+        <!-- Para sumar otra web: copiar una tarjeta .work y cambiar nombre, rubro, link, el .mp4 y el poster (video horizontal 16:10, mudo, grabación de pantalla real) -->
         <article class="work">
           <div class="film">
-            <video muted loop playsinline preload="none" poster="assets/poster-palacio.jpg" width="540" height="960" aria-label="Video corto de la tienda online de El Palacio de la Cerámica Laferrere">
+            <video muted loop playsinline preload="none" poster="assets/poster-palacio.jpg" width="960" height="600" aria-label="Video corto de la tienda online de El Palacio de la Cerámica Laferrere">
               <source src="assets/web-palacio.mp4" type="video/mp4">
             </video>
             <button class="film__btn" type="button" aria-label="Pausar o reanudar el video"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
@@ -1499,7 +1499,7 @@ body.ready .rise{ opacity:1; transform:none; }
 
         <article class="work">
           <div class="film">
-            <video muted loop playsinline preload="none" poster="assets/poster-alamia.jpg" width="540" height="960" aria-label="Video corto de la sección de motos eléctricas XMove de Alamía">
+            <video muted loop playsinline preload="none" poster="assets/poster-alamia.jpg" width="960" height="600" aria-label="Video corto de la sección de motos eléctricas XMove de Alamía">
               <source src="assets/web-alamia.mp4" type="video/mp4">
             </video>
             <button class="film__btn" type="button" aria-label="Pausar o reanudar el video"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
