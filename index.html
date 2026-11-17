@@ -873,14 +873,15 @@ svg{ display:block; }
   padding-top:clamp(40px,6vw,72px); padding-bottom:clamp(64px,10vw,112px);
 }
 .compare .wrap{ display:grid; gap:clamp(30px,5vw,44px); }
-.cmp-title{
+.cmp-title, .sec-title{
   font-family:"Plus Jakarta Sans","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:700; font-size:clamp(1.75rem, 1rem + 2.2vw, 2.8rem); line-height:1.15;
   letter-spacing:-.005em; text-transform:uppercase; color:#1B1A18; text-wrap:balance;
 }
 .cmp-mark{                                             /* resaltador menta detrás de las palabras clave */
   display:inline-block; padding:.02em .26em .08em; color:var(--ink-black); border-radius:8px;
-  background-color:var(--mint);
+  background-image:linear-gradient(var(--mint), var(--mint)); background-repeat:no-repeat; background-position:0 50%; background-size:100% 100%;
+  transition:background-size .9s cubic-bezier(.6,.1,.2,1) .35s;           /* el trazo se dibuja de izquierda a derecha al aparecer */
   transform:rotate(-1.2deg);
   animation:markSway 6.5s ease-in-out infinite;
 }
@@ -999,6 +1000,113 @@ svg{ display:block; }
   .cmp-col .cmp-h::after{ top:-20px; right:18px; }
   .cmp-grain{ padding:0; border:0; }
   .cmp > .cmp-roll--all{ padding:0; }   /* aquí el encabezado arranca en el borde del recibo */
+}
+
+/* ===================================================================
+   WEBS QUE YA HICIMOS — vistas previas que se reproducen solas (como "grabaciones de pantalla").
+   Palacio: la página se recorre sola (una imagen larga que se desplaza). ALAMIA: cuadros que se suceden.
+   Livianas: solo transform/opacity, y quietas cuando no están a la vista o si se pausan.
+   =================================================================== */
+.js .reveal:not(.in) .cmp-mark{ background-size:0% 100%; }
+.works{ padding-top:clamp(52px,8vw,96px); padding-bottom:clamp(8px,2vw,24px); }
+.works .wrap, .about .wrap, .closing .wrap{ display:grid; gap:clamp(22px,4vw,36px); }
+.works-sub{ max-width:56ch; color:#4a4a4a; }
+.works-track{
+  display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; scrollbar-width:none;
+  margin-inline:calc(var(--pad) * -1); padding:8px var(--pad) 30px; scroll-padding-inline:var(--pad);
+}
+.works-track::-webkit-scrollbar{ display:none; }
+.work{
+  position:relative; flex:0 0 min(86vw,440px); scroll-snap-align:start;
+  display:flex; flex-direction:column; gap:16px; padding:12px 12px 22px;
+  background:#1B1A18; color:#D6D2C8; border:1px solid rgba(166,197,187,.3); border-radius:var(--r-lg);
+  box-shadow:0 22px 34px -22px rgba(27,26,24,.75);
+}
+.film{ position:relative; overflow:hidden; aspect-ratio:16 / 10; border-radius:18px; background:#222120; border:1px solid rgba(166,197,187,.22); }
+.film img{ position:absolute; left:0; top:0; width:100%; height:auto; display:block; }
+.film--scroll img{ will-change:transform; animation:filmScroll 34s ease-in-out infinite alternate; }
+@keyframes filmScroll{ 0%,6%{ transform:translateY(0); } 94%,100%{ transform:translateY(-83.8%); } }
+.film--seq img{ height:100%; object-fit:cover; opacity:0; animation:filmSeq 14.4s ease-in-out infinite; animation-delay:calc(var(--i) * 2.4s); }
+.film--seq img:first-child{ opacity:1; }
+@keyframes filmSeq{ 0%{ opacity:0; } 4%,17%{ opacity:1; } 21%,100%{ opacity:0; } }
+.film:not(.is-live) img, .work.is-paused .film img{ animation-play-state:paused; }
+.film__btn{
+  position:absolute; left:12px; bottom:12px; z-index:3; width:36px; height:36px; border-radius:50%; border:0; cursor:pointer;
+  display:grid; place-items:center; color:#F7F5F0; background:rgba(27,26,24,.78); box-shadow:0 0 0 1.5px rgba(247,245,240,.55); transition:transform .2s ease, background-color .2s ease;
+}
+.film__btn:hover{ transform:scale(1.08); background:var(--accent); }
+.film__btn:focus-visible{ outline:2px solid var(--mint); outline-offset:2px; }
+.film__btn svg{ width:14px; height:14px; fill:currentColor; }
+.film__btn .i-play{ display:none; }
+.work.is-paused .film__btn .i-play{ display:block; }
+.work.is-paused .film__btn .i-pause{ display:none; }
+.work__meta{ padding:0 8px; display:grid; gap:2px; }
+.work__meta h3{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:700; font-size:1.15rem; line-height:1.25; letter-spacing:-.01em; color:#fff; }
+.work__meta p{ font-size:.92rem; color:#A39E92; }
+.work__links{ padding:0 8px; display:flex; gap:8px; flex-wrap:wrap; margin-top:auto; }
+.work__links a{
+  display:inline-flex; align-items:center; gap:.45em; padding:.55em 1.1em; border:1px solid rgba(166,197,187,.55); border-radius:var(--pill);
+  font:600 .84rem/1.2 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif; color:var(--mint); transition:background-color .2s ease, color .2s ease;
+}
+.work__links a:hover{ background:var(--mint); color:#1B1A18; }
+.work__links svg{ width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+/* tarjeta-invitación: papel kraft con clip, lugar para sumar la próxima web */
+.work--invite{
+  background-color:#F3EBDD; background-image:var(--paper-tex); background-size:260px 260px; background-blend-mode:multiply;
+  color:#2A241E; border:1px solid rgba(0,0,0,.08); justify-content:center; align-items:flex-start; padding:34px 26px; gap:14px; min-height:260px;
+}
+.work--invite::before{ content:""; position:absolute; inset:8px; border:1.5px dashed rgba(42,36,30,.3); border-radius:calc(var(--r-lg) - 8px); pointer-events:none; }
+.work--invite::after{
+  content:""; position:absolute; top:-16px; right:26px; width:21px; height:45px; background:var(--clip) center / contain no-repeat;
+  filter:drop-shadow(1px 3px 2px rgba(0,0,0,.38)); transform:rotate(4deg);
+}
+.work--invite .k{ font:800 .72rem/1.2 "Plus Jakarta Sans","Inter",sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-2); }
+.work--invite h3{ font-family:"Plus Jakarta Sans","Inter",sans-serif; font-weight:800; font-size:clamp(1.5rem,1.2rem + 1.2vw,2rem); line-height:1.1; letter-spacing:-.015em; color:#1B1A18; }
+@media (min-width:980px){
+  .works-track{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); overflow:visible; margin-inline:0; padding:8px 0 30px; gap:24px; }
+  .work{ flex:none; }
+}
+.svc-anchor{ display:inline-flex; align-items:center; gap:.5em; margin-top:10px; font:600 .84rem/1.2 "Inter",sans-serif; color:var(--mint); border-bottom:1.5px solid var(--accent); padding-bottom:2px; }
+.svc-anchor svg{ width:1.05em; height:1.05em; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.svc-anchor:hover{ color:#fff; }
+
+/* QUIÉNES SOMOS — lugar para nuestro video (y el texto, cuando lo tengamos) */
+.about{ padding-block:clamp(40px,7vw,80px); }
+.about__grid{ align-items:start; }
+@media (min-width:980px){ .about__grid{ grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(40px,6vw,88px); align-items:center; } }
+.about__frame{
+  position:relative; margin:0; padding:12px 12px 52px; transform:rotate(-1.2deg); max-width:620px; width:100%;
+  background-color:#F3EBDD; background-image:var(--paper-tex); background-size:260px 260px; background-blend-mode:multiply;
+  border-radius:6px; box-shadow:0 1px 1px rgba(27,26,24,.28), 0 22px 34px -14px rgba(27,26,24,.38);
+}
+.about__frame::after{ content:""; position:absolute; top:-22px; left:50%; margin-left:-10px; width:21px; height:45px; background:var(--clip) center / contain no-repeat; filter:drop-shadow(1px 3px 2px rgba(0,0,0,.38)); transform:rotate(3deg); }
+.about__screen{
+  position:relative; aspect-ratio:16 / 9; border-radius:3px; overflow:hidden; display:grid; place-items:center;
+  background-color:#1B1A18;
+  background-image:linear-gradient(rgba(166,197,187,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(166,197,187,.1) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.about__screen video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.about__play{ width:68px; height:68px; border-radius:50%; background:var(--accent); display:grid; place-items:center; box-shadow:0 12px 24px -10px rgba(0,0,0,.7); }
+.about__play svg{ width:22px; height:22px; fill:#fff; margin-left:3px; }
+.about__cap{ position:absolute; left:18px; right:18px; bottom:16px; font:600 .74rem/1.3 "Inter",sans-serif; letter-spacing:.12em; text-transform:uppercase; color:#4a4238; }
+
+/* CIERRE + PIE */
+.closing{ padding-block:clamp(48px,8vw,96px) clamp(40px,6vw,72px); }
+.closing__in{ justify-items:start; }
+.closing__lead{ max-width:46ch; font-size:clamp(1.05rem,1rem + .4vw,1.25rem); color:#3d3d3d; }
+.foot{ border-top:1px solid rgba(143,182,170,.65); padding-block:26px 34px; }
+.foot__in{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 24px; }
+.foot__logo{ height:24px; width:auto; display:block; }
+.foot__copy{ font-size:.84rem; color:#6f685d; }
+.foot__up{ display:inline-flex; align-items:center; gap:.45em; font:600 .84rem/1.2 "Inter",sans-serif; color:var(--ink); }
+.foot__up svg{ width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.foot__up:hover{ color:var(--accent-2); }
+
+@media (prefers-reduced-motion:reduce){
+  .film img{ animation:none !important; }
+  .film--seq img:not(:first-child){ display:none; }
+  .cmp-mark{ transition:none; }
 }
 
 /* ===================== MOVIMIENTO SUAVE ===================== */
@@ -1341,14 +1449,8 @@ body.ready .rise{ opacity:1; transform:none; }
               <div class="svc-blk"><span class="svc-blk__k">Dominio incluido</span><p>Si todavía no tenés el dominio web de tu marca, lo incluimos en el plan, sin costo adicional, por 1 año.</p></div>
               <div class="svc-blk"><span class="svc-blk__k">Inteligencia artificial integrada</span><p>Integramos IA en la web para automatizar procesos que siempre fueron muy humanos. Con esa automatización, comprar resulta mucho más fácil y hay menos carritos abandonados.</p></div>
               <div class="svc-blk"><span class="svc-blk__k">Si ya tenés una web</span><p>Trabajamos sobre la base que ya tenés: optimizaciones técnicas avanzadas, las integraciones con IA y mejoras de diseño de interfaz (UI y UX) para destrabar cuellos de botella y llevar la tasa de conversión al máximo.</p></div>
-              <div class="svc-blk"><span class="svc-blk__k">Casos reales</span>
-                <!-- ▼ CASOS: reemplazar cada .case__ph por <img src="caso-1.jpg" alt="Sitio de [cliente]"> y completar el pie de foto -->
-                <ul class="svc-cases" tabindex="0" aria-label="Casos reales: deslizá hacia el costado para ver más">
-                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
-                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
-                  <li><figure class="case"><div class="case__shot"><div class="case__bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="case__ph">Captura del sitio</div></div><figcaption><b>Nombre del proyecto</b> · rubro</figcaption></figure></li>
-                </ul>
-                <span class="svc-cases__hint" aria-hidden="true">Deslizá para ver más <svg viewBox="0 0 24 24" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+              <div class="svc-blk"><span class="svc-blk__k">Casos reales</span><p>Mirá algunas de las webs que ya hicimos, funcionando hoy.</p>
+                <a class="svc-anchor" href="#trabajos">Ver las webs <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v15M6 13l6 6 6-6"/></svg></a>
               </div>
             </div>
             <a class="svc-link" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
@@ -1384,10 +1486,51 @@ body.ready .rise{ opacity:1; transform:none; }
     </div>
   </section>
 
+  <!-- ===================== WEBS QUE YA HICIMOS ===================== -->
+  <section class="works" id="trabajos" aria-label="Webs que ya hicimos">
+    <div class="wrap">
+      <h2 class="sec-title reveal">Webs que <mark class="cmp-mark">ya hicimos</mark></h2>
+      <p class="works-sub">Proyectos de desarrollo web de Lado T, funcionando hoy.</p>
+      <div class="works-track" role="region" aria-label="Webs que ya hicimos" tabindex="0">
+
+        <!-- Para sumar otra web: copiar una tarjeta .work, cambiar nombre, rubro, link y el contenido de .film (una imagen larga .film--scroll o varios cuadros .film--seq) -->
+        <article class="work">
+          <div class="film film--scroll" role="img" aria-label="Recorrido por la tienda online de El Palacio de la Cerámica Laferrere">
+            <img src="assets/web-palacio.jpg" alt="" width="800" height="3092" loading="lazy" decoding="async">
+            <button class="film__btn" type="button" aria-label="Pausar o reanudar la vista previa"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="work__meta"><h3>El Palacio de la Cerámica Laferrere</h3><p>Tienda online</p></div>
+          <div class="work__links"><a href="https://elpalaciodelaceramicalaferrere.com.ar/" target="_blank" rel="noopener">Ver web <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+        </article>
+
+        <article class="work">
+          <div class="film film--seq" role="img" aria-label="Recorrido por la sección de motos eléctricas XMove de Alamía">
+            <img style="--i:0" src="assets/web-alamia-1.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <img style="--i:1" src="assets/web-alamia-2.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <img style="--i:2" src="assets/web-alamia-3.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <img style="--i:3" src="assets/web-alamia-4.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <img style="--i:4" src="assets/web-alamia-5.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <img style="--i:5" src="assets/web-alamia-6.jpg" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <button class="film__btn" type="button" aria-label="Pausar o reanudar la vista previa"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="work__meta"><h3>Alamía · Motos eléctricas XMove</h3><p>Sección de producto</p></div>
+          <div class="work__links"><a href="https://www.onlinealamia.com/productos/motos-electricas-xmove/" target="_blank" rel="noopener">Ver web <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></div>
+        </article>
+
+        <article class="work work--invite">
+          <span class="k">El próximo</span>
+          <h3>Tu web, acá.</h3>
+          <a class="btn btn--accent" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== QUÉ INCLUYE CADA SERVICIO (cuadro comparativo) ===================== -->
   <section class="compare" aria-label="Qué incluye cada servicio">
     <div class="wrap">
-      <h2 class="cmp-title">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
+      <h2 class="cmp-title reveal">Qué incluye <mark class="cmp-mark">cada servicio</mark></h2>
       <div class="cmp-scroll reveal">
         <div class="cmp">
           <i class="cmp-roll cmp-roll--all" aria-hidden="true"></i>
@@ -1453,7 +1596,41 @@ body.ready .rise{ opacity:1; transform:none; }
       <a class="btn btn--accent cmp-cta" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
+  <!-- ===================== QUIÉNES SOMOS (espacio para nuestro video y texto) ===================== -->
+  <section class="about" id="quienes-somos" aria-label="Quiénes somos">
+    <div class="wrap about__grid">
+      <div class="about__copy">
+        <h2 class="sec-title reveal">Quiénes <mark class="cmp-mark">somos</mark></h2>
+        <!-- ▼ TEXTO: acá va el texto de presentación cuando lo tengamos -->
+      </div>
+      <figure class="about__frame reveal">
+        <div class="about__screen">
+          <!-- ▼ VIDEO: reemplazar el bloque de abajo por <video src="assets/quienes-somos.mp4" poster="assets/quienes-somos.jpg" controls playsinline preload="metadata"></video> -->
+          <span class="about__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+        <figcaption class="about__cap">Acá va nuestro video</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== CIERRE ===================== -->
+  <section class="closing" id="contacto" aria-label="Contacto">
+    <div class="wrap closing__in">
+      <h2 class="sec-title reveal">¿Empezamos con <mark class="cmp-mark">tu marca</mark>?</h2>
+      <p class="closing__lead">Agendá una reunión y vemos juntos por dónde conviene empezar.</p>
+      <a class="btn btn--accent" data-book href="#">Agendar reunión <svg class="arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      <!-- ▼ CONTACTO ALTERNATIVO: sumar acá el WhatsApp y/o el mail cuando los tengamos (ej.: <p class="closing__alt">¿Preferís escribirnos? <a href="mailto:...">Mail</a></p>) -->
+    </div>
+  </section>
 </main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <img class="foot__logo" alt="Lado T" width="94" height="24">
+    <span class="foot__copy">© 2026 Lado T. Todos los derechos reservados.</span>
+    <a class="foot__up" href="#">Volver arriba <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20V5M6 11l6-6 6 6"/></svg></a>
+  </div>
+</footer>
 
 <script>
   document.documentElement.classList.add('js');
@@ -1722,6 +1899,25 @@ body.ready .rise{ opacity:1; transform:none; }
       window.addEventListener('scroll', req, { passive:true });
       window.addEventListener('resize', req);
       update();
+    })();
+
+    /* vistas previas de webs: solo se mueven a la vista; botón de pausa; logo del pie reutiliza el de la barra */
+    (function(){
+      var films = Array.prototype.slice.call(document.querySelectorAll('.film'));
+      if ('IntersectionObserver' in window){
+        var fio = new IntersectionObserver(function(en){
+          en.forEach(function(e){ e.target.classList.toggle('is-live', e.isIntersecting); });
+        }, { threshold:.25 });
+        films.forEach(function(f){ fio.observe(f); });
+      } else { films.forEach(function(f){ f.classList.add('is-live'); }); }
+      Array.prototype.slice.call(document.querySelectorAll('.film__btn')).forEach(function(b){
+        b.addEventListener('click', function(){
+          var w = b.closest('.work'), paused = w.classList.toggle('is-paused');
+          b.setAttribute('aria-pressed', paused ? 'true' : 'false');
+        });
+      });
+      var fl = document.querySelector('.foot__logo'), nl = document.querySelector('.brand-logo');
+      if (fl && nl) fl.src = nl.src;
     })();
 
     /* barrido directo (carga, scroll, resize): no depende de que el observer dispare,
